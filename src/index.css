@@ -1,0 +1,10 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
