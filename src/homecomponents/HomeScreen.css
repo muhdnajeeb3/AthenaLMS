@@ -1,0 +1,62 @@
+.bg-light .homebannerrow {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.homebannerrow .greeting {
+  font-weight: bold;
+  color: #ff026f;
+  font-size: 52px;
+}
+.homebannerrow .newmailbox {
+  background: #fff;
+  box-shadow: 0 2px 25px 2px #d5dbfb;
+  border-radius: 6px;
+  padding: 15px 20px;
+  font-size: 18px;
+  position: relative;
+}
+.homebannerrow .newmailwrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.homebannerrow .newmailwrapper .newmailnotifyrow {
+  width: 67%;
+  justify-content: space-between;
+  display: flex;
+  gap: 10px;
+}
+.mailnumber span {
+  padding: 3px 12px 3px;
+  border-radius: 6px;
+  background-color: #d8d8d8;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ff016e;
+}
+.mailview {
+  color: #ff026f;
+}
+@media (max-width: 480px) {
+  .homebannerrow .newmailwrapper {
+    flex-direction: column;
+  }
+  .homebannerrow .newmailwrapper .newmailnotifyrow {
+    width: 100%;
+  }
+  .mailview {
+    text-align: end;
+    margin-top: 1rem;
+  }
+}
+/* webinar */
+.webinarwrap .webinartitle{
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.5;
+    color: #91278f;
+    margin-top: 2rem;
+}

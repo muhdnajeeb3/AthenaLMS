@@ -8,3 +8,6 @@ label {
   display: inline-block;
   margin-bottom: 0.5rem;
 }
+body {
+  font-family: 'Lato', sans-serif !important;
+}

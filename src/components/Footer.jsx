@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import "./Footer.css";
+import { Button } from "react-bootstrap";
 function Footer() {
+  const newsletterHandler = (event) => {
+    event.preventDefault();
+    alert("you clicked")
+  }
   return (
     <section className="footerbackground p-0">
       <div className="container body-content" style={{maxWidth:'1200px'}}>
@@ -21,23 +26,24 @@ function Footer() {
             </p>
             <span>Subscribe to our newsletter</span>
             <br />
-            <div className="newslatterrow">
+            <form className="newslatterrow" onSubmit={newsletterHandler}>
             <input
-              name="ctl00$txtnewsletter"
+              // name="ctl00$txtnewsletter"
               type="text"
-              id="txtnewsletter"
+              // id="txtnewsletter"
               className="subscribe-box w-70"
               //   onchange="NewsletterEmailChange(this.id)"
             />
-            <input
+            <Button
               type="submit"
-              name="ctl00$btnsave"
-              value="Subscribe"
+              variant=""
+              // name="ctl00$btnsave"
+              // value="Subscribe"
               //   onclick="if(!validateNewsletter()) return false;"
-              id="btnsave"
+              // id="btnsave"
               className="btn-br-small-purple "
-            />
-            </div>
+            >SubScribe</Button>
+            </form>
           </div>
           <div className="colfooter foot-links">
             <p>
@@ -201,7 +207,7 @@ function Footer() {
 
           <div className="col-md-4"></div>
           <div className="col-md-8 footer-address">
-            <div className="col">
+            <div className="placedetails">
               <h6>UK</h6>
 
               <p>
@@ -216,7 +222,7 @@ function Footer() {
                 Phone : +44 18 65 78 4299
               </p>
             </div>
-            <div className="col">
+            <div className="placedetails">
               <h6>MIDDLE EAST</h6>
               <p>
                 Athena Global Education FZE

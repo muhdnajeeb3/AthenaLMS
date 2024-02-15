@@ -55,10 +55,7 @@ a {
   border-color: #7b00bc !important;
   border-radius: 20px !important;
   color: #7b00bc !important;
-  padding-left: 25px !important;
-  padding-right: 25px !important;
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
+  padding: 5px 25px;
   background: #fff;
   font-size: 14px;
   max-width: 111px;
@@ -107,7 +104,7 @@ a {
   margin-bottom: 2rem !important;
 }
 
-.col {
+.placedetails {
   width: 47%;
   display: inline-block;
   vertical-align: top;
@@ -187,7 +184,7 @@ a {
     max-width: 100% !important;
   }
 
-  .col {
+  .placedetails {
     width: 100%;
     display: block;
     vertical-align: top;
