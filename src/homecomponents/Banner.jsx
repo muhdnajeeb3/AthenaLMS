@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 
 const Banner = () => {
-  // const [currentDivIndex, setCurrentDivIndex] = useState(0);
-  // const divs = ['Div 1', 'Div 2', 'Div 3'];
+  const [currentDivIndex, setCurrentDivIndex] = useState(0);
+  const divs = ["Blocked", "Expired", "Enrolled"];
 
-  // const handlePrev = () => {
-  //   setCurrentDivIndex(prevIndex => Math.max(prevIndex - 1, 0));
-  // };
+  const handlePrev = () => {
+    setCurrentDivIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  };
 
-  // const handleNext = () => {
-  //   setCurrentDivIndex(prevIndex => Math.min(prevIndex + 1, divs.length - 1));
-  // };
+  const handleNext = () => {
+    setCurrentDivIndex((prevIndex) => Math.min(prevIndex + 1, divs.length - 1));
+  };
   var settings = {
     dots: true,
     infinite: true,
@@ -334,7 +334,7 @@ const Banner = () => {
           </div>
         </div>
         <Col className="col-md-6 py-5 home-main-box-v2">
-          <div className="home-v2box">
+          {/* <div className="home-v2box">
             <div className="flex moduledate">
               <span>October 17,2022</span>
               <span className="status">Blocked</span>
@@ -369,13 +369,16 @@ const Banner = () => {
                 <span>RESUME LEARNING</span>
               </Button>
               <Button className="goto-course" variant="">
-                <img src="https://ulearn.uniathena.com/Images/icons/cursor.svg" alt="" />
+                <img
+                  src="https://ulearn.uniathena.com/Images/icons/cursor.svg"
+                  alt=""
+                />
                 <span>GO TO COURSE HOME</span>
               </Button>
             </div>
             <hr className="my-3" />
             <div className="assignmentdue">
-              <div className="bottomline"/>
+              <div className="bottomline" />
               <span className="duein">Assignment Submission Due In</span>
               <span className="days">0 days</span>
             </div>
@@ -387,7 +390,7 @@ const Banner = () => {
               </Button>
             </div>
             <div className="assignmentdue">
-              <div className="bottomline"/>
+              <div className="bottomline" />
               <span className="duein">Next Module </span>
             </div>
             <hr className="my-3" />
@@ -400,18 +403,132 @@ const Banner = () => {
             <hr className="my-3" />
             <p className="text-center">Know More About this Course &amp; Fee</p>
             <div className="gotodetailpage">
-              <Button variant="warning" className="gotodetailpage-btn">Go to Course Details Page</Button>
+              <Button variant="warning" className="gotodetailpage-btn">
+                Go to Course Details Page
+              </Button>
             </div>
-            {/* <div>
-      {divs.map((divContent, index) => (
-        <div key={index} style={{ display: currentDivIndex === index ? 'block' : 'none' }}>
-          {divContent}
-        </div>
-      ))}
-      <button onClick={handlePrev} disabled={currentDivIndex === 0}>Prev</button>
-      <button onClick={handleNext} disabled={currentDivIndex === divs.length - 1}>Next</button>
-    </div> */}
-          </div>
+            
+            <div className="btm-demy-card">
+              <div className="card-btm-box-pink" />
+              <div className="card-btm-box-blue" />
+            </div>
+          </div> */}
+          <div>
+              {divs.map((divContent, index) => (
+                <div className="home-v2box" 
+                key={index}
+                  style={{
+                    display: currentDivIndex === index ? "block" : "none",
+                  }}
+                >
+                <div className="flex moduledate">
+                  <div className="datestatuswrap flex">
+                  <span>October 17,2022</span>
+                  <span className="status">{divContent}</span>
+                  </div>
+                  {
+                    divContent === 'Expired' && 
+                  <div className="dropcourse">
+                  <span>Drop this Course</span>
+                  <img src="https://ulearn.uniathena.com/Images/v2-icons/close.jpg" alt="" />
+                  </div>
+                  }
+                </div>
+                <h3 className="my-3">
+                  Master of Business Administration - Blockchain Management
+                </h3>
+                <hr className="hr-br-yellow" />
+                <h5 className="pt-2">
+                  <strong>University: </strong>Guglielmo Marconi University, Italy
+                </h5>
+                <hr className="my-4" />
+                <div className="currentmodulerow">
+                  <h3 className="currentmodule">CURRENT MODULE</h3>
+                  <h4>Strategic Leadership and HR Practices in Organizations </h4>
+                  <div>
+                    <div className="startedvalidrow">
+                      <span>Started on : 08/09/2023 I Valid till 07/11/2023</span>
+                      <Link to="" className="gotomodulepage item-center">
+                        <span>Go to Module Home Page </span>
+                        <i
+                          className="fa fa-arrow-right currentmodule-arrow"
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-3" />
+                <div className="box-btn-wrap">
+                  <Button className="resume-learning">
+                    <span>RESUME LEARNING</span>
+                  </Button>
+                  <Button className="goto-course" variant="">
+                    <img
+                      src="https://ulearn.uniathena.com/Images/icons/cursor.svg"
+                      alt=""
+                    />
+                    <span>GO TO COURSE HOME</span>
+                  </Button>
+                </div>
+                <hr className="my-3" />
+                <div className="assignmentdue">
+                  <div className="bottomline" />
+                  <span className="duein">Assignment Submission Due In</span>
+                  <span className="days">0 days</span>
+                </div>
+                <hr className="my-3" />
+                <div className="assignmentdue mt-4">
+                  <h5>Strategic Leadership and HR Practices in Organizations</h5>
+                  <Button className="draftbtn" variant="">
+                    Draft
+                  </Button>
+                </div>
+                <div className="assignmentdue">
+                  <div className="bottomline" />
+                  <span className="duein">Next Module </span>
+                </div>
+                <hr className="my-3" />
+                <div className="assignmentdue mt-4">
+                  <h5>Blockchain Fundamentals</h5>
+                  <Button className="draftbtn" variant="">
+                    Pay Now
+                  </Button>
+                </div>
+                <hr className="my-3" />
+                <p className="text-center">Know More About this Course &amp; Fee</p>
+                <div className="gotodetailpage">
+                  <Button variant="warning" className="gotodetailpage-btn">
+                    Go to Course Details Page
+                  </Button>
+                </div>
+                
+                <div className="btm-demy-card">
+                  <div className="card-btm-box-pink" />
+                  <div className="card-btm-box-blue" />
+                </div>
+              </div>
+              ))}
+              <button
+                onClick={handlePrev}
+                disabled={currentDivIndex === 0}
+                className="modulearrowbtn"
+                style={{top:'35%'}}
+              >
+                <img src="https://ulearn.uniathena.com/Images/up.png" alt="" />
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={currentDivIndex === divs.length - 1}
+                className="modulearrowbtn"
+                style={{top:'45%'}}
+              >
+                <img
+                  src="	https://ulearn.uniathena.com/Images/down.png"
+                  alt=""
+                />
+              </button>
+            </div>
         </Col>
       </Row>
     </Container>

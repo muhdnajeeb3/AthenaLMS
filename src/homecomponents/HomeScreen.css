@@ -104,6 +104,7 @@
     rgba(248, 249, 250, 1) 100%
   );
   padding-left: 3rem !important;
+  position: relative;
 }
 .home-v2box {
   box-shadow: 0 4px 5px #ddd;
@@ -114,15 +115,37 @@
   min-height: 594px !important;
   /* width: 100%; */
   max-width: 580px;
+  animation: blink-animation 0.2s;
+}
+@keyframes blink-animation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .moduledate {
   gap: 10px;
+  justify-content: space-between;
+  align-items: center;
   font-size: 14px;
+}
+.moduledate .datestatuswrap{
+  gap: 10px;
 }
 .moduledate .status {
   color: #ff026f;
   padding-right: 5px;
   font-weight: bold;
+}
+.dropcourse{
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.dropcourse span{
+  color: rgb(0, 123, 255);
 }
 .home-v2box h3 {
   font-size: 22px;
@@ -213,6 +236,16 @@ hr {
   border: 1px solid #ff006e;
   min-width: 159px;
 }
+/* .box-btn-wrap .goto-course:hover{
+  background: #ff006e;
+} */
+.slick-dots li button:before {
+  background-color: black;
+    height: 3px;
+    width: 20px;
+    text-indent: -9999px;
+    overflow: hidden;
+  }
 .assignmentdue{
   display: flex;
   justify-content: space-between;
@@ -254,6 +287,36 @@ hr {
     border-radius: 32px;
     margin-bottom: 15px;
 }
+.btm-demy-card{
+  position: absolute;
+  width: 90%;
+  left: 50%;
+    right: 50%;
+    transform: translate(-50%, 1px);
+}
+.card-btm-box-pink {
+  background: #fff;
+  box-shadow: 0 4px 5px #ddd;
+  width: 80%;
+  margin: 6px auto 2px;
+  border-right: 9px solid #ff0e76;
+  /* height: 29px; */
+  height: 30px;
+}
+.card-btm-box-blue {
+  background: #fff;
+  box-shadow: 0 4px 5px #ddd;
+  width: 71%;
+  margin: 0 auto;
+  border-right: 9px solid #0062b1;
+  height: 25px;
+}
+.modulearrowbtn{
+  border: none;
+  position: absolute;
+  left: -2rem;
+  background: transparent;
+}
 @media (max-width:768px) {
   .home-box-v1 {
     padding-right: 0 !important;
@@ -282,4 +345,80 @@ hr {
   .slick-dots {
     bottom: 23%;
   }
+}
+/* discussion */
+.discussionwrapper{
+  background-color: #f8f9fa;
+}
+.discussionwrapper .discussionrow{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.discussiontop{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.discussiontop h2{
+  border-bottom: 4px solid #f00297;
+}
+.discussiontop button{
+  background: linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    display: inline-block;
+    min-width: 170px;
+    height: 44px;
+    margin-left: auto;
+}
+.discussionspeople{
+  gap: 20px;
+  /* margin-bottom: 2rem; */
+}
+.personimagewrap img{
+border-radius: 50%;
+width: 60px;
+height: 60px;
+object-fit: cover;
+}
+.discussioncontent{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.discussioncontent span{
+  color: #666;
+}
+.dreadmore-btn{
+  background: linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
+    color: #fff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 3px;
+    display: inline-block;
+    color: #fff !important;
+    border: none !important;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+/* explorecourses */
+.exporecoursecards{
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  gap: 35px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.explorecoursecard{
+  width: 280px;
+  min-height: 352px;
+}
+.explorecoursecard .courseimgwrap img{
+  width: 280px;
+  /* height: 352px; */
 }
