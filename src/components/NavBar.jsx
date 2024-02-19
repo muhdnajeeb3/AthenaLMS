@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "./NavBar.css";
+import { Link } from "react-router-dom";
 
 function NavBar() {
   const NotificationBtn = (
@@ -24,8 +25,14 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link href="#home">DASHBOARD</Nav.Link>
-            <Nav.Link href="#link">PROJECT DETAILS</Nav.Link>
+          <Link to='/' className="nav-link">
+          DASHBOARD
+          </Link>
+            <Link to='/ProjectandAssignments' className="nav-link">
+            PROJECT DETAILS
+            </Link>
+            {/* <Nav.Link href="/">DASHBOARD</Nav.Link> */}
+            {/* <Nav.Link href="#">PROJECT DETAILS</Nav.Link> */}
             <Nav.Link href="#link">ONLINE CLASS</Nav.Link>
             <Nav.Link href="#link">MY SURVEY</Nav.Link>
             <NavDropdown title="APPLICATIONS" id="basic-nav-dropdown">

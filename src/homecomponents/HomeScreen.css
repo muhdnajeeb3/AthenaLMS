@@ -131,7 +131,7 @@
   align-items: center;
   font-size: 14px;
 }
-.moduledate .datestatuswrap{
+.moduledate .datestatuswrap {
   gap: 10px;
 }
 .moduledate .status {
@@ -139,12 +139,12 @@
   padding-right: 5px;
   font-weight: bold;
 }
-.dropcourse{
+.dropcourse {
   display: flex;
   gap: 7px;
   align-items: center;
 }
-.dropcourse span{
+.dropcourse span {
   color: rgb(0, 123, 255);
 }
 .home-v2box h3 {
@@ -205,31 +205,33 @@ hr {
   color: #ff006e !important;
   margin-top: 3px;
 }
-.box-btn-wrap{
+.box-btn-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
-.box-btn-wrap .resume-learning{
-    height: 52px;
-    align-items: center;
-    display: flex;
-    border-radius: 32px;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 15px 18px 15px 47px;
-    border: 1px solid #ff006e;
-    background: #ff006e url(https://ulearn.uniathena.com/Images/icons/learning.svg) no-repeat 2px center;
+.box-btn-wrap .resume-learning {
+  height: 52px;
+  align-items: center;
+  display: flex;
+  border-radius: 32px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 15px 18px 15px 47px;
+  border: 1px solid #ff006e;
+  background: #ff006e
+    url(https://ulearn.uniathena.com/Images/icons/learning.svg) no-repeat 2px
+    center;
 }
-.box-btn-wrap .goto-course{
+.box-btn-wrap .goto-course {
   height: 52px;
   border-radius: 32px;
   color: #ff006e;
   align-items: center;
-    display: flex;
-    gap: 5px;
+  display: flex;
+  gap: 5px;
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
@@ -241,26 +243,27 @@ hr {
 } */
 .slick-dots li button:before {
   background-color: black;
-    height: 3px;
-    width: 20px;
-    text-indent: -9999px;
-    overflow: hidden;
-  }
-.assignmentdue{
+  height: 3px;
+  width: 20px;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+.assignmentdue {
   display: flex;
   justify-content: space-between;
   gap: 10px;
   position: relative;
 }
-.assignmentdue .duein{
+.assignmentdue .duein {
   font-size: 18px;
   font-weight: bold;
 }
-.assignmentdue .days, .assignmentdue h5{
+.assignmentdue .days,
+.assignmentdue h5 {
   font-size: 16px;
   /* font-weight: bold; */
 }
-.assignmentdue .draftbtn{
+.assignmentdue .draftbtn {
   border-radius: 100px;
   border: solid 1px #ff026f;
   display: inline-block;
@@ -270,29 +273,29 @@ hr {
   color: #ff026f;
   font-size: 14px;
 }
-.assignmentdue .bottomline{
+.assignmentdue .bottomline {
   border-bottom: solid 3px #ff006e;
   position: absolute;
   width: 50%;
   bottom: -16px;
 }
-.gotodetailpage button{
+.gotodetailpage button {
   text-align: center;
-    display: block;
-    color: #303030;
-    background: #ffc100;
-    margin: 0 auto;
-    width: 50%;
-    padding: 5px 0;
-    border-radius: 32px;
-    margin-bottom: 15px;
+  display: block;
+  color: #303030;
+  background: #ffc100;
+  margin: 0 auto;
+  width: 50%;
+  padding: 5px 0;
+  border-radius: 32px;
+  margin-bottom: 15px;
 }
-.btm-demy-card{
+.btm-demy-card {
   position: absolute;
   width: 90%;
   left: 50%;
-    right: 50%;
-    transform: translate(-50%, 1px);
+  right: 50%;
+  transform: translate(-50%, 1px);
 }
 .card-btm-box-pink {
   background: #fff;
@@ -311,15 +314,153 @@ hr {
   border-right: 9px solid #0062b1;
   height: 25px;
 }
-.modulearrowbtn{
+.modulearrowbtn {
   border: none;
   position: absolute;
   left: -2rem;
   background: transparent;
 }
-@media (max-width:768px) {
+
+/* discussion */
+.discussionwrapper {
+  background-color: #f8f9fa;
+}
+.discussionwrapper .discussionrow {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.discussiontop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.discussiontop h2 {
+  border-bottom: 4px solid #f00297;
+}
+.discussiontop button {
+  background: linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  display: inline-block;
+  min-width: 170px;
+  height: 44px;
+  margin-left: auto;
+}
+.discussionspeople {
+  gap: 20px;
+  /* margin-bottom: 2rem; */
+}
+.personimagewrap img {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+.discussioncontent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.discussioncontent span {
+  color: #666;
+}
+.dreadmore-btn {
+  background: linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
+  color: #fff;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 3px;
+  display: inline-block;
+  color: #fff !important;
+  border: none !important;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+/* explorecourses */
+.exporecoursecards {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  gap: 35px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.explorecoursecard {
+  width: 280px;
+  min-height: 352px;
+  position: relative;
+}
+.explorecoursecard:hover .startfreetrial-btn {
+  display: block !important;
+}
+.explorecoursecard .courseimgwrap img {
+  width: 280px;
+  /* height: 352px; */
+}
+.startfreetrial-btn {
+  background-image: linear-gradient(-90deg, #5c1a88, #300051);
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 3px;
+  display: none !important;
+  width: 139px;
+  height: 36px;
+  position: absolute;
+  border: none !important;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, 2rem);
+}
+/* projectdetails */
+.pdrow {
+  max-width: 1200px;
+  margin: auto;
+}
+.project-heading {
+  font-weight: bold;
+  font-size: 40px;
+}
+.pdrow select {
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #f00297;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+.certifiedmanagerhr{
+  position: relative;
+  width: 100%;
+  margin: -2px 0 0 0;
+  height: 10px;
+}
+.pdrow tr th:nth-child(2){
+  min-width: 246px;
+}
+.table>thead {
+  vertical-align: top !important;
+}
+@media (max-width: 1024px) {
+  .homebannerrow .greeting {
+    font-size: 38px;
+  }
+}
+@media (max-width: 768px) {
   .home-box-v1 {
     padding-right: 0 !important;
+  }
+  .draftbtn {
+    max-width: 75px;
+    max-height: 30.6px;
+  }
+  .startedvalidrow {
+    flex-wrap: wrap;
+  }
+.pdrow select {
+  width: 100%;
 }
 }
 @media (max-width: 480px) {
@@ -337,88 +478,27 @@ hr {
   .slick-dots {
     bottom: 20%;
   }
-  .box-btn-wrap{
+  .box-btn-wrap {
     flex-wrap: wrap;
+  }
+  .homebannerrow .greeting {
+    font-size: 32px;
+  }
+  .modulearrowbtn {
+    left: -1rem;
+  }
+  .modulearrowbtn img {
+    max-width: 65px;
+  }
+  .home-main-box-v2 {
+    padding-right: 0;
+  }
+  .discussiontop {
+    padding-bottom: 1rem;
   }
 }
 @media (max-width: 380px) {
   .slick-dots {
     bottom: 23%;
   }
-}
-/* discussion */
-.discussionwrapper{
-  background-color: #f8f9fa;
-}
-.discussionwrapper .discussionrow{
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.discussiontop{
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.discussiontop h2{
-  border-bottom: 4px solid #f00297;
-}
-.discussiontop button{
-  background: linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    display: inline-block;
-    min-width: 170px;
-    height: 44px;
-    margin-left: auto;
-}
-.discussionspeople{
-  gap: 20px;
-  /* margin-bottom: 2rem; */
-}
-.personimagewrap img{
-border-radius: 50%;
-width: 60px;
-height: 60px;
-object-fit: cover;
-}
-.discussioncontent{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-.discussioncontent span{
-  color: #666;
-}
-.dreadmore-btn{
-  background: linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
-    color: #fff;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 3px;
-    display: inline-block;
-    color: #fff !important;
-    border: none !important;
-    margin: auto;
-    margin-bottom: 1rem;
-}
-/* explorecourses */
-.exporecoursecards{
-  max-width: 1240px;
-  margin: 0 auto;
-  display: flex;
-  gap: 35px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.explorecoursecard{
-  width: 280px;
-  min-height: 352px;
-}
-.explorecoursecard .courseimgwrap img{
-  width: 280px;
-  /* height: 352px; */
 }

@@ -22,6 +22,7 @@ const ExploreCourses = () => {
               Cambridge International Qualifications (CIQ), UK
             </p>
           </div>
+          <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="explorecoursecard bg-white shadow h-100 clearfix">
           <div className="courseimgwrap">
@@ -38,6 +39,7 @@ const ExploreCourses = () => {
               Cambridge International Qualifications (CIQ), UK
             </p>
           </div>
+          <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="explorecoursecard bg-white shadow h-100 clearfix">
           <div className="courseimgwrap">
@@ -54,6 +56,7 @@ const ExploreCourses = () => {
               Cambridge International Qualifications (CIQ), UK
             </p>
           </div>
+          <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="explorecoursecard bg-white shadow h-100 clearfix">
           <div className="courseimgwrap">
@@ -70,6 +73,7 @@ const ExploreCourses = () => {
               Cambridge International Qualifications (CIQ), UK
             </p>
           </div>
+          <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="explorecoursecard bg-white shadow h-100 clearfix">
           <div className="courseimgwrap">
@@ -86,6 +90,7 @@ const ExploreCourses = () => {
               Cambridge International Qualifications (CIQ), UK
             </p>
           </div>
+          <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="explorecoursecard bg-white shadow h-100 clearfix">
           <div className="courseimgwrap">
@@ -102,6 +107,7 @@ const ExploreCourses = () => {
               Cambridge International Qualifications (CIQ), UK
             </p>
           </div>
+          <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="explorecoursecard bg-white shadow h-100 clearfix">
           <div className="courseimgwrap">
@@ -118,6 +124,7 @@ const ExploreCourses = () => {
               Cambridge International Qualifications (CIQ), UK
             </p>
           </div>
+          <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="explorecoursecard bg-white shadow h-100 clearfix">
           <div className="courseimgwrap">
@@ -134,10 +141,16 @@ const ExploreCourses = () => {
               Cambridge International Qualifications (CIQ), UK
             </p>
           </div>
+          <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="flex w-100">
-              <Button className="dreadmore-btn" style={{borderRadius:'0',margin:'0 0 0 auto'}}>Explore All Courses</Button>
-            </div>
+          <Button
+            className="dreadmore-btn"
+            style={{ borderRadius: "0", margin: "0 0 0 auto" }}
+          >
+            Explore All Courses
+          </Button>
+        </div>
       </div>
     </Container>
   );
