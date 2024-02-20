@@ -4,6 +4,7 @@ import HomeScreen from "./screens/HomeScreen"
 import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
 import ProjectDetails from "./screens/ProjectDetails"
+import ModuleDetails from "./screens/ModuleDetails"
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Route path="/" element={<HomeScreen />} />
       <Route path="/login" element={<Login />} />
       <Route path="/ProjectandAssignments" element={<ProjectDetails />} />
+      <Route path="/ModuleDetails" element={<ModuleDetails />} />
     </Routes>
     <Footer />
     </BrowserRouter>

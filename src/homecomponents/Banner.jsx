@@ -448,7 +448,7 @@ const Banner = () => {
                   <div>
                     <div className="startedvalidrow">
                       <span>Started on : 08/09/2023 I Valid till 07/11/2023</span>
-                      <Link to="" className="gotomodulepage item-center">
+                      <Link to="/ModuleDetails" className="gotomodulepage item-center">
                         <span>Go to Module Home Page </span>
                         <i
                           className="fa fa-arrow-right currentmodule-arrow"

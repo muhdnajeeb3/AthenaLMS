@@ -16,7 +16,7 @@ function NavBar() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary" bg="light">
       <Container style={{ maxWidth: "1200px" }}>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img
             src="https://ulearn.uniathena.com/Images/athenanew-logo.svg"
             alt=""

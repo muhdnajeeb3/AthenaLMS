@@ -95,7 +95,7 @@ const ProjectAndAssignement = () => {
           </select>
         </div>
         <hr className="certifiedmanagerhr" />
-        <Table responsive className="my-4" bordered striped hover>
+        <Table responsive className="my-4" bordered  hover>
       <thead>
         <tr>
           <th></th>
@@ -106,25 +106,25 @@ const ProjectAndAssignement = () => {
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
+          <td></td>
           {Array.from({ length: tableHeadings.length }).map((_, index) => (
             <td key={index}>Table cell {index}</td>
           ))}
         </tr>
         <tr>
-          <td>2</td>
+          <td></td>
           {Array.from({ length: tableHeadings.length }).map((_, index) => (
             <td key={index}>Table cell {index}</td>
           ))}
         </tr>
         <tr>
-          <td>3</td>
+          <td></td>
           {Array.from({ length: tableHeadings.length }).map((_, index) => (
             <td key={index}>Table cell {index}</td>
           ))}
         </tr>
         <tr>
-          <td>4</td>
+          <td></td>
           {Array.from({ length: tableHeadings.length }).map((_, index) => (
             <td key={index}>Table cell {index}</td>
           ))}
