@@ -1,137 +1,196 @@
-.moduledetailwrap{
-    max-width: 1200px;
-    margin: auto;
+.moduledetailwrap {
+  max-width: 1200px;
+  margin: auto;
 }
-.mdtoprow{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+.mdtoprow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.milestonewrap{
-    max-width: 1200px;
-    margin: auto;
+.milestonewrap {
+  max-width: 1200px;
+  margin: auto;
 }
 .milestonecompleted {
-    height: 35px;
-    width: 35px;
-    border: 1px solid #f900c7;
-    display: block;
-    margin: 7px auto;
-    border-radius: 50%;
-    background-image: url(https://ulearn.uniathena.com/Images/icons/sucess.svg);
-    background-size: 64%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    position: relative;
-    background-color: #fff;
+  height: 35px;
+  width: 35px;
+  border: 1px solid #f900c7;
+  display: block;
+  margin: 7px auto;
+  border-radius: 50%;
+  background-image: url(https://ulearn.uniathena.com/Images/icons/sucess.svg);
+  background-size: 64%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: relative;
+  background-color: #fff;
 }
-.milestoneitemsrow{
-    display: flex;
-    align-items: flex-start;
-    padding: 2rem 0;
-    position: relative;
-    overflow-x: scroll;
+.milestoneitemsrow {
+  display: flex;
+  align-items: flex-start;
+  padding: 2rem 0;
+  position: relative;
+  overflow-x: scroll;
 }
-.milestoneitemsrow::-webkit-scrollbar{
-    display: none;
+.milestoneitemsrow::-webkit-scrollbar {
+  display: none;
 }
-.milestoneitemsrow hr{
-    position: absolute;
-    top: 5rem;
-    width: 1200px;
+.milestoneitemsrow hr {
+  position: absolute;
+  top: 4.8rem;
+  width: 1200px;
 }
-.milestoneitemsrow .col{
-    display: flex;
-    flex-direction: column;
-    min-width: 200px;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    z-index: 1;
-    position: relative;
+.milestoneitemsrow .col {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  z-index: 1;
+  position: relative;
 }
-.unittitle{
-    font-size: 14px !important;
+.unittitle {
+  font-size: 14px !important;
 }
-.moduledetailwrap{
-    max-width: 1200px;
-    margin: auto;
-    display: flex;
-    gap: 1rem;
+.moduledetailwrap {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  gap: 1rem;
+  padding-right: 15px;
 }
-.modulecardheading{
-    font-size: 20px;
-    color: #5b1986;
-    text-transform: uppercase;
-    font-weight: 600;
+.modulecardheading {
+  font-size: 20px;
+  color: #5b1986;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 ul.module-list {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 ul.module-list li:first-child {
-    font-size: 20px;
-    font-weight: bold;
-    text-transform: uppercase;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 ul.module-list li {
-    list-style: none;
-    margin-left: 24px;
-    padding:10px 0;
-    border-bottom: 1px solid #dee2e6;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    min-height: 50px;
+  list-style: none;
+  margin-left: 24px;
+  padding: 10px 0;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 50px;
 }
-ul.module-list li:hover .openlesson-btn{
-display: block !important;
+ul.module-list li:hover .openlesson-btn {
+  display: block !important;
 }
-.module-list .openlesson-btn{
-    background: linear-gradient(-90deg, #5c1a88, #300051);
-    color: #fff;
-    padding: 5px;
-    border: none ;
-    border-radius: 3px;
-    font-size: 13px;
-    min-width: 87px;
-    height: 30px;
-    padding: 0;
-    display: none;
+.module-list .openlesson-btn {
+  background: linear-gradient(-90deg, #5c1a88, #300051);
+  color: #fff;
+  padding: 5px;
+  border: none;
+  border-radius: 3px;
+  font-size: 13px;
+  min-width: 87px;
+  height: 30px;
+  padding: 0;
+  display: none;
 }
-.moduledetailwrap .showmoreless{
-    background: transparent;
-    border: none;
-    color: #000000;
+.moduledetailwrap .showmoreless {
+  background: transparent;
+  border: none;
+  color: #000000;
 }
-.module-list .quizz-assign-btn{
-    border-color: #7b00bc;
-    border-radius: 20px;
-    color: #7b00bc;
-    border: 1px solid #4a006c;
-    background: #fff;
-    font-size: 14px;
-    min-width: 162px;
+.module-list .quizz-assign-btn {
+  border-color: #7b00bc;
+  border-radius: 20px;
+  color: #7b00bc;
+  border: 1px solid #4a006c;
+  background: #fff;
+  font-size: 14px;
+  min-width: 162px;
 }
-.module-list .quizz-assign-btn:hover{
-    border-color: #7b00bc;
-    color: #7b00bc;
-    border: 1px solid #4a006c;
+.module-list .quizz-assign-btn:hover {
+  border-color: #7b00bc;
+  color: #7b00bc;
+  border: 1px solid #4a006c;
 }
-.mystudygoal{
-    min-height: 190px;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
+.mystudygoal {
+  min-height: 190px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
-.mystudygoal .setgoal-btn{
-    border-radius: 30px;
-    color: #7b00bc;
-    border: 1px solid #4a006c;
-    background: linear-gradient(-90deg, #5c1a88, #300051);
-    font-size: 14px;
-    min-width: 106px;
+.mystudygoal .setgoal-btn {
+  border-radius: 30px;
+  color: #7b00bc;
+  border: 1px solid #4a006c;
+  background: linear-gradient(-90deg, #5c1a88, #300051);
+  font-size: 14px;
+  min-width: 106px;
+}
+.course-modules h3,
+.practicalinfo .practicalinfo-title h5 {
+  border-bottom: 4px solid #f00297;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+.course-modules hr,
+.practicalinfo .practicalinfo-title hr {
+  margin: -10px 0 15px 0;
+  padding: 0;
+}
+.careerhelp p {
+  text-align: justify;
+}
+.careerhelp li {
+  padding-bottom: 5px;
+}
+.practical-dur-logo {
+  filter: invert(1);
+}
+.practicaldetails {
+  display: flex;
+  gap: 20px;
+}
+.course-modules-wrap {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+@media (max-width: 767px) {
+  .moduledetailwrap {
+    flex-direction: column;
+    padding-right: 0;
+  }
+  .study-practical {
+    order: -1;
+  }
+  .milestone-container {
+    padding-right: 0 !important;
+  }
+  .project-heading {
+    font-size: 31px;
+  }
+}
+@media (max-width: 480px) {
+  .course-modules-wrap {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  ul.module-list li:first-child {
+    font-size: 18px;
+  }
+  ul.module-list li {
+    margin-left: 15px;
+  }
+  .project-heading {
+    font-size: 27px;
+}
 }

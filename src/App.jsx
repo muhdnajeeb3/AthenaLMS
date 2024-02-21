@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
 import ProjectDetails from "./screens/ProjectDetails"
 import ModuleDetails from "./screens/ModuleDetails"
+import UnitDetailView from "./screens/UnitDetailView"
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/ProjectandAssignments" element={<ProjectDetails />} />
       <Route path="/ModuleDetails" element={<ModuleDetails />} />
+      <Route path="/UnitDetailView" element={<UnitDetailView />} />
     </Routes>
     <Footer />
     </BrowserRouter>
