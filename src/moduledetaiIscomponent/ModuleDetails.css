@@ -64,7 +64,7 @@
 }
 .modulecardheading {
   font-size: 20px;
-  color: #5b1986;
+  color: var(--default);
   text-transform: uppercase;
   font-weight: 600;
 }
@@ -92,7 +92,7 @@ ul.module-list li:hover .openlesson-btn {
   display: block !important;
 }
 .module-list .openlesson-btn {
-  background: linear-gradient(-90deg, #5c1a88, #300051);
+  background: var(--defaultgradient);
   color: #fff;
   padding: 5px;
   border: none;
@@ -109,18 +109,18 @@ ul.module-list li:hover .openlesson-btn {
   color: #000000;
 }
 .module-list .quizz-assign-btn {
-  border-color: #7b00bc;
+  border-color: var(--default);
   border-radius: 20px;
-  color: #7b00bc;
-  border: 1px solid #4a006c;
+  color: var(--default);
+  border: 1px solid var(--default);
   background: #fff;
   font-size: 14px;
-  min-width: 162px;
+  max-width: 162px;
 }
 .module-list .quizz-assign-btn:hover {
-  border-color: #7b00bc;
-  color: #7b00bc;
-  border: 1px solid #4a006c;
+  border-color: var(--default);
+  color: var(--default);
+  border: 1px solid var(--default);
 }
 .mystudygoal {
   min-height: 190px;
@@ -130,9 +130,8 @@ ul.module-list li:hover .openlesson-btn {
 }
 .mystudygoal .setgoal-btn {
   border-radius: 30px;
-  color: #7b00bc;
-  border: 1px solid #4a006c;
-  background: linear-gradient(-90deg, #5c1a88, #300051);
+  border: none;
+  background: var(--defaultgradient);
   font-size: 14px;
   min-width: 106px;
 }

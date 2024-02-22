@@ -4,6 +4,10 @@
   box-sizing: border-box;
   
 }
+:root {
+  --default: #ff006e;
+  --defaultgradient:linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
+}
 label {
   display: inline-block;
   margin-bottom: 0.5rem;

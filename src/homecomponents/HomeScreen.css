@@ -369,7 +369,7 @@ hr {
   color: #666;
 }
 .dreadmore-btn {
-  background: linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
+  background: var(--defaultgradient);
   color: #fff;
   padding: 10px 25px;
   border: none;
@@ -402,7 +402,7 @@ hr {
   /* height: 352px; */
 }
 .startfreetrial-btn {
-  background-image: linear-gradient(-90deg, #5c1a88, #300051);
+  background: linear-gradient(to right, #ff006e 0%, #ff4e9a 100%, #fff 100%);
   color: #fff;
   padding: 10px 25px;
   border-radius: 3px;

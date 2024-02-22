@@ -1,4 +1,4 @@
-import { Button, Container } from "react-bootstrap"
+import { Breadcrumb, Button, Container } from "react-bootstrap"
 
 const Banner = () => {
   return (
@@ -12,17 +12,19 @@ const Banner = () => {
               <p>
                 <b>Postgraduate Certificate In Machine Learning</b>
               </p>
-              <p style={{color:'#007bff'}}>
-                Dashboard / Module Details
-              </p>
+              <Breadcrumb>
+      <Breadcrumb.Item href="/" className="breadcrumb">Dashboard</Breadcrumb.Item>
+      <Breadcrumb.Item href="/ModuleDetails">
+      Module Details
+      </Breadcrumb.Item>
+      <Breadcrumb.Item active>UnitDetailsView</Breadcrumb.Item>
+    </Breadcrumb>
             </div>
             <div>
               <Button
                 className="dreadmore-btn"
                 style={{
                   borderRadius: "0",
-                  margin: "0 0 0 auto",
-                  background: " linear-gradient(-90deg, #5c1a88, #300051)",
                   width: "191px",
                   height: "44px",
                 }}

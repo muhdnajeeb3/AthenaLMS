@@ -26,8 +26,6 @@ const Banner = () => {
                 className="dreadmore-btn"
                 style={{
                   borderRadius: "0",
-                  margin: "0 0 0 auto",
-                  background: " linear-gradient(-90deg, #5c1a88, #300051)",
                   width: "191px",
                   height: "44px",
                 }}
@@ -64,11 +62,6 @@ const Banner = () => {
               </span>
               <Button
                 className="dreadmore-btn unittitle"
-                style={{
-                  background: " linear-gradient(-90deg, #5c1a88, #300051)",
-                  //   width: "191px",
-                  //   height: "44px",
-                }}
               >
                 Improvement Submitted
               </Button>
@@ -83,11 +76,6 @@ const Banner = () => {
               </span>
               <Button
                 className="dreadmore-btn unittitle"
-                style={{
-                  background: " linear-gradient(-90deg, #5c1a88, #300051)",
-                  //   width: "191px",
-                  //   height: "44px",
-                }}
               >
                 Improvement Submitted
               </Button>
@@ -102,11 +90,6 @@ const Banner = () => {
               </span>
               <Button
                 className="dreadmore-btn unittitle"
-                style={{
-                  background: " linear-gradient(-90deg, #5c1a88, #300051)",
-                  //   width: "191px",
-                  //   height: "44px",
-                }}
               >
                 Improvement Submitted
               </Button>
@@ -121,11 +104,6 @@ const Banner = () => {
               </span>
               <Button
                 className="dreadmore-btn unittitle"
-                style={{
-                  background: " linear-gradient(-90deg, #5c1a88, #300051)",
-                  //   width: "191px",
-                  //   height: "44px",
-                }}
               >
                 Pending Resubmission
               </Button>
@@ -233,8 +211,9 @@ const Banner = () => {
                   <li
                     style={{
                       justifyContent: "flex-start",
-                      flexWrap: "wrap",
+                      flexDirection:'column',
                       borderBottom: "none",
+                      marginTop:'1rem'
                     }}
                   >
                     <Button className="quizz-assign-btn" variant="">
@@ -340,7 +319,7 @@ const Banner = () => {
                 />
               </div>
               <div>
-                <h6>My Study Goal</h6>
+                <h6><b>My Study Goal</b></h6>
                 <p>
                   Learners who set a goal are more likely to complete their
                   course on time or before time{" "}

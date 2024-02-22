@@ -1,0 +1,159 @@
+.breadcrumb a {
+  color: #007bff !important;
+}
+.progresswrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.progresswrap .vcpcircle {
+  border: 2px solid #b40071;
+  width: 50px;
+  height: 50px;
+  display: block;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 44px;
+  font-size: 13px;
+}
+.vcpcirclewrap {
+  display: flex;
+  /* justify-content:space-between ; */
+  gap: 4rem;
+}
+.progresswrap .vcpcirclewrap .vcpcircleitem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.overallstatus {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.progress-bar {
+  background: var(--defaultgradient) !important;
+}
+.resumebtnwrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+.resumebtnwrap .resume-first-lesson-btn {
+  border-color: var(--default);
+  border-radius: 20px;
+  color: var(--default);
+  border: 1px solid var(--default);
+  background: #fff;
+  font-size: 14px;
+  max-width: 162px;
+}
+.resumebtnwrap .resume-first-lesson-btn:hover {
+  border-color: var(--default);
+  color: var(--default);
+  border: 1px solid var(--default);
+}
+.progrescontainer {
+  position: relative;
+}
+.progrescontainer .arrow-showhide-btn {
+  background: #fff;
+  color: #f00096;
+  position: absolute;
+  right: 8rem;
+  bottom: -13px;
+  letter-spacing: -2px;
+  max-width: 53px;
+  max-height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+.coursehomewrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  overflow: hidden;
+}
+.coursehometitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.coursehomewrap .coursehometitle a {
+  font-size: 21px;
+  color: #666 !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.coursehomewrap .coursehometitle a:hover {
+  color: #000000 !important;
+}
+.coursechapters,
+.coursechaptersections li {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+.coursechapters img,
+.coursechaptersections li img {
+  opacity: 0.6;
+  margin-top: 6px;
+}
+.coursechaptersections {
+  padding-left: 24px;
+}
+.coursechaptersections li {
+  list-style-type: none;
+}
+.quiz-assignbtn-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.quiz-assignbtn-wrap .quizz-assign-btn {
+  border-color: var(--default);
+  border-radius: 5px;
+  color: var(--default);
+  border: 1px solid var(--default);
+  background: #fff;
+  font-size: 14px;
+  max-width: 162px;
+}
+.quiz-assignbtn-wrap .quizz-assign-btn:hover {
+  border-color: var(--default);
+  color: var(--default);
+  border: 1px solid var(--default);
+}
+.chapterview {
+  position: relative;
+  min-height: 500px;
+}
+.chapterview .arrow-showhide-coursehome-btn {
+  position: absolute;
+  top: 9rem;
+  left: -6px;
+  background: #fff !important;
+  color: #f00096 !important;
+  width: 11px;
+  height: 53px;
+  letter-spacing: -3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#sidebar {
+    transition: margin 0.3s ease-in-out;
+}
+@media (max-width: 980px) {
+  .progresswrap {
+    flex-direction: column;
+    align-items: normal;
+  }
+}
