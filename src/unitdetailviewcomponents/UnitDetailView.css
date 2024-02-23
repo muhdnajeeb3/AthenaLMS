@@ -151,9 +151,114 @@
 #sidebar {
     transition: margin 0.3s ease-in-out;
 }
+.arrow-steps .step.current {
+  color: #fff;
+  background-color: #f00096;
+}
+
+.arrow-steps .step:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.arrow-steps .step {
+  font-size: 14px;
+  text-align: center;
+  color: #666;
+  min-width: 24.8%;
+  float: left;
+  height: 9px;
+  position: relative;
+  background-color: #eee;
+  transition: background-color 0.2s ease;
+}
+.arrow-steps .step span {
+  position: relative;
+  cursor: pointer;
+}
+.arrow-steps .step.current span i {
+  background: #f00096;
+}
+
+.arrow-steps .step span i {
+  position: absolute;
+  font-size: 20px;
+  background: #eee;
+  width: 32px;
+  border-radius: 30px;
+  height: 31px;
+  padding-top: 6px;
+  color: #eee;
+  font-weight: bold;
+  top: -15px;
+  left: -14px;
+}
+.level-section-btn-wrap{
+  gap: 10px;
+}
+.level-section-btn-wrap .level-section-btn{
+  color: #90268e;
+    margin: 0 auto;
+  font-size: 14px;
+  position: relative;
+  min-width: 23%;
+  border: none;
+}
+.level-section-btn-wrap .level-section-btn.current{
+  background: linear-gradient(to right, #f00096, #ff69c7);
+  margin: 10px;
+  color: #fff !important;
+  font-size: 14px;
+  border-radius: 30px;
+  position: relative;
+  min-width: 23%;
+}
+.level-section-btn-wrap .level-section-btn.current .arrow-down {
+  width: 0px;
+  height: 0px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #f735af;
+  position: absolute;
+  left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    bottom: -12px;
+    
+}
+.vp iframe{
+  width: 100%;
+}
+.contentactive{
+  display: block;
+}
+.contentnotactive{
+  display: none;
+}
+.fadeanimation {
+  transition: opacity .15s linear;
+}
+.fadeanimation:not(.contentactive){
+  opacity: 0;
+}
+.arreference{
+  display: flex;
+  gap: 10px;
+}
 @media (max-width: 980px) {
   .progresswrap {
     flex-direction: column;
     align-items: normal;
   }
 }
+@media (max-width: 768px) {
+  .coursehomewrap {
+    flex-direction: column;
+  }
+}
+@media (max-width: 480px) {
+  .arreference {
+    flex-direction: column;
+  }
+}
+
+
