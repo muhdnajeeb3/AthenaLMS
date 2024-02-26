@@ -107,10 +107,11 @@
   margin-top: 6px;
 }
 .coursechaptersections {
-  padding-left: 24px;
+  padding-left: 40px;
 }
 .coursechaptersections li {
   list-style-type: none;
+  position: relative;
 }
 .quiz-assignbtn-wrap {
   display: flex;
@@ -244,6 +245,66 @@
   display: flex;
   gap: 10px;
 }
+.coursechaptersections li span.clspending {
+  position: absolute;
+  left: -20px;
+  top: 7px;
+  width: 13px;
+  height: 13px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+.coursechaptersections li span.clscompleted {
+  position: absolute;
+  left: -20px;
+  top: 7px;
+  width: 13px;
+  height: 15px;
+  border-radius: 10px;
+  opacity: 1;
+  background-image: url(https://ulearn.uniathena.com/images/icons/Tick-32.png);
+  background-size: 100%;
+  opacity: .7;
+  background-repeat: no-repeat;
+}
+.prevnext-videobtn{
+  gap: 10px;
+  justify-content: space-between;
+}
+.addviewnote-btnwrap{
+  display: flex;
+  justify-content: center;
+}
+.addviewnote-btnwrap button{
+    border-radius: 20px;
+    color: var(--default) ;
+    border: 1px solid var(--default);
+    background: #fff;
+    font-size: 14px;
+    min-width: 240px;
+}
+.completed-btnwrap{
+  display: flex;justify-content: flex-end;
+}
+.completed-btnwrap button{
+  background: var(--defaultgradient);
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  width: 130px;
+}
+.modal-header {
+  background: var(--defaultgradient) !important;
+  color: #fff;
+}
+.modal-body input{
+  min-height: 80px;
+  padding-left: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.15rem;
+
+}
 @media (max-width: 980px) {
   .progresswrap {
     flex-direction: column;
@@ -254,11 +315,17 @@
   .coursehomewrap {
     flex-direction: column;
   }
+  .level-section-btn-wrap {
+gap: 5px;
+  }
 }
 @media (max-width: 480px) {
   .arreference {
     flex-direction: column;
   }
+  .level-section-btn-wrap .level-section-btn, .level-section-btn-wrap .level-section-btn.current{
+    font-size: 10px;
+      }
 }
 
 

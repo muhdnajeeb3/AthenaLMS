@@ -40,7 +40,8 @@ function NavBar() {
                 Quick Application
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#link">E-LIBRARY</Nav.Link>
+            <Link to='https://www.proquest.com/' className="nav-link" target="__blank">E-LIBRARY</Link>
+            {/* <Nav.Link href="#link">E-LIBRARY</Nav.Link> */}
             <NavDropdown title={NotificationBtn} id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">
                 Quick Apllication
@@ -52,7 +53,7 @@ function NavBar() {
                 className="athena-profile-pic"
                 src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
               />
-              <NavDropdown title="Joju" id="basic-nav-dropdown">
+              <NavDropdown title=" Abdul Muizz" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1" className="profilelist">
                   <i className="fa fa-user"></i>
                   <span>MY PROFILE</span>

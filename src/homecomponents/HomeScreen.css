@@ -110,10 +110,8 @@
   box-shadow: 0 4px 5px #ddd;
   padding: 25px 20px 6px 25px;
   background: #fff;
-  /* position: absolute; */
   z-index: 999;
   min-height: 594px !important;
-  /* width: 100%; */
   max-width: 580px;
   animation: blink-animation 0.2s;
 }
@@ -291,25 +289,22 @@ hr {
   margin-bottom: 15px;
 }
 .btm-demy-card {
-  position: absolute;
-  width: 90%;
-  left: 50%;
-  right: 50%;
-  transform: translate(-50%, 1px);
+  position: relative;
+    width: 100%;
+    transform: translate(-0%, 58px);
 }
 .card-btm-box-pink {
+  position: relative;
   background: #fff;
   box-shadow: 0 4px 5px #ddd;
-  width: 80%;
   margin: 6px auto 2px;
   border-right: 9px solid #ff0e76;
-  /* height: 29px; */
-  height: 30px;
+  height: 25px;
 }
 .card-btm-box-blue {
   background: #fff;
   box-shadow: 0 4px 5px #ddd;
-  width: 71%;
+  width: 90%;
   margin: 0 auto;
   border-right: 9px solid #0062b1;
   height: 25px;
@@ -495,6 +490,9 @@ hr {
   }
   .discussiontop {
     padding-bottom: 1rem;
+  }
+  .navbar-brand img{
+    max-width: 120px;
   }
 }
 @media (max-width: 380px) {

@@ -8,13 +8,18 @@ import Vimeo from "@u-wave/react-vimeo";
 import EssentialReadings from "./EssentialReadings";
 import Table from "react-bootstrap/Table";
 import AdditionalResources from "./AdditionalResources";
-import pdf from './mn.pdf' 
+import pdf from "./mn.pdf";
+import Modal from "react-bootstrap/Modal";
 
 const Progress = () => {
   const [progressShow, setProgressShow] = useState(false);
   const [sidebarShow, setSidebarShow] = useState(false);
   const [chapter, setChapter] = useState(1);
   const [levels, setLevels] = useState(1);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleClose = () => setShowPopup(false);
+  const handleShow = () => setShowPopup(true);
 
   const chapterHandler = (id) => {
     setChapter(id);
@@ -121,39 +126,26 @@ const Progress = () => {
                   {chapter === 1 && (
                     <ul className="coursechaptersections">
                       <li>
-                        <img
+                        {/* <img
                           src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
                           alt=""
                           width={13}
                           height={13}
-                        />
+                        /> */}
+                        <span className="clscompleted"></span>
                         <p>Introduction to Machine Learning</p>
                       </li>
                       <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
+                        <span className="clscompleted"></span>
                         <p>Concept of Machine Learning</p>
                       </li>
                       <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
+                        <span className="clspending"></span>
+
                         <p>Examples of Machine Learning Application</p>
                       </li>
                       <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
+                        <span className="clspending"></span>
                         <p>Application of Machine Learning</p>
                       </li>
                     </ul>
@@ -480,7 +472,7 @@ const Progress = () => {
                         </span>
                       </td>
                       <td>
-                      <a href={pdf} download>
+                        <a href={pdf} download>
                           <img
                             src="https://ulearn.uniathena.com/images/icon-pdf.png"
                             alt=""
@@ -493,6 +485,36 @@ const Progress = () => {
                 </Table>
               )}
               {levels === 4 && <AdditionalResources />}
+              <div className="prevnext-videobtn mt-4 mb-2 flex">
+                <Button variant="">{"<<"} Previous</Button>
+                <Button variant="">Next {">>"}</Button>
+              </div>
+              <div className="addviewnote-btnwrap">
+                <Button variant="" onClick={handleShow}>
+                  Add/View Notes
+                </Button>
+              </div>
+              <Modal show={showPopup} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Notes</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <input type="text" className="w-100" placeholder="Add Your Notes"/>
+                </Modal.Body>
+                <Modal.Footer className="completed-btnwrap">
+                  <Button variant="primary" onClick={handleClose}>
+                    Save
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+              <div className="completed-btnwrap mt-2 my-4">
+                <Button>Completed</Button>
+              </div>
+              <hr className="my-2" />
+              <div className="prevnext-videobtn mt-3 flex">
+                <Button variant="">Concept of Machine Learning</Button>
+                <Button variant="">Application of Machine Learning</Button>
+              </div>
             </div>
           </div>
         </div>

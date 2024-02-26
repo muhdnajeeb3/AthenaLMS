@@ -30,7 +30,7 @@ const Banner = () => {
       <Row className="homebannerrow">
         <div className="col-md-6 py-5 home-box-v1">
           <h2 className="greeting pb-2">
-            <span id="MainContent_lblUser">Good Afternoon, Joju</span>
+            <span id="MainContent_lblUser">Good Afternoon, Muizz</span>
           </h2>
           <p>
             If a man empties his purse into his head, no man can take it away
