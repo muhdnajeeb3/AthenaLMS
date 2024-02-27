@@ -6,6 +6,7 @@ import Footer from "./components/Footer"
 import ProjectDetails from "./screens/ProjectDetails"
 import ModuleDetails from "./screens/ModuleDetails"
 import UnitDetailView from "./screens/UnitDetailView"
+import FreeTrialHome from "./screens/FreeTrialHome"
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     {pathname !== "/login" && <NavBar /> }
     <Routes>
       <Route path="/" element={<HomeScreen />} />
+      <Route path="/FreeTrialHome" element={<FreeTrialHome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/ProjectandAssignments" element={<ProjectDetails />} />
       <Route path="/ModuleDetails" element={<ModuleDetails />} />

@@ -53,7 +53,7 @@ function NavBar() {
                 className="athena-profile-pic"
                 src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
               />
-              <NavDropdown title=" Abdul Muizz" id="basic-nav-dropdown">
+              <NavDropdown title="Muizz" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1" className="profilelist">
                   <i className="fa fa-user"></i>
                   <span>MY PROFILE</span>
