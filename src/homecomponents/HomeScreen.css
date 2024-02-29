@@ -564,9 +564,69 @@ hr {
     top: -29px;
     z-index: -1;
 }
+.changepassword-bg {
+  background-image: linear-gradient(121deg, #762296 1%, rgba(0, 0, 0, 0) 113%), url(https://ulearn.uniathena.com/Images/athena-bg.jpg);
+  background-size: cover;
+}
+.createpassword-wrap {
+  max-width: 682px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 11px 0 rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+  margin: 0 auto 45%;
+  min-height: 500px;
+}
+.cptitle{
+  color: var(--default);
+  font-weight: 800;
+    font-size: 24px;
+}
+.form-group ,.formbtnwrap{
+    position: relative;
+    max-width: 444px;
+    margin: 0 auto;
+}
+.form-group label {
+  position: absolute;
+  top: -13px;
+  left: 12px;
+  background: #fff;
+  padding: 1px 15px;
+  font-weight: bold;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(3em + 0.75rem + 2px);
+  padding: 12px 26px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #182b4f;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.15rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.createpassword-wrap .cp-btn{
+  background: var(--defaultgradient);
+  color: #fff;
+width: 127px;  border: none;
+  border-radius: 3px;
+  height: 52px;
+}
+.formbtnwrap{
+ display: flex;
+ gap: 10px;
+}
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
     font-size: 38px;
+  }
+  .testicardbgbox{
+    display: none;
   }
 }
 @media (max-width: 768px) {
@@ -605,6 +665,21 @@ hr {
 .modulearrowbtn img {
   max-width: 65px;
 }
+.testicardimg img{
+  height: 100%;
+}
+}
+@media (max-width:600px) {
+  .testicard{
+    flex-direction: column;
+  }
+  .testicardimg img{
+    width: 100%;
+    max-height: 400px;
+  }
+  .testicardcontent{
+    order: 1;
+  }
 }
 @media (max-width: 480px) {
   .homebannerrow .newmailwrapper {
@@ -637,6 +712,14 @@ hr {
   .navbar-brand img{
     max-width: 120px;
   }
+  .speakto span{
+    font-size: 17px;
+    
+  }
+  .speakto{
+    align-items: center;
+  }
+
 }
 @media (max-width: 380px) {
   .slick-dots {

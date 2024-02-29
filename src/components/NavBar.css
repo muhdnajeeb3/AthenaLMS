@@ -27,7 +27,7 @@
   font-size: 13px;
 }
 .profiledrop .profilelist i {
-  color: gray;
+  color: var(--default);
 }
 @media (min-width: 1038px) {
   .navbar-nav .nav-link {

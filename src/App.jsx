@@ -7,6 +7,8 @@ import ProjectDetails from "./screens/ProjectDetails"
 import ModuleDetails from "./screens/ModuleDetails"
 import UnitDetailView from "./screens/UnitDetailView"
 import FreeTrialHome from "./screens/FreeTrialHome"
+import MyProfile from "./screens/MyProfile"
+import ChangePassword from "./screens/ChangePassword"
 
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
       <Route path="/ProjectandAssignments" element={<ProjectDetails />} />
       <Route path="/ModuleDetails" element={<ModuleDetails />} />
       <Route path="/UnitDetailView" element={<UnitDetailView />} />
+      <Route path="/MyProfile" element={<MyProfile />} />
+      <Route path="/ChangePassword" element={<ChangePassword />} />
     </Routes>
     <Footer />
     </BrowserRouter>

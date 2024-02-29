@@ -1,5 +1,7 @@
 import { Container } from "react-bootstrap";
 import Slider from "react-slick";
+import PrevButton from "./PrevButton";
+import NextButton from "./NextButton";
 
 const Testimonial = () => {
   var settings = {
@@ -8,7 +10,9 @@ const Testimonial = () => {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
+    prevArrow: <PrevButton />,
+    nextArrow:<NextButton />,
     // autoplay: true,
     autoplaySpeed: 3000,
     cssEase: "linear",

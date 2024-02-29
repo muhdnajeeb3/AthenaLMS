@@ -25,27 +25,34 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-          <Link to='/' className="nav-link">
-          DASHBOARD
-          </Link>
-            <Link to='/ProjectandAssignments' className="nav-link">
-            PROJECT DETAILS
+            <Link to="/" className="nav-link">
+              DASHBOARD
+            </Link>
+            <Link to="/ProjectandAssignments" className="nav-link">
+              PROJECT DETAILS
             </Link>
             {/* <Nav.Link href="/">DASHBOARD</Nav.Link> */}
             {/* <Nav.Link href="#">PROJECT DETAILS</Nav.Link> */}
             <Nav.Link href="#link">ONLINE CLASS</Nav.Link>
             <Nav.Link href="#link">MY SURVEY</Nav.Link>
             <NavDropdown title="APPLICATIONS" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">
+              <NavDropdown.Item
+                href="https://learn.uniathena.com/quick-application/user-details"
+                target="__blank"
+              >
                 Quick Application
               </NavDropdown.Item>
             </NavDropdown>
-            <Link to='https://www.proquest.com/' className="nav-link" target="__blank">E-LIBRARY</Link>
+            <Link
+              to="https://www.proquest.com/"
+              className="nav-link"
+              target="__blank"
+            >
+              E-LIBRARY
+            </Link>
             {/* <Nav.Link href="#link">E-LIBRARY</Nav.Link> */}
             <NavDropdown title={NotificationBtn} id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">
-                Quick Apllication
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#">Quick Apllication</NavDropdown.Item>
             </NavDropdown>
             <div className="mt-1 profiledrop">
               <img
@@ -54,13 +61,17 @@ function NavBar() {
                 src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
               />
               <NavDropdown title="Muizz" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1" className="profilelist">
-                  <i className="fa fa-user"></i>
-                  <span>MY PROFILE</span>
+                <NavDropdown.Item href="">
+                  <Link to="/MyProfile" className="profilelist">
+                    <i className="fa fa-user"></i>
+                    <span>MY PROFILE</span>
+                  </Link>
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.1" className="profilelist">
-                  <i className="fa fa-refresh"></i>
-                  <span>PASSWORD</span>
+                <NavDropdown.Item href="">
+                  <Link to="/ChangePassword" className="profilelist">
+                    <i className="fa fa-refresh"></i>
+                    <span>PASSWORD</span>
+                  </Link>
                 </NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.1" className="profilelist">
                   <i className="fa fa-user"></i>
