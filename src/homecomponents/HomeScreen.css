@@ -582,12 +582,12 @@ hr {
   font-weight: 800;
     font-size: 24px;
 }
-.form-group ,.formbtnwrap{
+.cpform-group ,.cpformbtnwrap{
     position: relative;
     max-width: 444px;
     margin: 0 auto;
 }
-.form-group label {
+.cpform-group label {
   position: absolute;
   top: -13px;
   left: 12px;
@@ -595,7 +595,7 @@ hr {
   padding: 1px 15px;
   font-weight: bold;
 }
-.form-control {
+.cpform-control {
   display: block;
   width: 100%;
   height: calc(3em + 0.75rem + 2px);
@@ -617,7 +617,7 @@ width: 127px;  border: none;
   border-radius: 3px;
   height: 52px;
 }
-.formbtnwrap{
+.cpformbtnwrap{
  display: flex;
  gap: 10px;
 }

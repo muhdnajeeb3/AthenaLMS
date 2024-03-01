@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   const [currentDivIndex, setCurrentDivIndex] = useState(0);
@@ -189,16 +190,20 @@ const Banner = () => {
                   
                 </div>
                 <div className="box-btn-wrap my-4">
-                  <Button className="resume-learning">
-                    <span>RESUME LEARNING</span>
-                  </Button>
-                  <Button className="goto-course" variant="">
-                    <img
-                      src="https://ulearn.uniathena.com/Images/icons/cursor.svg"
-                      alt=""
-                    />
-                    <span>GO TO COURSE HOME</span>
-                  </Button>
+                <Link to="/UnitDetailView">
+                    <Button className="resume-learning">
+                      <span>RESUME LEARNING</span>
+                    </Button>
+                  </Link>
+                  <Link to="/ModuleDetails">
+                    <Button className="goto-course" variant="">
+                      <img
+                        src="https://ulearn.uniathena.com/Images/icons/cursor.svg"
+                        alt=""
+                      />
+                      <span>GO TO COURSE HOME</span>
+                    </Button>
+                  </Link>
                 </div>
                 <hr className="my-3" />
 

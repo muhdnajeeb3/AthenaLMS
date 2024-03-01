@@ -9,14 +9,14 @@ import UnitDetailView from "./screens/UnitDetailView"
 import FreeTrialHome from "./screens/FreeTrialHome"
 import MyProfile from "./screens/MyProfile"
 import ChangePassword from "./screens/ChangePassword"
+import CourseMoreDetails from "./screens/CourseMoreDetails"
 
 
 function App() {
-  const pathname = window.location.pathname;
   return (
     <>
     <BrowserRouter>
-    {pathname !== "/login" && <NavBar /> }
+     <NavBar />
     <Routes>
       <Route path="/" element={<HomeScreen />} />
       <Route path="/FreeTrialHome" element={<FreeTrialHome />} />
@@ -26,6 +26,7 @@ function App() {
       <Route path="/UnitDetailView" element={<UnitDetailView />} />
       <Route path="/MyProfile" element={<MyProfile />} />
       <Route path="/ChangePassword" element={<ChangePassword />} />
+      <Route path="/CourseMoreDetails" element={<CourseMoreDetails />} />
     </Routes>
     <Footer />
     </BrowserRouter>

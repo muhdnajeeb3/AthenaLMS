@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "./NavBar.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function NavBar() {
   const NotificationBtn = (
@@ -13,6 +13,13 @@ function NavBar() {
       style={{ width: "20px" }}
     />
   );
+  const location = useLocation();
+  const { pathname } = location;
+  // Check if the pathname is '/login'
+  const isLoginPage = pathname === "/login";
+  if (isLoginPage) {
+    return null;
+  }
   return (
     <Navbar expand="lg" className="bg-body-tertiary" bg="light">
       <Container style={{ maxWidth: "1200px" }}>
@@ -63,19 +70,21 @@ function NavBar() {
               <NavDropdown title="Muizz" id="basic-nav-dropdown">
                 <NavDropdown.Item href="">
                   <Link to="/MyProfile" className="profilelist">
-                    <i className="fa fa-user"></i>
+                    <i className="fa fa-user" />
                     <span>MY PROFILE</span>
                   </Link>
                 </NavDropdown.Item>
                 <NavDropdown.Item href="">
                   <Link to="/ChangePassword" className="profilelist">
-                    <i className="fa fa-refresh"></i>
+                    <i className="fa fa-refresh" />
                     <span>PASSWORD</span>
                   </Link>
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.1" className="profilelist">
-                  <i className="fa fa-user"></i>
-                  <span>LOGOUT</span>
+                <NavDropdown.Item href="">
+                  <Link to="/login" className="profilelist">
+                    <i className="fa fa-user" />
+                    <span>LOGOUT</span>
+                  </Link>
                 </NavDropdown.Item>
               </NavDropdown>
             </div>
