@@ -1,7 +1,38 @@
+import { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Banner = () => {
+  const [paymethode, setPaymethode] = useState("flexible");
+  const FlexiblePay = paymethode === "flexible";
+  const FastrackPay = paymethode === "fastrack";
+
+  const sessions = [
+    {
+      title: "Module Fee - Sustainability and Business",
+      price: "$500.00",
+    },
+    {
+      title:
+        "Module Fee - Strategic Leadership and HR Practices in Organizations",
+      price: "$500.00",
+    },
+    {
+      title: "Module Fee - International Marketing Management",
+      price: "$500.00",
+    },
+    {
+      title: "Module Fee - Operations and Project Management",
+      price: "$500.00",
+    },
+    { title: "Module Fee - Blockchain Fundamentals", price: "$500.00" },
+    { title: "Module Fee - Application Of Blockchain", price: "$500.00" },
+    { title: "Dissertation Guidance", price: "$650.00" },
+    { title: "Dissertation Assessment", price: "$650.00" },
+    { title: "PGD-CIQ Certification Fee", price: "$300.00" },
+    { title: "MBA-GMU Certification Fee", price: "$1000.00" },
+    { title: "CMI Certification Fee (Optional)", price: "$300.00" },
+  ];
   return (
     <>
       <Container fluid className="bg-light">
@@ -123,9 +154,75 @@ const Banner = () => {
             </div>
           </div>
 
-          <div className="col-md-5"></div>
+          <div className="col-md-5 pbox">
+            <div className="payasyouprogress-wrap shadow">
+              <div className="payprogresstitle-wrap">
+                <span>Pay as you Progress</span>
+              </div>
+              <div className="flexiblefastract-wrap p-4">
+                <div className="flex-fast-btn-wrap">
+                  <Button
+                    className={`flex-fast-btn ${
+                      FlexiblePay ? "btn-active" : ""
+                    }`}
+                    onClick={() => setPaymethode("flexible")}
+                  >
+                    Flexible
+                  </Button>
+                  <Button
+                    className={`flex-fast-btn ${
+                      FastrackPay ? "btn-active" : ""
+                    }`}
+                    onClick={() => setPaymethode("fastrack")}
+                  >
+                    Fastrack
+                  </Button>
+                </div>
+                <div>
+                  <ul className="sessions">
+                    {sessions.map((session, index) => (
+                      <li key={index}>
+                        <span className="limodules">
+                          {session.title} : <b>{session.price}</b>
+                        </span>
+                        {index === 0 && (
+                          <p>
+                            <span>(This is what you pay to Join)</span>
+                            <b>Pay Now</b>
+                          </p>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <hr />
+                <div className="text-center">
+                  <span>
+                    Total Applicable Fee : <b>$5600.00</b>
+                  </span>
+                  <br />
+                  <span style={{ color: "red", fontSize: "12px" }}>
+                    Courier Charge : $50.00
+                  </span>
+                </div>
+                <hr />
+                <div className="text-center">
+                  <span
+                    style={{
+                      color: "darkred",
+                      fontSize: "12px",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    *General Course Fee Structure
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Container>
+      <Container fluid className="p-4" />
     </>
   );
 };

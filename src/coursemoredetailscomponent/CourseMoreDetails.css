@@ -6,31 +6,144 @@
   min-height: 192px;
   color: #fff;
 }
-.dash-module-wrap .dash-module-content,.payprogressrow {
+.dash-module-wrap .dash-module-content,
+.payprogressrow {
   max-width: 1200px;
   margin: 0 auto;
   min-height: 192px;
   display: flex;
 }
-.dash-module-wrap .dash-module-content .col{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 118px;
+.dash-module-wrap .dash-module-content .col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 118px;
 }
-.dash-module-wrap .dash-module-content .col .dashcontent{
-    display: flex;
-    gap: 10px;
+.dash-module-wrap .dash-module-content .col .dashcontent {
+  display: flex;
+  gap: 10px;
 }
-.dash-module-wrap .dash-module-content .col:not(:last-child){
-    border-right: 1px solid #dee2e6;
+.dash-module-wrap .dash-module-content .col:not(:last-child) {
+  border-right: 1px solid #dee2e6;
 }
-.dash-module-wrap .dash-module-content .col .ect-btn{
-    font-size: 12px;
-    background: #fff;
-    color: var(--default);
-    border-radius: 11px;
-    border: none;
+.dash-module-wrap .dash-module-content .col .ect-btn {
+  font-size: 12px;
+  background: #fff;
+  color: var(--default);
+  border-radius: 11px;
+  border: none;
+}
+.payasyouprogress-wrap {
+  margin-top: 2rem;
+}
+.payasyouprogress-wrap .payprogresstitle-wrap {
+  background: linear-gradient(#fee000, #fcb400);
+  padding: 7px 10px;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.22);
+  color: #000;
+  font-style: italic;
+}
+.payasyouprogress-wrap .flexiblefastract-wrap {
+  background-color: #fff;
+  min-height: 200px;
+}
+.flex-fast-btn-wrap {
+  display: flex;
+}
+.flex-fast-btn-wrap .flex-fast-btn {
+  background: #fff;
+  color: var(--default);
+  border: 1px solid var(--default);
+  border-radius: 0;
+  width: 111px;
+  height: 40px;
+}
+.flex-fast-btn-wrap .flex-fast-btn.btn-active {
+  background: var(--defaultgradient);
+  color: #fff;
+  border: 1px solid var(--default);
+  border-radius: 0;
+  width: 111px;
+  height: 40px;
+}
+
+.sessions ul,
+li {
+  list-style: none;
+  padding: 0;
+}
+.sessions {
+  margin-top: 2rem;
+  padding-left: 0;
+  font-size: 13px;
+}
+.sessions li {
+  padding-bottom: 0.5rem;
+  border-left: 1px solid #ccc;
+  position: relative;
+  padding-left: 20px;
+  margin-left: 10px;
+  &:last-child {
+    border: 0px;
+    padding-bottom: 0;
+  }
+  &:before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: #fee000;
+    border-radius: 50%;
+    position: absolute;
+    left: -5px;
+    top: 0;
+  }
+}
+.sessions li p {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  color: var(--default);
+  margin-bottom: 5px;
+}
+.sessions .limodules {
+  position: relative;
+  top: -5px;
+}
+.payprogressrow .pbox{
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+}
+.course-more-module-wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.course-more-module-wrap .course-more-details-modules{
+  margin-bottom: 2rem;
+  min-height: 68px;
+}
+.course-more-module-wrap .course-more-details-modules div{
+  font-size: 20px;
+  color: var(--default);
+  text-transform: uppercase;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.course-more-details-modules div .startlearning-btn {
+  width: 125px;
+  height: 36px;
+  color: #000;
+  border: none;
+  display: none;
+  border-radius: 0;
+  background: linear-gradient(to bottom, #fee000, #fcb400 78%);
+}
+.course-more-details-modules div:hover .startlearning-btn {
+  display: block;
 }
 @media (max-width: 768px) {
   .cmd {
@@ -40,16 +153,28 @@
     flex-direction: column;
     align-items: center;
   }
-  .dash-module-wrap .dash-module-content .col{
+  .dash-module-wrap .dash-module-content .col {
     max-width: 300px;
   }
-  .dash-module-wrap .dash-module-content .col:not(:last-child){
+  .dash-module-wrap .dash-module-content .col:not(:last-child) {
     margin-bottom: 2rem;
     padding-bottom: 2rem;
   }
-  .dash-module-wrap .dash-module-content .col:not(:last-child){
+  .dash-module-wrap .dash-module-content .col:not(:last-child) {
     border-bottom: 1px solid #dee2e6;
-    border-right:none;
-
+    border-right: none;
+  }
 }
+@media (max-width: 600px) {
+.payprogressrow{
+  flex-direction: column;
+}
+.payprogressrow  .pbox{
+  padding-left: 0;
+}
+}
+@media (max-width:480px) {
+  .course-more-details-modules span{
+    font-size: 15px;
+  }
 }
