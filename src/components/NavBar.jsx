@@ -17,6 +17,8 @@ function NavBar() {
   const { pathname } = location;
   // Check if the pathname is '/login'
   const isLoginPage = pathname === "/login";
+  const isFreeTrialHome = pathname === "/FreeTrialHome";
+  console.log(isFreeTrialHome);
   if (isLoginPage) {
     return null;
   }
@@ -32,7 +34,7 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Link to="/" className="nav-link">
+            <Link to='/FreeTrialHome' className="nav-link">
               DASHBOARD
             </Link>
             <Link to="/ProjectandAssignments" className="nav-link">
