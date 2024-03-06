@@ -1,83 +1,137 @@
-.profile-sections-row{
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    gap: 2rem;
+.profile-sections-row {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 2rem;
 }
-.profile-sections-row span{
-    color: #999;
-    display: block;
-    position: relative;
-    padding: 0.2em 0;
-    cursor: pointer;
+.profile-sections-row span {
+  color: #999;
+  display: block;
+  position: relative;
+  padding: 0.2em 0;
+  cursor: pointer;
 }
-.profile-sections-row span.profile-active{
-    border-bottom: 3px solid var(--default);
-    color: #303030;
+.profile-sections-row span.profile-active {
+  border-bottom: 3px solid var(--default);
+  color: #303030;
 }
-  /* Fade in */
-  .profile-sections-row span:not(.profile-active)::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--default);
-    opacity: 0;
-    transition: opacity 300ms, transform 300ms;
+/* Fade in */
+.profile-sections-row span:not(.profile-active)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--default);
+  opacity: 0;
+  transition: opacity 300ms, transform 300ms;
+}
+
+.profile-sections-row span:not(.profile-active):hover::after {
+  opacity: 1;
+  transform: translate3d(0, 0.2em, 0);
+  height: 0.13em;
+}
+/* Slide in */
+.profile-sections-row span:not(.profile-active) {
+  overflow: hidden;
+}
+.profile-sections-row span:not(.profile-active)::after {
+  opacity: 1;
+  transform: translate3d(-100%, 0, 0);
+}
+.profile-sections-row span:not(.profile-active):hover::after {
+  transform: translate3d(0, 0, 0);
+}
+.memberprofilewrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.mptitle {
+  font-size: 40px;
+  font-weight: bold;
+}
+.mpbox1 {
+  display: flex;
+  gap: 2rem;
+}
+.profilecards {
+  display: flex;
+  gap: 1rem;
+}
+.editprofile {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.editprofile span,
+.profilecards p,
+.editprofile i {
+  color: #999;
+}
+.profile-img {
+  object-fit: cover;
+  height: 140px;
+}
+.progresscirclewrap {
+  max-width: 120px;
+  margin: auto;
+}
+.createvoice-list ,.blockedresume-wrap{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 13px;
+  gap: 5px;
+  align-items: center;
+}
+.createvoice-list span {
+  color: #6c757d;
+  max-width: 273px;
+}
+.createvoice-list a ,.blue{
+  color: blue !important;
+  min-width: 74px;
+}
+.createvoice-list a.prc {
+  font-size: 12px;
+  background: var(--defaultgradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff !important;
+  border-radius: 3px;
+  min-width: 74px;
+  height: 24px;
+}
+.blockedresume-wrap span{
+  color: var(--default);
+  border-right: 1px solid #dee2e6;
+  text-transform: uppercase;
+}
+.course-enroled-list:last-of-type + hr {
+  display: none;
+}
+.deletview-btn-wrap{
+  display: flex;
+  gap: 5px;
+}
+.deletview-btn-wrap button{
+  color: var(--default);
+}
+.plus-icon-wrap{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.plus-icon {
+  font-size: 46px;
+  line-height: 27px;
+  color: #999;
+}
+@media (max-width: 480px) {
+  .mptitle {
+    font-size: 28px;
   }
-  
-  .profile-sections-row span:not(.profile-active):hover::after {
-    opacity: 1;
-    transform: translate3d(0, 0.2em, 0);
-    height: 0.13em;
-  }
-  /* Slide in */
-  .profile-sections-row span:not(.profile-active) {
-    overflow: hidden;
-  }
-  .profile-sections-row span:not(.profile-active)::after {
-    opacity :1;
-    transform: translate3d(-100%, 0, 0);
-  }
-  .profile-sections-row span:not(.profile-active):hover::after{
-    transform: translate3d(0, 0, 0);
-  }
-  .memberprofilewrap{
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .mptitle{
-    font-size: 40px;
-    font-weight: bold;
-  }
-  .mpbox1{
-    display: flex;
-    gap: 2rem;
-  }
-  .profilecards{
-    display: flex;
-    gap: 1rem;
-  }
-  .editprofile{
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .editprofile span , .profilecards p ,.editprofile i{
-    color: #999;
-  }
-  .profile-img{
-    object-fit: cover;
-    height: 140px;
-  }
-  .progresscirclewrap{
-    max-width: 120px;
-    margin: auto;
-  }
-  @media (max-width:480px) {
-    .mptitle{
-        font-size: 28px;
-      }
-  }
+}
