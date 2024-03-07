@@ -2,6 +2,7 @@ import { Container } from "react-bootstrap";
 import "../profilecomponents/MyProfile.css";
 import { useState } from "react";
 import MemberProfile from "../profilecomponents/MemberProfile";
+import PersonalBilling from "../profilecomponents/PersonalBilling";
 
 const MyProfile = () => {
   const [myProfileSection, setMyProfileSection] = useState("Member Profile");
@@ -35,6 +36,7 @@ const MyProfile = () => {
         </div>
       </Container>
       {isMemberProfile && <MemberProfile />}
+      {(isPB || isMNP) && <PersonalBilling />}
     </>
   );
 };

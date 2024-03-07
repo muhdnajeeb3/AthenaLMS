@@ -78,7 +78,8 @@
   max-width: 120px;
   margin: auto;
 }
-.createvoice-list ,.blockedresume-wrap{
+.createvoice-list,
+.blockedresume-wrap {
   display: flex;
   justify-content: space-between;
   margin-bottom: 13px;
@@ -89,7 +90,8 @@
   color: #6c757d;
   max-width: 273px;
 }
-.createvoice-list a ,.blue{
+.createvoice-list a,
+.blue {
   color: blue !important;
   min-width: 74px;
 }
@@ -104,7 +106,7 @@
   min-width: 74px;
   height: 24px;
 }
-.blockedresume-wrap span{
+.blockedresume-wrap span {
   color: var(--default);
   border-right: 1px solid #dee2e6;
   text-transform: uppercase;
@@ -112,14 +114,14 @@
 .course-enroled-list:last-of-type + hr {
   display: none;
 }
-.deletview-btn-wrap{
+.deletview-btn-wrap {
   display: flex;
   gap: 5px;
 }
-.deletview-btn-wrap button{
+.deletview-btn-wrap button {
   color: var(--default);
 }
-.plus-icon-wrap{
+.plus-icon-wrap {
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -130,8 +132,43 @@
   line-height: 27px;
   color: #999;
 }
+/* personal billing */
+.invoice-reciept-list {
+  margin-bottom: 15px;
+}
+.invoice-reciept-list span {
+  color: var(--default);
+  font-size: 17px;
+  /* color: #5b1986 !important; */
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+}
+.invoice-reciept-list .invoice-thead th,
+.invoice-reciept-list .print-reciept-btn {
+  background-color: var(--default);
+  color: #fff;
+}
+.invoice-reciept-list .print-reciept-btn {
+  border-radius: 3px;
+  height: 29px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 101px;
+}
+@media (max-width: 768px) {
+  .mpbox1 {
+    flex-direction: column;
+  }
+}
 @media (max-width: 480px) {
   .mptitle {
     font-size: 28px;
+  }
+  .profile-img {
+    max-width: 100px;
+    height: 110px;
   }
 }
