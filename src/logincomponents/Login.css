@@ -171,6 +171,7 @@
     -moz-transition: background 0.4s;
     transition: background 0.4s;
 }
+
 @media (max-width: 1024px) {
   .navbar-nav .nav-link {
     font-size: 1.1rem;

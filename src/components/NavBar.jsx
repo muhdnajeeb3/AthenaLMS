@@ -3,9 +3,22 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "./NavBar.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signout } from "../actions/userActions";
+import { useEffect } from "react";
 
 function NavBar() {
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
+  const dispatch = useDispatch();
+  const logoutHandler = () => {
+    dispatch(signout());
+  };
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { pathname } = location;
   const NotificationBtn = (
     <img
       src="https://ulearn.uniathena.com/Images/icons/notification.svg"
@@ -13,14 +26,15 @@ function NavBar() {
       style={{ width: "20px" }}
     />
   );
-  const location = useLocation();
-  const { pathname } = location;
   // Check if the pathname is '/login'
   const isLoginPage = pathname === "/login";
-  const isFreeTrialHome = pathname === "/FreeTrialHome";
-  console.log(isFreeTrialHome);
+  // const isFreeTrialHome = pathname === "/FreeTrialHome";
   if (isLoginPage) {
     return null;
+  }
+  
+  if (!userInfo) {
+    navigate("/login");
   }
   return (
     <Navbar expand="lg" className="bg-body-tertiary" bg="light">
@@ -34,15 +48,18 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Link to='/FreeTrialHome' className="nav-link">
+            <Link to="/FreeTrialHome" className="nav-link">
               DASHBOARD
             </Link>
             <Link to="/ProjectandAssignments" className="nav-link">
               PROJECT DETAILS
             </Link>
+            <Link to="/MyOnlineClass" className="nav-link">
+              ONLINE CLASS
+            </Link>
             {/* <Nav.Link href="/">DASHBOARD</Nav.Link> */}
             {/* <Nav.Link href="#">PROJECT DETAILS</Nav.Link> */}
-            <Nav.Link href="#link">ONLINE CLASS</Nav.Link>
+            {/* <Nav.Link href="#link">ONLINE CLASS</Nav.Link> */}
             <Nav.Link href="#link">MY SURVEY</Nav.Link>
             <NavDropdown title="APPLICATIONS" id="basic-nav-dropdown">
               <NavDropdown.Item
@@ -69,7 +86,7 @@ function NavBar() {
                 className="athena-profile-pic"
                 src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
               />
-              <NavDropdown title="Muizz" id="basic-nav-dropdown">
+              <NavDropdown title={userInfo?.firstName} id="basic-nav-dropdown">
                 <NavDropdown.Item href="">
                   <Link to="/MyProfile" className="profilelist">
                     <i className="fa fa-user" />
@@ -83,7 +100,11 @@ function NavBar() {
                   </Link>
                 </NavDropdown.Item>
                 <NavDropdown.Item href="">
-                  <Link to="/login" className="profilelist">
+                  <Link
+                    to="#logout"
+                    className="profilelist"
+                    onClick={logoutHandler}
+                  >
                     <i className="fa fa-user" />
                     <span>LOGOUT</span>
                   </Link>

@@ -1,16 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { signin } from "../actions/userActions";
+import { ToastContainer, toast } from 'react-toastify';
 
 function Main() {
-  const [passwordViewer,setPasswordViewer] = useState(false)
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordViewer, setPasswordViewer] = useState(false);
+
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo, error } = userSignin;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const LoginHandler = (event) => {
     event.preventDefault();
-    alert("you clicked login")
-  }
+    dispatch(signin(username, password));
+  };
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/FreeTrialHome");
+    }
+  }, [userInfo]);
+  useEffect(() => {
+    if (error) {
+      const notify = () => toast.error(error, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        // theme: "dark",
+        // transition: Bounce,
+        });
+      notify();
+    }
+  }, [error])
+  
+
   return (
     <Container fluid>
       <Row>
+      <ToastContainer />
         <Col className="col-md-6">
           <div className="col-md-6 login-round d-flex d-md-none mt-5">
             <img
@@ -41,12 +76,12 @@ function Main() {
               <label>Email/User Name</label>
               <div id="MainContent_UpdatePanel8">
                 <input
-                  name="ctl00$MainContent$txtusername"
-                  type="email"
-                  id="MainContent_txtusername"
+                  type="text"
+                  id="email"
                   className="form-control frmfieldsize"
                   placeholder="Username"
-                  //  onchange="hasWhiteSpaces(this)"
+                  // required
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
@@ -54,14 +89,18 @@ function Main() {
               <label>Password</label>
               <div id="MainContent_UpdatePanel1">
                 <span className="btn-show-pass">
-                  <i className={`fa fa-eye${passwordViewer ? '-slash' : ""}`} onClick={()=>setPasswordViewer(!passwordViewer)}></i>
+                  <i
+                    className={`fa fa-eye${passwordViewer ? "-slash" : ""}`}
+                    onClick={() => setPasswordViewer(!passwordViewer)}
+                  ></i>
                 </span>
                 <input
-                  name="ctl00$MainContent$txtpassword"
                   type={`${passwordViewer ? "text" : "password"}`}
-                  id="MainContent_txtpassword"
+                  id="password"
                   className="form-control frmfieldsize"
-                  placeholder="Password"
+                  placeholder="Enter Password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
                   // onchange="hasWhiteSpaces(this)"
                 />
               </div>

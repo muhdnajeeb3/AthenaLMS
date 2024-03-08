@@ -1,4 +1,5 @@
 import { Button, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const ExploreCourses = () => {
   return (
@@ -144,12 +145,13 @@ const ExploreCourses = () => {
           <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
         <div className="flex w-100">
-          <Button
+          <Link
+          to='/ExploreCourses'
             className="dreadmore-btn"
             style={{ borderRadius: "0", margin: "0 0 0 auto" }}
           >
             Explore All Courses
-          </Button>
+          </Link>
         </div>
       </div>
     </Container>

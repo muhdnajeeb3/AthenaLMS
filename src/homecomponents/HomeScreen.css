@@ -621,6 +621,28 @@ width: 127px;  border: none;
  display: flex;
  gap: 10px;
 }
+/* myonline class */
+.upcomingdate-wrap{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.upcomingdate-wrap select{
+  width: 160px;
+  max-width: 160px;
+  border: 1px solid #666;
+  height: 40px;
+}
+.listgridselect-wrap{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.listgridselect-wrap div{
+  display: flex;
+  gap: 5px;
+  padding-bottom: 1rem;
+}
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
     font-size: 38px;

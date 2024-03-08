@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const Banner = () => {
+const Banner = ({ CourseDetails }) => {
   const [showmore, setShowmore] = useState(false);
   const ShowHideHandler = () => {
     setShowmore(!showmore);
@@ -30,96 +30,105 @@ const Banner = () => {
                   height: "44px",
                 }}
               >
-                Go to Course Home
+                {CourseDetails ? "Pay Now" : "Go to Course Home"}
               </Button>
             </div>
           </div>
         </div>
       </Container>
-      <Container fluid className="py-4 milestone-container">
-        <div className="milestonewrap">
-          <div>
-            <h5>Your Planned Schedule for this Module</h5>
+      {!CourseDetails && (
+        <Container fluid className="py-4 milestone-container">
+          <div className="milestonewrap">
+            <div>
+              <h5>Your Planned Schedule for this Module</h5>
+            </div>
+            <div className="milestoneitemsrow">
+              <hr />
+              <Col>
+                <span className="unittitle">
+                  <b>Started</b>
+                </span>
+                <div className="milestonecompleted" />
+                <span className="unittitle">
+                  <b>21-03-2023</b>
+                </span>
+              </Col>
+              <Col>
+                <span className="unittitle">
+                  <b>Unit 2 Assignment</b>
+                </span>
+                <div className="milestonecompleted" />
+                <span className="unittitle">
+                  <b>25-04-2023</b>
+                </span>
+                <Button className="dreadmore-btn unittitle">
+                  Improvement Submitted
+                </Button>
+              </Col>
+              <Col>
+                <span className="unittitle">
+                  <b>Unit 5 Assignment</b>
+                </span>
+                <div className="milestonecompleted" />
+                <span className="unittitle">
+                  <b>25-04-2023</b>
+                </span>
+                <Button className="dreadmore-btn unittitle">
+                  Improvement Submitted
+                </Button>
+              </Col>
+              <Col>
+                <span className="unittitle">
+                  <b>Unit 9 Assignment</b>
+                </span>
+                <div className="milestonecompleted" />
+                <span className="unittitle">
+                  <b>25-04-2023</b>
+                </span>
+                <Button className="dreadmore-btn unittitle">
+                  Improvement Submitted
+                </Button>
+              </Col>
+              <Col>
+                <span className="unittitle">
+                  <b>Unit 10 Assignment</b>
+                </span>
+                <div className="milestonecompleted" />
+                <span className="unittitle">
+                  <b>25-04-2023</b>
+                </span>
+                <Button className="dreadmore-btn unittitle">
+                  Pending Resubmission
+                </Button>
+              </Col>
+              <Col>
+                <span className="unittitle">
+                  <b>Completed</b>
+                </span>
+                <div className="milestonecompleted" />
+                <span className="unittitle">
+                  <b>21-08-2023</b>
+                </span>
+              </Col>
+            </div>
           </div>
-          <div className="milestoneitemsrow">
-            <hr />
-            <Col>
-              <span className="unittitle">
-                <b>Started</b>
-              </span>
-              <div className="milestonecompleted" />
-              <span className="unittitle">
-                <b>21-03-2023</b>
-              </span>
-            </Col>
-            <Col>
-              <span className="unittitle">
-                <b>Unit 2 Assignment</b>
-              </span>
-              <div className="milestonecompleted" />
-              <span className="unittitle">
-                <b>25-04-2023</b>
-              </span>
-              <Button
-                className="dreadmore-btn unittitle"
-              >
-                Improvement Submitted
-              </Button>
-            </Col>
-            <Col>
-              <span className="unittitle">
-                <b>Unit 5 Assignment</b>
-              </span>
-              <div className="milestonecompleted" />
-              <span className="unittitle">
-                <b>25-04-2023</b>
-              </span>
-              <Button
-                className="dreadmore-btn unittitle"
-              >
-                Improvement Submitted
-              </Button>
-            </Col>
-            <Col>
-              <span className="unittitle">
-                <b>Unit 9 Assignment</b>
-              </span>
-              <div className="milestonecompleted" />
-              <span className="unittitle">
-                <b>25-04-2023</b>
-              </span>
-              <Button
-                className="dreadmore-btn unittitle"
-              >
-                Improvement Submitted
-              </Button>
-            </Col>
-            <Col>
-              <span className="unittitle">
-                <b>Unit 10 Assignment</b>
-              </span>
-              <div className="milestonecompleted" />
-              <span className="unittitle">
-                <b>25-04-2023</b>
-              </span>
-              <Button
-                className="dreadmore-btn unittitle"
-              >
-                Pending Resubmission
-              </Button>
-            </Col>
-            <Col>
-              <span className="unittitle">
-                <b>Completed</b>
-              </span>
-              <div className="milestonecompleted" />
-              <span className="unittitle">
-                <b>21-08-2023</b>
-              </span>
-            </Col>
-          </div>
-        </div>
-      </Container>
+        </Container>
+      )}
+      {CourseDetails && (
+        <Container
+          fluid
+          className="module-list"
+          style={{
+            justifyContent: "center",
+            display: "flex",
+            padding: "2rem",
+          }}
+        >
+          <Button className="quizz-assign-btn" variant="">
+            View Assignment
+          </Button>
+        </Container>
+      )}
       <Container fluid className="py-4 bg-light">
         <div className="moduledetailwrap pt-4">
           <div className="col-md-9">
@@ -211,9 +220,9 @@ const Banner = () => {
                   <li
                     style={{
                       justifyContent: "flex-start",
-                      flexDirection:'column',
+                      flexDirection: "column",
                       borderBottom: "none",
-                      marginTop:'1rem'
+                      marginTop: "1rem",
                     }}
                   >
                     <Button className="quizz-assign-btn" variant="">
@@ -319,7 +328,9 @@ const Banner = () => {
                 />
               </div>
               <div>
-                <h6><b>My Study Goal</b></h6>
+                <h6>
+                  <b>My Study Goal</b>
+                </h6>
                 <p>
                   Learners who set a goal are more likely to complete their
                   course on time or before time{" "}

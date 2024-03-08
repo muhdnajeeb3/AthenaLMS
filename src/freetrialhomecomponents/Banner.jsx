@@ -195,7 +195,7 @@ const Banner = () => {
                       <span>RESUME LEARNING</span>
                     </Button>
                   </Link>
-                  <Link to="/ModuleDetails">
+                  <Link to="/CourseDetails">
                     <Button className="goto-course" variant="">
                       <img
                         src="https://ulearn.uniathena.com/Images/icons/cursor.svg"
