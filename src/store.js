@@ -5,16 +5,29 @@ import {
   legacy_createStore as createStore,
 } from "redux";
 import { thunk } from "redux-thunk";
-import { userSigninReducer } from "./reducers/userReducers";
+import {
+  studentLoginReducer,
+  userSigninReducer,
+} from "./reducers/userReducers";
+import { encrIptDecryptReducer } from "./reducers/ecriptDecriptReducers";
 
 const initialState = {
-  userSignin:{
-    userInfo:localStorage.getItem('userInfo')? JSON.parse(localStorage.getItem('userInfo')) : null
-  }
+  userSignin: {
+    userInfo: localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : null,
+  },
+  studentLogin: {
+    userInfo: localStorage.getItem("studentInfo")
+      ? JSON.parse(localStorage.getItem("studentInfo"))
+      : null,
+  },
 };
 const reducer = combineReducers({
-    userSignin: userSigninReducer
-})
+  userSignin: userSigninReducer,
+  encriptDecrypt: encrIptDecryptReducer,
+  studentLogin: studentLoginReducer,
+});
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,

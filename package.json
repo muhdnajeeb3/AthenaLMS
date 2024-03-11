@@ -1,5 +1,6 @@
 {
   "name": "uniathena",
+  "homepage": "lms.schneidestaging.in",
   "private": true,
   "version": "0.0.0",
   "type": "module",

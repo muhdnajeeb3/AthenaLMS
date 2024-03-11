@@ -21,7 +21,8 @@ function App() {
     <BrowserRouter>
      <NavBar />
     <Routes>
-      <Route path="/" element={<HomeScreen />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/EnrolledHome" element={<HomeScreen />} />
       <Route path="/FreeTrialHome" element={<FreeTrialHome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/ProjectandAssignments" element={<ProjectDetails />} />

@@ -6,14 +6,36 @@ import "./NavBar.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../actions/userActions";
-import { useEffect } from "react";
 
 function NavBar() {
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
+
+  // const studentLogin = useSelector((state) => state.studentLogin);
+  // const { studentInfo } = studentLogin;
+
+  // console.log(studentInfo);
+  // const resultString = studentInfo[0].result;
+
+  // // Parsing the JSON string to get the array of objects
+  // const resultArray = JSON.parse(resultString);
+  
+  // // Accessing the first object in the array
+  // const firstResultObject = resultArray[0];
+  
+  // // Extracting Email, Password, and IsActive values from the first object
+  // const Email = firstResultObject.Email;
+  // const Password = firstResultObject.Password;
+  // const IsActive = firstResultObject.IsActive;
+  
+  // console.log("Email:", Email);
+  // console.log("Password:", Password);
+  // console.log("IsActive:", IsActive);
+
   const dispatch = useDispatch();
-  const logoutHandler = () => {
-    dispatch(signout());
+  const logoutHandler = async() => {
+    await dispatch(signout());
+    await navigate("/login");
   };
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,14 +50,12 @@ function NavBar() {
   );
   // Check if the pathname is '/login'
   const isLoginPage = pathname === "/login";
+  const Homepage = pathname === "/";
   // const isFreeTrialHome = pathname === "/FreeTrialHome";
-  if (isLoginPage) {
+  if (isLoginPage || Homepage) {
     return null;
   }
-  
-  if (!userInfo) {
-    navigate("/login");
-  }
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary" bg="light">
       <Container style={{ maxWidth: "1200px" }}>
@@ -86,8 +106,8 @@ function NavBar() {
                 className="athena-profile-pic"
                 src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
               />
-              <NavDropdown title={userInfo?.firstName} id="basic-nav-dropdown">
-                <NavDropdown.Item href="">
+              <NavDropdown title={userInfo?.firstName ? userInfo?.firstName : 'Muizz'} id="basic-nav-dropdown">
+                <NavDropdown.Item href="" >
                   <Link to="/MyProfile" className="profilelist">
                     <i className="fa fa-user" />
                     <span>MY PROFILE</span>

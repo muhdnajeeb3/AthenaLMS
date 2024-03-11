@@ -2,50 +2,80 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { signin } from "../actions/userActions";
-import { ToastContainer, toast } from 'react-toastify';
+import { signin, studentlogin } from "../actions/userActions";
+import { ToastContainer, toast } from "react-toastify";
+import { EncriptDecrypt } from "../actions/encriptDecrypt";
 
 function Main() {
-  const [username, setUsername] = useState("");
+  const [Email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordViewer, setPasswordViewer] = useState(false);
 
-  const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo, error } = userSignin;
+  // const userSignin = useSelector((state) => state.userSignin);
+  // const { userInfo, error } = userSignin;
+
+  const studentLogin = useSelector((state) => state.studentLogin);
+  const { studentInfo,error } = studentLogin;
+  let IsActive;
+  if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
+    const resultString = studentInfo[0].result;
+    const resultArray = JSON.parse(resultString);
+
+    if (resultArray && resultArray.length > 0) {
+      const firstResultObject = resultArray[0];
+      IsActive = firstResultObject.IsActive;
+
+      console.log("IsActive:", IsActive);
+    }
+  }
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const LoginHandler = (event) => {
+  const AthenaUsername = "Athena";
+  const AthenaPassword = "Athena@123$";
+  const Type = "Encript";
+  const LoginHandler = async (event) => {
     event.preventDefault();
-    dispatch(signin(username, password));
-  };
-  useEffect(() => {
-    if (userInfo) {
-      navigate("/FreeTrialHome");
+
+    try {
+      await dispatch(signin(AthenaUsername, AthenaPassword));
+
+      await dispatch(EncriptDecrypt(password, Type));
+
+      await dispatch(studentlogin(Email));
+    } catch (error) {
+      // Handle any errors that might occur during the dispatch of actions
+      console.error("Error in LoginHandler:", error);
     }
-  }, [userInfo]);
+  };
+
+  useEffect(() => {
+    if (IsActive) {
+      navigate("/EnrolledHome");
+    }
+  }, [IsActive]);
   useEffect(() => {
     if (error) {
-      const notify = () => toast.error(error, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        // theme: "dark",
-        // transition: Bounce,
+      const notify = () =>
+        toast.error(error, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          // theme: "dark",
+          // transition: Bounce,
         });
       notify();
     }
-  }, [error])
-  
+  }, [error]);
 
   return (
     <Container fluid>
       <Row>
-      <ToastContainer />
+        <ToastContainer />
         <Col className="col-md-6">
           <div className="col-md-6 login-round d-flex d-md-none mt-5">
             <img
@@ -76,12 +106,12 @@ function Main() {
               <label>Email/User Name</label>
               <div id="MainContent_UpdatePanel8">
                 <input
-                  type="text"
+                  type="email"
                   id="email"
                   className="form-control frmfieldsize"
-                  placeholder="Username"
-                  // required
-                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Email"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>

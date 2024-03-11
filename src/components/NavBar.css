@@ -29,6 +29,9 @@
 .profiledrop .profilelist i {
   color: var(--default);
 }
+.dropdown-item:active {
+  background-color: transparent !important;
+}
 @media (min-width: 1038px) {
   .navbar-nav .nav-link {
     padding: 9px 14px !important;
