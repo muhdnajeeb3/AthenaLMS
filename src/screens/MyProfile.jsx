@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 import "../profilecomponents/MyProfile.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MemberProfile from "../profilecomponents/MemberProfile";
 import PersonalBilling from "../profilecomponents/PersonalBilling";
 
@@ -9,6 +9,10 @@ const MyProfile = () => {
   const isMemberProfile = myProfileSection === "Member Profile";
   const isPB = myProfileSection === "Personal Billing";
   const isMNP = myProfileSection === "Manage Notification Preferences";
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Container fluid className="bg-light py-5">

@@ -163,6 +163,40 @@ ul.module-list li:hover .openlesson-btn {
   padding-left: 3rem;
   padding-right: 3rem;
 }
+.moduledetailwrap .arrow-showhide-moduledetail-btn{
+  background: #fff;
+    color: #f00096;
+    position: absolute;
+    right: 0;
+    top: -2.2rem;
+    letter-spacing: -2px;
+    max-width: 53px;
+    max-height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+.accordion-button:not(.collapsed) {
+  background: #fff !important;
+}
+.accordion-button::after {
+  background-image: url("https://ulearn.uniathena.com/Images/icons/down-chevron.svg") !important;
+}
+.accordion-button:focus {
+  box-shadow: var(--default) !important;
+}
+.accordion-button,.accordion-body{
+  padding-left: 5px !important;
+  padding-right: 10px !important;
+}
+.accordion {
+  --bs-accordion-border-color: none !important;
+  --bs-accordion-border-radius: none !important;
+}
+.accordion-item {
+  border-bottom: 1px solid #dee2e6 !important;
+}
 @media (max-width: 767px) {
   .moduledetailwrap {
     flex-direction: column;

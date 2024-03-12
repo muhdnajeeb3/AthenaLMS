@@ -32,6 +32,11 @@
 .dropdown-item:active {
   background-color: transparent !important;
 }
+.dropdown-item.mail{
+text-transform: uppercase !important;
+font-size: 13px;
+font-weight: bold;
+}
 @media (min-width: 1038px) {
   .navbar-nav .nav-link {
     padding: 9px 14px !important;

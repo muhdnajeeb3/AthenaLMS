@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Button, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Accordion from "react-bootstrap/Accordion";
 
 const Banner = ({ CourseDetails }) => {
   const [showmore, setShowmore] = useState(false);
+  const [sidebarShow, setSidebarShow] = useState(false);
+  const sidebarShowHideHandler = () => {
+    setSidebarShow(!sidebarShow);
+  };
   const ShowHideHandler = () => {
     setShowmore(!showmore);
     console.log(showmore);
@@ -36,7 +41,7 @@ const Banner = ({ CourseDetails }) => {
           </div>
         </div>
       </Container>
-      {!CourseDetails && (
+      {!CourseDetails && !sidebarShow && (
         <Container fluid className="py-4 milestone-container">
           <div className="milestonewrap">
             <div>
@@ -114,7 +119,7 @@ const Banner = ({ CourseDetails }) => {
           </div>
         </Container>
       )}
-      {CourseDetails && (
+      {CourseDetails && !sidebarShow && (
         <Container
           fluid
           className="module-list"
@@ -130,7 +135,20 @@ const Banner = ({ CourseDetails }) => {
         </Container>
       )}
       <Container fluid className="py-4 bg-light">
-        <div className="moduledetailwrap pt-4">
+        <div className="moduledetailwrap pt-4" style={{ position: "relative" }}>
+          <Button
+            className="arrow-showhide-moduledetail-btn shadow"
+            variant=""
+            onClick={sidebarShowHideHandler}
+          >
+            <span
+              style={{
+                transform: sidebarShow ? "rotate(270deg)" : "rotate(90deg)",
+              }}
+            >
+              {">>"}
+            </span>
+          </Button>
           <div className="col-md-9">
             <div className="bg-white shadow">
               <div
@@ -315,6 +333,71 @@ const Banner = ({ CourseDetails }) => {
                   then proceed to extract value and provide insights on the data
                   to predict results thereby benefiting the organization.
                 </p>
+              </div>
+            </div>
+            {/* FREQUENTLY ASKED QUESTIONS */}
+            <div className="bg-white shadow my-5 careerhelp">
+              <div className=" py-4 course-modules-wrap">
+                <div className="course-modules w-100 mb-3">
+                  <h3>
+                    <b>FREQUENTLY ASKED QUESTIONS</b>
+                  </h3>
+                  <hr />
+                </div>
+                <div className="py-2">
+                  <Accordion>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>
+                        1. What is the eligibility for the program?
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in
+                        reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                        non proident, sunt in culpa qui officia deserunt mollit
+                        anim id est laborum.
+                      </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="1">
+                      <Accordion.Header>
+                        2. What are the mandatory documents required for
+                        admission?
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in
+                        reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                        non proident, sunt in culpa qui officia deserunt mollit
+                        anim id est laborum.
+                      </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="2">
+                      <Accordion.Header>
+                        3. What are the mandatory documents required for
+                        admission?
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in
+                        reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                        non proident, sunt in culpa qui officia deserunt mollit
+                        anim id est laborum.
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
               </div>
             </div>
           </div>

@@ -19,21 +19,21 @@ function NavBar() {
 
   // // Parsing the JSON string to get the array of objects
   // const resultArray = JSON.parse(resultString);
-  
+
   // // Accessing the first object in the array
   // const firstResultObject = resultArray[0];
-  
+
   // // Extracting Email, Password, and IsActive values from the first object
   // const Email = firstResultObject.Email;
   // const Password = firstResultObject.Password;
   // const IsActive = firstResultObject.IsActive;
-  
+
   // console.log("Email:", Email);
   // console.log("Password:", Password);
   // console.log("IsActive:", IsActive);
 
   const dispatch = useDispatch();
-  const logoutHandler = async() => {
+  const logoutHandler = async () => {
     await dispatch(signout());
     await navigate("/login");
   };
@@ -98,7 +98,12 @@ function NavBar() {
             </Link>
             {/* <Nav.Link href="#link">E-LIBRARY</Nav.Link> */}
             <NavDropdown title={NotificationBtn} id="basic-nav-dropdown">
-              <NavDropdown.Item href="#">Quick Apllication</NavDropdown.Item>
+              <NavDropdown.Item href="#" className="mail">
+                <Link to="/InboxMails">2 new Mails</Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item href="" className="mail">
+                <Link to="/InboxMails">13 new unread Mails</Link>
+              </NavDropdown.Item>
             </NavDropdown>
             <div className="mt-1 profiledrop">
               <img
@@ -106,8 +111,11 @@ function NavBar() {
                 className="athena-profile-pic"
                 src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
               />
-              <NavDropdown title={userInfo?.firstName ? userInfo?.firstName : 'Muizz'} id="basic-nav-dropdown">
-                <NavDropdown.Item href="" >
+              <NavDropdown
+                title={userInfo?.firstName ? userInfo?.firstName : "Muizz"}
+                id="basic-nav-dropdown"
+              >
+                <NavDropdown.Item href="">
                   <Link to="/MyProfile" className="profilelist">
                     <i className="fa fa-user" />
                     <span>MY PROFILE</span>

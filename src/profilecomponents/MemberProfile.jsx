@@ -253,25 +253,25 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Master In Data Sciences</span>
-                  <Link to="">Click Here</Link>
+                  <Link to="" className="prc">Click Here</Link>
                 </div>
                 <div className="createvoice-list">
                   <span className="">
                     Master of Business Administration - Blockchain Management
                   </span>
-                  <Link to="">Click Here</Link>
+                  <Link to="" className="prc">Click Here</Link>
                 </div>
                 <div className="createvoice-list">
                   <span className="">
                     Master of International Business Administration
                   </span>
-                  <Link to="">Click Here</Link>
+                  <Link to="" className="prc">Click Here</Link>
                 </div>
                 <div className="createvoice-list">
                   <span className="">
                     Master of International Business Administration
                   </span>
-                  <Link to="">Click Here</Link>
+                  <Link to="" className="prc">Click Here</Link>
                 </div>
               </div>
             </div>
@@ -285,14 +285,14 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Certified Manager</span>
-                  <Link to="">Click Here</Link>
+                  <Link to="" className="prc">Click Here</Link>
                 </div>
                 <div className="createvoice-list">
                   <span className="">
                     Postgraduate Certificate In International Human Resource
                     Management
                   </span>
-                  <Link to="">Click Here</Link>
+                  <Link to="" className="prc">Click Here</Link>
                 </div>
               </div>
             </div>
@@ -306,7 +306,7 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Certified Manager</span>
-                  <Link to="">Click Here</Link>
+                  <Link to="" className="prc">Click Here</Link>
                 </div>
               </div>
             </div>
@@ -450,7 +450,7 @@ const MemberProfile = () => {
                   </h6>
                   <div className="blockedresume-wrap">
                     <span className="col-md-6">Blocked</span>
-                    <Link to="">RESUME LEARNING</Link>
+                    <Link to="">Resume Learning</Link>
                   </div>
                 </div>
                 <hr />
@@ -466,7 +466,7 @@ const MemberProfile = () => {
                   </h6>
                   <div className="blockedresume-wrap">
                     <span className="col-md-6">Blocked</span>
-                    <Link to="">RESUME LEARNING</Link>
+                    <Link to="">Resume Learning</Link>
                   </div>
                 </div>
                 <hr />
@@ -482,7 +482,7 @@ const MemberProfile = () => {
                   </h6>
                   <div className="blockedresume-wrap">
                     <span className="col-md-6">Blocked</span>
-                    <Link to="">RESUME LEARNING</Link>
+                    <Link to="">Resume Learning</Link>
                   </div>
                 </div>
                 <hr />
@@ -498,7 +498,7 @@ const MemberProfile = () => {
                   </h6>
                   <div className="blockedresume-wrap">
                     <span className="col-md-6">Blocked</span>
-                    <Link to="">RESUME LEARNING</Link>
+                    <Link to="">Resume Learning</Link>
                   </div>
                 </div>
                 <hr />

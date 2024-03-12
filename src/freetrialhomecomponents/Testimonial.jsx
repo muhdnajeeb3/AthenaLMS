@@ -7,14 +7,14 @@ const Testimonial = () => {
   var settings = {
     dots: false,
     infinite: true,
-    speed: 1000,
+    speed: 2000,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
     prevArrow: <PrevButton />,
     nextArrow:<NextButton />,
-    // autoplay: true,
-    autoplaySpeed: 3000,
+    autoplay: true,
+    autoplaySpeed: 4000,
     cssEase: "linear",
   };
   return (

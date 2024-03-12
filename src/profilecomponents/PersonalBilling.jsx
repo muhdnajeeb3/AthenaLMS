@@ -6,10 +6,19 @@ const PersonalBilling = () => {
   const [selectedPaymentTitle, setSelectedPaymentTitle] = useState(null);
 
   const handleTitleClick = (index) => {
-    setSelectedTitle(index);
+    if (selectedTitle === index) {
+      setSelectedTitle(null); 
+    } else {
+      setSelectedTitle(index);
+    }
   };
+
   const handlePaymentTitleClick = (index) => {
-    setSelectedPaymentTitle(index);
+    if (selectedPaymentTitle === index) {
+      setSelectedPaymentTitle(null); 
+    } else {
+      setSelectedPaymentTitle(index);
+    }
   };
   const invoiceData = [
     {

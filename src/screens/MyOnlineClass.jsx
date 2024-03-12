@@ -1,6 +1,10 @@
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 
 const MyOnlineClass = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Container fluid className="bg-light">
       <div className="pdrow">

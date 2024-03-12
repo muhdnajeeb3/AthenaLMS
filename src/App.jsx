@@ -13,6 +13,7 @@ import CourseMoreDetails from "./screens/CourseMoreDetails"
 import MyOnlineClass from "./screens/MyOnlineClass"
 import ExploreCourses from "./screens/ExploreCourses"
 import CourseDetails from "./screens/CourseDetails"
+import InboxMails from "./screens/InboxMails"
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
       <Route path="/CourseMoreDetails" element={<CourseMoreDetails />} />
       <Route path="/MyOnlineClass" element={<MyOnlineClass />} />
       <Route path="/ExploreCourses" element={<ExploreCourses />} />
+      <Route path="/InboxMails" element={<InboxMails />} />
     </Routes>
     <Footer />
     </BrowserRouter>

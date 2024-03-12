@@ -643,6 +643,14 @@ width: 127px;  border: none;
   gap: 5px;
   padding-bottom: 1rem;
 }
+.inboxmailrow{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.inboxmailrow table tr td:nth-child(2){
+  cursor: pointer;
+}
+
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
     font-size: 38px;
@@ -703,6 +711,13 @@ width: 127px;  border: none;
     order: 1;
   }
 }
+@media (min-width: 576px){
+.inboxmailpopup .modal-dialog {
+    max-width: 900px;
+}
+}
+
+
 @media (max-width: 480px) {
   .homebannerrow .newmailwrapper {
     flex-direction: column;

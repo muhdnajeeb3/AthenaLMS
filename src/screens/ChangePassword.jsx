@@ -1,6 +1,10 @@
 import { Button, Container } from "react-bootstrap";
 import "../homecomponents/HomeScreen.css";
+import { useEffect } from "react";
 const ChangePassword = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Container fluid className="changepassword-bg py-5">
       <Container className="pt-5">

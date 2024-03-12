@@ -1,12 +1,15 @@
 import { Button, Container } from "react-bootstrap"
 import Testimonial from "../freetrialhomecomponents/Testimonial"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ExploreCourses = () => {
     const [myProfileSection, setMyProfileSection] = useState("Doctoral");
   const isMemberProfile = myProfileSection === "Doctoral";
   const isPB = myProfileSection === "Master Degree";
   const isMNP = myProfileSection === "PG Diploma";
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
     <Container fluid className="bg-white py-5">

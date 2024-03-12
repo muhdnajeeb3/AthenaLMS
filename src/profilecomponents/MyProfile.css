@@ -158,6 +158,13 @@
   justify-content: center;
   min-width: 101px;
 }
+.course-enroled-list .blockedresume-wrap a{
+  text-transform: capitalize ;
+  border: 1px solid var(--default);
+    padding: 7px;
+    border-radius: 5px;
+    color: var(--default) !important;
+}
 @media (max-width: 768px) {
   .mpbox1 {
     flex-direction: column;
