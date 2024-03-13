@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Modal } from "react-bootstrap";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { Link } from "react-router-dom";
+import EducationDetailsForm from "./EducationDetailsForm";
+import WorkExperienceForm from "./WorkExperienceForm";
 
 const MemberProfile = () => {
   const [counters, setCounters] = useState({
@@ -9,6 +11,19 @@ const MemberProfile = () => {
     counterOne: 0,
     counterTwo: 0,
   });
+  const [showPopupED, setShowPopupED] = useState(false);
+  const [showPopupWE, setShowPopupWE] = useState(false);
+  const [showPopupOD, setShowPopupOD] = useState(false);
+
+  const handleClose = () => setShowPopupED(false);
+  const handleShow = () => setShowPopupED(true);
+
+  const handleCloseWE = () => setShowPopupWE(false);
+  const handleShowWE = () => setShowPopupWE(true);
+
+  const handleCloseOD = () => setShowPopupOD(false);
+  const handleShowOD = () => setShowPopupOD(true);
+
   const { counter } = counters;
 
   const incrementCounter = (counterKey, length, precision) => {
@@ -70,13 +85,13 @@ const MemberProfile = () => {
             </div>
             {/* Educational Qualfication */}
             <div className="practicalinfo bg-white shadow p-4 pb-2 mb-3">
-              <div
-                className="practicalinfo-title w-100 mb-3 plus-icon-wrap"
-              >
+              <div className="practicalinfo-title w-100 mb-3 plus-icon-wrap">
                 <h5>
                   <b>Education Qualification</b>
                 </h5>
-                <span className="plus-icon">+</span>
+                <span className="plus-icon" onClick={handleShow}>
+                  +
+                </span>
               </div>
               <div>
                 <div className="createvoice-list">
@@ -129,15 +144,21 @@ const MemberProfile = () => {
                 <hr />
               </div>
             </div>
+            {showPopupED && (
+              <EducationDetailsForm
+                handleClose={handleClose}
+                showPopupED={showPopupED}
+              />
+            )}
             {/* work expereince */}
             <div className="practicalinfo bg-white shadow p-4 pb-2 mb-3">
-              <div
-                className="practicalinfo-title w-100 mb-3 plus-icon-wrap"
-              >
+              <div className="practicalinfo-title w-100 mb-3 plus-icon-wrap">
                 <h5>
                   <b>Work Experience</b>
                 </h5>
-                <span className="plus-icon">+</span>
+                <span className="plus-icon" onClick={handleShowWE}>
+                  +
+                </span>
               </div>
               <div>
                 <div className="createvoice-list">
@@ -190,34 +211,82 @@ const MemberProfile = () => {
                 <hr />
               </div>
             </div>
+            {showPopupWE && (
+              <WorkExperienceForm
+                handleClose={handleCloseWE}
+                showPopupED={showPopupWE}
+              />
+            )}
+
             {/* additional doc */}
             <div className="practicalinfo bg-white shadow p-4 pb-2 mb-3">
-              <div
-                className="practicalinfo-title w-100 mb-3 plus-icon-wrap"
-              >
+              <div className="practicalinfo-title w-100 mb-3 plus-icon-wrap">
                 <h5>
                   <b>Additional Documents</b>
                 </h5>
-                <span className="plus-icon">+</span>
+                <span className="plus-icon" onClick={handleShowOD}>
+                  +
+                </span>
               </div>
               <div>
                 <div className="createvoice-list">
                   <div>
-                    <span className="">Photo : <span className="blue">23617_lap.png</span></span>
+                    <span className="">
+                      Photo : <span className="blue">23617_lap.png</span>
+                    </span>
                   </div>
                 </div>
                 <div className="createvoice-list">
                   <div>
-                    <span className="">Passport/Photo ID card copy with Date of Birth : <span className="blue">23617_lap.png</span></span>
+                    <span className="">
+                      Passport/Photo ID card copy with Date of Birth :{" "}
+                      <span className="blue">23617_lap.png</span>
+                    </span>
                   </div>
                 </div>
                 <div className="createvoice-list">
                   <div>
-                    <span className="">Photo : <span className="blue">23617_lap.png</span></span>
+                    <span className="">
+                      Photo : <span className="blue">23617_lap.png</span>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
+            <Modal show={showPopupOD} onHide={handleCloseOD} className="myprofileeditform">
+              <Modal.Header closeButton>
+                <Modal.Title>Other Documents</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <form action="" className="ed-details-form">
+                  <div className="cpform-group">
+                    <label>File Type</label>
+                    <select
+                      placeholder="Qualification Level..."
+                      className="cpform-control"
+                    >
+                      <option value="Select">Select</option>
+                      <option value="Master degree or above">Other</option>
+                    </select>
+                  </div>
+                  <div className="cpform-group">
+                    <label>Upload your File</label>
+                    <input className="cpform-control" type="file" />
+                    <div className="flex">
+                      <em className="m-auto">
+                        {" "}
+                        Upload File size must under 5MB!
+                      </em>
+                    </div>
+                  </div>
+                </form>
+              </Modal.Body>
+              <Modal.Footer className="completed-btnwrap">
+                <Button variant="primary" onClick={handleClose}>
+                  Save
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
           <div className="col-md-4">
             <div className="practicalinfo bg-white shadow p-4 mb-3">
@@ -253,25 +322,33 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Master In Data Sciences</span>
-                  <Link to="" className="prc">Click Here</Link>
+                  <Link to="" className="prc">
+                    Click Here
+                  </Link>
                 </div>
                 <div className="createvoice-list">
                   <span className="">
                     Master of Business Administration - Blockchain Management
                   </span>
-                  <Link to="" className="prc">Click Here</Link>
+                  <Link to="" className="prc">
+                    Click Here
+                  </Link>
                 </div>
                 <div className="createvoice-list">
                   <span className="">
                     Master of International Business Administration
                   </span>
-                  <Link to="" className="prc">Click Here</Link>
+                  <Link to="" className="prc">
+                    Click Here
+                  </Link>
                 </div>
                 <div className="createvoice-list">
                   <span className="">
                     Master of International Business Administration
                   </span>
-                  <Link to="" className="prc">Click Here</Link>
+                  <Link to="" className="prc">
+                    Click Here
+                  </Link>
                 </div>
               </div>
             </div>
@@ -285,14 +362,18 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Certified Manager</span>
-                  <Link to="" className="prc">Click Here</Link>
+                  <Link to="" className="prc">
+                    Click Here
+                  </Link>
                 </div>
                 <div className="createvoice-list">
                   <span className="">
                     Postgraduate Certificate In International Human Resource
                     Management
                   </span>
-                  <Link to="" className="prc">Click Here</Link>
+                  <Link to="" className="prc">
+                    Click Here
+                  </Link>
                 </div>
               </div>
             </div>
@@ -306,7 +387,9 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Certified Manager</span>
-                  <Link to="" className="prc">Click Here</Link>
+                  <Link to="" className="prc">
+                    Click Here
+                  </Link>
                 </div>
               </div>
             </div>

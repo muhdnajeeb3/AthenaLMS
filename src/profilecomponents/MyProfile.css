@@ -53,7 +53,7 @@
 }
 .mpbox1 {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
 }
 .profilecards {
   display: flex;
@@ -131,6 +131,7 @@
   font-size: 46px;
   line-height: 27px;
   color: #999;
+  cursor: pointer;
 }
 /* personal billing */
 .invoice-reciept-list {
@@ -165,11 +166,53 @@
     border-radius: 5px;
     color: var(--default) !important;
 }
+.ed-details-form{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.ed-details-form .cpform-group{
+  width: 32%;
+  margin: 1rem 0;
+}
+.ed-details-form .cpform-group.dcgroup{
+  width: 49%;
+}
+.ed-details-form .cpform-group .cpform-control {
+  min-height: auto !important;
+}
+.formcheck input{
+  min-height: auto;
+}
+.ed-details-form .form-check-input:checked {
+  background-color: var(--default);
+  border-color: var(--default);
+}
+@media (max-width:900px) {
+  .ed-details-form .cpform-group label {
+    font-size: 14px !important;
+  }
+  .mpbox1 {
+    gap: 10px;
+  }
+}
 @media (max-width: 768px) {
   .mpbox1 {
     flex-direction: column;
   }
+  .ed-details-form .cpform-group{
+    width: 47%;
+  }
+  .ed-details-form .cpform-group label {
+    font-size: 11px !important;
+  }
 }
+@media (min-width: 576px){
+  .myprofileeditform .modal-dialog {
+      max-width: 900px;
+  }
+  }
 @media (max-width: 480px) {
   .mptitle {
     font-size: 28px;
@@ -177,5 +220,11 @@
   .profile-img {
     max-width: 100px;
     height: 110px;
+  }
+  .ed-details-form .cpform-group ,.ed-details-form .cpform-group.dcgroup{
+    width: 100%;
+  }
+  .ed-details-form .cpform-group label {
+    font-size: 14px !important;
   }
 }

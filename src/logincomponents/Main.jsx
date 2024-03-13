@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signin, studentlogin } from "../actions/userActions";
@@ -10,6 +10,10 @@ function Main() {
   const [Email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordViewer, setPasswordViewer] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleClose = () => setShowPopup(false);
+  const handleShow = () => setShowPopup(true);
 
   // const userSignin = useSelector((state) => state.userSignin);
   // const { userInfo, error } = userSignin;
@@ -131,38 +135,25 @@ function Main() {
                   placeholder="Enter Password"
                   required
                   onChange={(e) => setPassword(e.target.value)}
-                  // onchange="hasWhiteSpaces(this)"
                 />
               </div>
             </div>
             <div className="pl-0 clearfix">
               <p
                 className="forgot-pass"
-                //    style="text-align: right"
               >
                 <em className="clickhere">
                   <span
-                  //  onclick="OpenPopup(); return false"
-                  // style="cursor: pointer;"
+                  onClick={handleShow}
                   >
                     Forgot Password?{" "}
                   </span>
                 </em>
               </p>
-              <div id="MainContent_UpdatePanel2">
-                {/* <input
-                  type="submit"
-                  name="ctl00$MainContent$btnsubmit"
-                  value="Login"
-                  // onclick="hasWhiteSpaces();"
-                  id="MainContent_btnsubmit"
-                  className="btn-theme submitbt"
-                /> */}
+              <div>
                 <Button
                   type="submit"
                   variant=""
-                  // name="ctl00$btnsave"
-                  // value="Subscribe"
                   //   onclick="if(!validateNewsletter()) return false;"
                   id="MainContent_btnsubmit"
                   className="btn-theme submitbt"
@@ -173,7 +164,19 @@ function Main() {
               </div>
               <p></p>
             </div>
-
+            <Modal show={showPopup} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Forgot Password</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <input type="email" className="w-100" placeholder="Enter Registered Email"/>
+                </Modal.Body>
+                <Modal.Footer className="completed-btnwrap">
+                  <Button variant="primary" onClick={handleClose}>
+                    Submit
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             <div className="pt-5 text-center">
               If you are a new user please{" "}
               <span className="clickhere">
