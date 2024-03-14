@@ -64,6 +64,7 @@
   gap: 10px;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 }
 .editprofile span,
 .profilecards p,
@@ -189,12 +190,112 @@
   background-color: var(--default);
   border-color: var(--default);
 }
+.edit-profile-form{
+  display: flex;
+  gap: 1rem;
+}
+.edit-profile-data{
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.edit-profile-data .cpform-group{
+  width: 48%;
+  margin-bottom: 0.6rem;
+}
+.edit-profile-img{
+  max-width: 150px;
+  display: flex;
+  justify-content: center;
+}
+.edit-profile-form  input{
+  min-height: auto;
+}
+.edit-profile-img input{
+  border: none;
+  padding-left: 0;
+}
+.custom-file-input {
+  color: transparent;
+  max-width: 130px;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Update';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  width: 100%;
+  height: 28px;
+  background: #000;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active {
+  outline: 0;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+}
+.edit-profile-form .practicalinfo{
+  padding: 1.5rem;
+}
+.edit-phoneinputwrap{
+  padding-left: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.15rem;
+    min-height: 62px;
+}
+.edit-phoneinputwrap .PhoneInput{
+  min-height: 62px;
+}
+.edit-phoneinputwrap .PhoneInput input{
+  border: none;
+}
+/* create invoice */
+
+/* create invoice */
+.flex-fast-btn-wrap.createinvoice .flex-fast-btn,.flex-fast-btn-wrap.createinvoice .flex-fast-btn.btn-active {
+  width: 160px;
+}
+.create-invoice-form{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2rem auto;
+}
+.create-invoice-form .cpform-group{
+  margin: 1rem auto;
+  width: 30%;
+}
+.create-invoice-form .cpform-group label{
+position: relative;
+top: 0;
+left: 0;
+background: transparent;
+padding-left:0;
+}
+.create-invoice-form .cpform-control{
+  height: auto;
+}
 @media (max-width:900px) {
   .ed-details-form .cpform-group label {
     font-size: 14px !important;
   }
   .mpbox1 {
     gap: 10px;
+  }
+  .edit-profile-form .practicalinfo{
+    padding: 0;
   }
 }
 @media (max-width: 768px) {
@@ -207,11 +308,23 @@
   .ed-details-form .cpform-group label {
     font-size: 11px !important;
   }
+  .edit-profile-data .cpform-group {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+.create-invoice-form .cpform-group {
+  margin: 1rem auto;
+  width: 47%;
+}
 }
 @media (min-width: 576px){
   .myprofileeditform .modal-dialog {
       max-width: 900px;
   }
+  .editprofile .modal-dialog{
+    max-width: 1200px;
+  }
+  
   }
 @media (max-width: 480px) {
   .mptitle {
@@ -226,5 +339,22 @@
   }
   .ed-details-form .cpform-group label {
     font-size: 14px !important;
+  }
+  .edit-profile-form {
+    flex-direction: column;
+  }
+  .edit-profile-img{
+    max-width: 100%;
+  }
+  .edit-profile-img .profile-img {
+    width: 200px;
+    height: 200px;
+    max-width: 200px;
+  }
+  .custom-file-input {
+    max-width: 200px;
+  }
+  .create-invoice-form .cpform-group {
+    width: 100%;
   }
 }

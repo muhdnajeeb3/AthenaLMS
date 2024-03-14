@@ -4,6 +4,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { Link } from "react-router-dom";
 import EducationDetailsForm from "./EducationDetailsForm";
 import WorkExperienceForm from "./WorkExperienceForm";
+import EditProfile from "./EditProfile";
 
 const MemberProfile = () => {
   const [counters, setCounters] = useState({
@@ -14,6 +15,7 @@ const MemberProfile = () => {
   const [showPopupED, setShowPopupED] = useState(false);
   const [showPopupWE, setShowPopupWE] = useState(false);
   const [showPopupOD, setShowPopupOD] = useState(false);
+  const [showPopupEP, setShowPopupEP] = useState(false);
 
   const handleClose = () => setShowPopupED(false);
   const handleShow = () => setShowPopupED(true);
@@ -23,6 +25,9 @@ const MemberProfile = () => {
 
   const handleCloseOD = () => setShowPopupOD(false);
   const handleShowOD = () => setShowPopupOD(true);
+
+  const handleCloseEP = () => setShowPopupEP(false);
+  const handleShowEP = () => setShowPopupEP(true);
 
   const { counter } = counters;
 
@@ -48,6 +53,7 @@ const MemberProfile = () => {
         <br />
         <div className="mpbox1">
           <div className="col-md-8">
+            {/* edit profile */}
             <div className="shadow p-3 bg-white profilecards mb-4">
               <div>
                 <img
@@ -65,7 +71,7 @@ const MemberProfile = () => {
                     <b className="id-blk"> ID: </b>
                     <b className="id-no">20113680</b>
                   </h6>
-                  <div className="editprofile">
+                  <div className="editprofile" onClick={handleShowEP}>
                     <i className="fa fa-edit" />
                     <span title="Edit">Edit Profile</span>
                   </div>
@@ -83,6 +89,10 @@ const MemberProfile = () => {
                 </p>
               </div>
             </div>
+            <EditProfile
+              handleClose={handleCloseEP}
+              showPopupED={showPopupEP}
+            />
             {/* Educational Qualfication */}
             <div className="practicalinfo bg-white shadow p-4 pb-2 mb-3">
               <div className="practicalinfo-title w-100 mb-3 plus-icon-wrap">
@@ -253,7 +263,11 @@ const MemberProfile = () => {
                 </div>
               </div>
             </div>
-            <Modal show={showPopupOD} onHide={handleCloseOD} className="myprofileeditform">
+            <Modal
+              show={showPopupOD}
+              onHide={handleCloseOD}
+              className="myprofileeditform"
+            >
               <Modal.Header closeButton>
                 <Modal.Title>Other Documents</Modal.Title>
               </Modal.Header>
@@ -322,7 +336,7 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Master In Data Sciences</span>
-                  <Link to="" className="prc">
+                  <Link to="/CreateInvoice" className="prc">
                     Click Here
                   </Link>
                 </div>
@@ -330,7 +344,7 @@ const MemberProfile = () => {
                   <span className="">
                     Master of Business Administration - Blockchain Management
                   </span>
-                  <Link to="" className="prc">
+                  <Link to="/CreateInvoice" className="prc">
                     Click Here
                   </Link>
                 </div>
@@ -338,7 +352,7 @@ const MemberProfile = () => {
                   <span className="">
                     Master of International Business Administration
                   </span>
-                  <Link to="" className="prc">
+                  <Link to="/CreateInvoice" className="prc">
                     Click Here
                   </Link>
                 </div>
@@ -346,7 +360,7 @@ const MemberProfile = () => {
                   <span className="">
                     Master of International Business Administration
                   </span>
-                  <Link to="" className="prc">
+                  <Link to="/CreateInvoice" className="prc">
                     Click Here
                   </Link>
                 </div>

@@ -14,6 +14,7 @@ import MyOnlineClass from "./screens/MyOnlineClass"
 import ExploreCourses from "./screens/ExploreCourses"
 import CourseDetails from "./screens/CourseDetails"
 import InboxMails from "./screens/InboxMails"
+import CreateInvoice from "./screens/CreateInvoice"
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
       <Route path="/MyOnlineClass" element={<MyOnlineClass />} />
       <Route path="/ExploreCourses" element={<ExploreCourses />} />
       <Route path="/InboxMails" element={<InboxMails />} />
+      <Route path="/CreateInvoice" element={<CreateInvoice />} />
     </Routes>
     <Footer />
     </BrowserRouter>
