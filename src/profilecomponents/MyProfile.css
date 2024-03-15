@@ -286,6 +286,26 @@ padding-left:0;
 }
 .create-invoice-form .cpform-control{
   height: auto;
+  border-radius: 5px;
+}
+.create-invoice-form select{
+  color: var(--default);
+  padding: 12px 10px;
+}
+.createinvoice-table input[type = checkbox]{
+  accent-color:  var(--default);
+  cursor: pointer;
+  height: 16px ;
+  width: 16px;
+  border-radius: 2px;
+}
+.createinvoice-table tr td{
+  color: #606060;
+}
+.createinvoice-table i{
+  cursor: pointer;
+  display: flex;
+    justify-content: center;
 }
 @media (max-width:900px) {
   .ed-details-form .cpform-group label {

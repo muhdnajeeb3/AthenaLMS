@@ -33,3 +33,9 @@ body {
 .text-justify {
   text-align: justify ;
 }
+.default-btn{
+  border-color: #ff006e !important;
+background-color: #ff006e !important;
+Color: #fff;
+font-weight: bold;
+}
