@@ -197,6 +197,12 @@ ul.module-list li:hover .openlesson-btn {
 .accordion-item {
   border-bottom: 1px solid #dee2e6 !important;
 }
+.connect-tutor {
+  display: flex;
+  gap: 10px;
+  min-height:auto;
+  justify-content: flex-start;
+}
 @media (max-width: 767px) {
   .moduledetailwrap {
     flex-direction: column;

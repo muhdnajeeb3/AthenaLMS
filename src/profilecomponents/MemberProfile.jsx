@@ -376,7 +376,7 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Certified Manager</span>
-                  <Link to="" className="prc">
+                  <Link to="/StudClaimCertificate" className="prc">
                     Click Here
                   </Link>
                 </div>
@@ -385,7 +385,7 @@ const MemberProfile = () => {
                     Postgraduate Certificate In International Human Resource
                     Management
                   </span>
-                  <Link to="" className="prc">
+                  <Link to="/StudClaimCertificate" className="prc">
                     Click Here
                   </Link>
                 </div>

@@ -15,6 +15,8 @@ import ExploreCourses from "./screens/ExploreCourses"
 import CourseDetails from "./screens/CourseDetails"
 import InboxMails from "./screens/InboxMails"
 import CreateInvoice from "./screens/CreateInvoice"
+import StudClaimCertificate from "./screens/StudClaimCertificate"
+import BookaCall from "./screens/BookaCall"
 
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
       <Route path="/ExploreCourses" element={<ExploreCourses />} />
       <Route path="/InboxMails" element={<InboxMails />} />
       <Route path="/CreateInvoice" element={<CreateInvoice />} />
+      <Route path="/StudClaimCertificate" element={<StudClaimCertificate />} />
+      <Route path="/bookaCall" element={<BookaCall />} />
     </Routes>
     <Footer />
     </BrowserRouter>

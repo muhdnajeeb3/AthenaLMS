@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { Button, Col, Container } from "react-bootstrap";
+import { Button, Col, Container, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 
 const Banner = ({ CourseDetails }) => {
   const [showmore, setShowmore] = useState(false);
   const [sidebarShow, setSidebarShow] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+    
+  const handleClose = () => setShowPopup(false);
+  const handleShow = () => setShowPopup(true);
+
   const sidebarShowHideHandler = () => {
     setSidebarShow(!sidebarShow);
   };
@@ -402,27 +407,73 @@ const Banner = ({ CourseDetails }) => {
             </div>
           </div>
           <div className="col-md-3 study-practical">
-            <div className="mystudygoal bg-white shadow p-4 mb-3">
-              <div>
-                <img
-                  src="https://ulearn.uniathena.com/css/image/octicon_goal-24.svg"
-                  alt=""
-                  width={24}
-                />
+            {!CourseDetails && (
+              <div className="mystudygoal bg-white shadow p-4 mb-3">
+                <div>
+                  <img
+                    src="https://ulearn.uniathena.com/css/image/octicon_goal-24.svg"
+                    alt=""
+                    width={24}
+                  />
+                </div>
+                <div>
+                  <h6>
+                    <b>My Study Goal</b>
+                  </h6>
+                  <p>
+                    Learners who set a goal are more likely to complete their
+                    course on time or before time{" "}
+                  </p>
+                  <Button className="setgoal-btn text-center text-white">
+                    <b>Set Goal</b>
+                  </Button>
+                </div>
               </div>
-              <div>
-                <h6>
-                  <b>My Study Goal</b>
-                </h6>
-                <p>
-                  Learners who set a goal are more likely to complete their
-                  course on time or before time{" "}
-                </p>
-                <Button className="setgoal-btn text-center text-white">
-                  <b>Set Goal</b>
+            )}
+            {CourseDetails && (
+              <div className="mystudygoal connect-tutor bg-white shadow p-4 mb-3">
+                <div>
+                  <img
+                    src="https://ulearn.uniathena.com/Images/icons/duration.svg"
+                    alt=""
+                    width={24}
+                    style={{filter:'invert(1)'}}
+                  />
+                </div>
+                <div>
+                  <h6>
+                    <b>Connect to your</b>
+                  </h6>
+                  <p style={{color:'var(--default)'}}>
+                  <b>Personal Tutor</b>
+                  </p>
+                  <Button className="setgoal-btn text-center text-white" onClick={handleShow}>
+                    <b>Connect</b>
+                  </Button>
+                </div>
+              </div>
+            )}
+            <Modal
+              show={showPopup}
+              onHide={handleClose}
+              centered
+            >
+              <Modal.Header closeButton>
+              </Modal.Header>
+              <Modal.Body>
+<h6 className="pt-1 py-2"><b>Connect Your Personal Tutor</b></h6>
+                <div className="flex gap-10">
+              <Button variant="primary" onClick={handleClose} className="default-btn">
+                  Schedule Meeting
                 </Button>
-              </div>
-            </div>
+                <Link to='/bookaCall'>
+                <Button variant="primary" onClick={handleClose} className="default-btn">
+                  Request Call Back
+                </Button>
+                </Link>
+                </div>
+              </Modal.Body>
+            </Modal>
             <div className="practicalinfo bg-white shadow p-4 mb-3">
               <div className="practicalinfo-title w-100 mb-3">
                 <h5>

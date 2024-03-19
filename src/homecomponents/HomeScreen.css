@@ -290,8 +290,8 @@ hr {
 }
 .btm-demy-card {
   position: relative;
-    width: 100%;
-    transform: translate(-0%, 58px);
+  width: 100%;
+  transform: translate(-0%, 58px);
 }
 .card-btm-box-pink {
   position: relative;
@@ -426,28 +426,28 @@ hr {
   padding-bottom: 5px;
   display: inline-block;
 }
-.certifiedmanagerhr{
+.certifiedmanagerhr {
   position: relative;
   width: 100%;
   margin: -2px 0 0 0;
   height: 10px;
 }
-.pdrow tr th:nth-child(2){
+.pdrow tr th:nth-child(2) {
   min-width: 246px;
 }
-.table>thead {
+.table > thead {
   vertical-align: top !important;
 }
 /* freetrailhome */
-.speakto{
+.speakto {
   display: flex;
   gap: 10px;
   justify-content: space-between;
 }
-.speakto span{
+.speakto span {
   font-size: 24px;
-    font-weight: bold;
-    color: #303030;
+  font-weight: bold;
+  color: #303030;
 }
 .speakto .speakto-line {
   width: 49%;
@@ -458,114 +458,115 @@ hr {
   padding: 0;
   border-radius: 5px;
 }
-.speakoptions{
+.speakoptions {
   display: flex;
   gap: 10px;
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.speakoptions div{
+.speakoptions div {
   display: flex;
   align-items: center;
   gap: 5px;
 }
-.speakoptions input{
+.speakoptions input {
   position: relative;
   top: -3px;
   accent-color: var(--default);
 }
-.speattoemail, .phoneinputwrap{
+.speattoemail,
+.phoneinputwrap {
   border: none;
   padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #fff;
-    box-shadow: 0 2px 18px -1px #d5dbfb;
-    color: #999;
-    font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #fff;
+  box-shadow: 0 2px 18px -1px #d5dbfb;
+  color: #999;
+  font-size: 16px;
 }
-.speaktowrapper .speaksubmit-btn{
+.speaktowrapper .speaksubmit-btn {
   background: var(--defaultgradient);
-    padding: 12px 10px;
-    width: 201px;
-    border-radius: 32px;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: none;
-    line-height: 30px;
-    margin: auto;
+  padding: 12px 10px;
+  width: 201px;
+  border-radius: 32px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  line-height: 30px;
+  margin: auto;
 }
-.speaktowrapper form{
+.speaktowrapper form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.phoneinputwrap input{
+.phoneinputwrap input {
   border: none;
 }
-.highlightwrap{
+.highlightwrap {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   /* column-gap: 20px; */
-
 }
-.highlightwrap div{
+.highlightwrap div {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-top: 2rem;
 }
-.highlightwrap div span{
+.highlightwrap div span {
   font-size: 13px;
 }
-.highlightwrap div b{
+.highlightwrap div b {
   font-size: 17px;
 }
 /* testimonial */
-.testimonialrow{
+.testimonialrow {
   max-width: 1200px;
   margin: 0 auto;
 }
-.theadcontent{
+.theadcontent {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
-.theadcontent p{
+.theadcontent p {
   max-width: 700px;
 }
-.testicardwrap{
+.testicardwrap {
   min-height: 430px !important;
-   display: flex !important;
-    align-items:center !important;
+  display: flex !important;
+  align-items: center !important;
 }
-.testicard{
+.testicard {
   display: flex !important;
   position: relative;
   z-index: 1;
   max-width: 826px;
-  margin: 0 auto
+  margin: 0 auto;
 }
-.testicardcontent{
+.testicardcontent {
   background: #ff026f;
   padding: 20px 13px 20px 34px;
   text-align: left;
   color: #fff;
 }
-.testicardbgbox{
+.testicardbgbox {
   width: 300px;
-    height: 394px;
-    position: absolute;
-    border: 8px solid #000;
-    left: -58px;
-    top: -29px;
-    z-index: -1;
+  height: 394px;
+  position: absolute;
+  border: 8px solid #000;
+  left: -58px;
+  top: -29px;
+  z-index: -1;
 }
 .changepassword-bg {
-  background-image: linear-gradient(121deg, #762296 1%, rgba(0, 0, 0, 0) 113%), url(https://ulearn.uniathena.com/Images/athena-bg.jpg);
+  background-image: linear-gradient(121deg, #762296 1%, rgba(0, 0, 0, 0) 113%),
+    url(https://ulearn.uniathena.com/Images/athena-bg.jpg);
   background-size: cover;
 }
 .createpassword-wrap {
@@ -577,15 +578,16 @@ hr {
   margin: 0 auto 45%;
   min-height: 500px;
 }
-.cptitle{
+.cptitle {
   color: var(--default);
   font-weight: 800;
-    font-size: 24px;
+  font-size: 24px;
 }
-.cpform-group ,.cpformbtnwrap{
-    position: relative;
-    max-width: 444px;
-    margin: 0 auto;
+.cpform-group,
+.cpformbtnwrap {
+  position: relative;
+  max-width: 444px;
+  margin: 0 auto;
 }
 .cpform-group label {
   position: absolute;
@@ -610,51 +612,117 @@ hr {
   border-radius: 0.15rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.createpassword-wrap .cp-btn{
+.createpassword-wrap .cp-btn {
   background: var(--defaultgradient);
   color: #fff;
-width: 127px;  border: none;
+  width: 127px;
+  border: none;
   border-radius: 3px;
   height: 52px;
 }
-.cpformbtnwrap{
- display: flex;
- gap: 10px;
+.cpformbtnwrap {
+  display: flex;
+  gap: 10px;
 }
 /* myonline class */
-.upcomingdate-wrap{
+.upcomingdate-wrap {
   display: flex;
   justify-content: flex-end;
   width: 100%;
 }
-.upcomingdate-wrap select{
+.upcomingdate-wrap select {
   width: 160px;
   max-width: 160px;
   border: 1px solid #666;
   height: 40px;
 }
-.listgridselect-wrap{
+.listgridselect-wrap {
   display: flex;
   justify-content: space-between;
   gap: 10px;
 }
-.listgridselect-wrap div{
+.listgridselect-wrap div {
   display: flex;
   gap: 5px;
   padding-bottom: 1rem;
 }
-.inboxmailrow{
+.inboxmailrow {
   max-width: 1200px;
   margin: 0 auto;
 }
-.inboxmailrow table tr td:nth-child(2){
+.inboxmailrow table tr td:nth-child(2) {
   cursor: pointer;
+}
+/* bookacall */
+.bookacall-form-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.bookacall-form-row {
+  max-width: 900px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.21);
+  margin: 0 auto 30px;
+  background: #eee;
+  padding: 15px 25px;
+  border-radius: 5px;
+  min-height: 500px;
+}
+.bac-title {
+  text-align: center;
+  padding: 13px 21px;
+  background: #efefef;
+  color: #ff006e !important;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.21);
+}
+.bac-nameemail-wrap {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.bac-nameemail-wrap div {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+}
+.nam1-1a {
+  color: var(--default);
+  line-height: 38px;
+  font-weight: 600;
+}
+.bac-form-group-wrap{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.bac-form-group {
+  width: 48%;
+  display: flex;
+    flex-direction: column;
+}
+.bac-form-group select,.bac-form-group input{
+  min-height: 38px;
+  border: none;
+  padding-left: 10px;
+}
+.bac-form-group label{
+  color: var(--default);
+}
+.bac-form-group  .PhoneInput input {
+  border: none;
+}
+.bac-form-group .PhoneInput {
+  background: #fff;
+  padding-left: 1rem;
+}
+.bac-form-group button{
+  max-width: 200px;
 }
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
     font-size: 38px;
   }
-  .testicardbgbox{
+  .testicardbgbox {
     display: none;
   }
 }
@@ -669,14 +737,14 @@ width: 127px;  border: none;
   .startedvalidrow {
     flex-wrap: wrap;
   }
-.highlightwrap{
-  flex-direction: column;
-}
-.pdrow select {
-  width: 100%;
-}
-.speaktowrapper .speaksubmit-btn{
-  background: var(--defaultgradient);
+  .highlightwrap {
+    flex-direction: column;
+  }
+  .pdrow select ,.bac-form-group {
+    width: 100%;
+  }
+  .speaktowrapper .speaksubmit-btn {
+    background: var(--defaultgradient);
     padding: 5px;
     width: 150px;
     border-radius: 32px;
@@ -686,36 +754,35 @@ width: 127px;  border: none;
     text-transform: uppercase;
     border: none;
     line-height: 30px;
+  }
+  .modulearrowbtn {
+    left: -1rem;
+  }
+
+  .modulearrowbtn img {
+    max-width: 65px;
+  }
+  .testicardimg img {
+    height: 100%;
+  }
 }
-.modulearrowbtn {
-  left: -1rem;
-}
-  
-.modulearrowbtn img {
-  max-width: 65px;
-}
-.testicardimg img{
-  height: 100%;
-}
-}
-@media (max-width:600px) {
-  .testicard{
+@media (max-width: 600px) {
+  .testicard {
     flex-direction: column;
   }
-  .testicardimg img{
+  .testicardimg img {
     width: 100%;
     max-height: 400px;
   }
-  .testicardcontent{
+  .testicardcontent {
     order: 1;
   }
 }
-@media (min-width: 576px){
-.inboxmailpopup .modal-dialog {
+@media (min-width: 576px) {
+  .inboxmailpopup .modal-dialog {
     max-width: 900px;
+  }
 }
-}
-
 
 @media (max-width: 480px) {
   .homebannerrow .newmailwrapper {
@@ -745,17 +812,15 @@ width: 127px;  border: none;
   .discussiontop {
     padding-bottom: 1rem;
   }
-  .navbar-brand img{
+  .navbar-brand img {
     max-width: 120px;
   }
-  .speakto span{
+  .speakto span {
     font-size: 17px;
-    
   }
-  .speakto{
+  .speakto {
     align-items: center;
   }
-
 }
 @media (max-width: 380px) {
   .slick-dots {

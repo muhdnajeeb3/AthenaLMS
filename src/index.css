@@ -21,6 +21,9 @@ body {
 .content-center{
   justify-content: center;
 }
+.content-end{
+  justify-content: flex-end;
+}
 .item-center{
   align-items: center !important;
 }
