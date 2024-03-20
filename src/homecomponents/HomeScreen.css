@@ -654,7 +654,7 @@ hr {
   cursor: pointer;
 }
 /* bookacall */
-.bookacall-form-wrap {
+.bookacall-form-wrap,.course-enrol-detail {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -718,6 +718,7 @@ hr {
 .bac-form-group button{
   max-width: 200px;
 }
+
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
     font-size: 38px;

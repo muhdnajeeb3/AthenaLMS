@@ -26,7 +26,16 @@ const Banner = () => {
     cssEase: "linear",
   };
   return (
-    <Container fluid className="bg-light">
+    <Container fluid className="bg-light container-pr">
+      <div className="quick-enq">
+        <Link to="/bookaCall"> &nbsp;</Link>
+
+        <Link to="">&nbsp;</Link>
+        <Link to="mailto:see@uniathena.com">
+          &nbsp;
+        </Link>
+        <img src="https://ulearn.uniathena.com/Images/group-4.png" width={77} />
+      </div>
       <Row className="homebannerrow">
         <div className="col-md-6 py-5 home-box-v1">
           <h2 className="greeting pb-2">
@@ -438,11 +447,11 @@ const Banner = () => {
                   Know More About this Course &amp; Fee
                 </p>
                 <div className="gotodetailpage">
-                <Link to="/CourseMoreDetails">
-                  <Button variant="warning" className="gotodetailpage-btn">
-                    Go to Course Details Page
-                  </Button>
-                </Link>
+                  <Link to="/CourseMoreDetails">
+                    <Button variant="warning" className="gotodetailpage-btn">
+                      Go to Course Details Page
+                    </Button>
+                  </Link>
                 </div>
 
                 <div className="btm-demy-card">

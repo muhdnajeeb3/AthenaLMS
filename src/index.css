@@ -42,3 +42,43 @@ background-color: #ff006e !important;
 Color: #fff;
 font-weight: bold;
 }
+.quick-enq {
+  position: absolute;
+  right: 0;
+  top: 400px;
+}
+.quick-enq a:nth-child(1) {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  display: block;
+  top: 39px;
+  left: 23px;
+}
+.quick-enq a:nth-child(2) {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  display: block;
+  top: 97px;
+  left: 23px;
+}
+.quick-enq a:nth-child(3) {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  display: block;
+  top: 151px;
+  left: 23px;
+}
+@media (min-width:1200px) {
+  .container-pr{
+    padding-right: 4rem !important;
+  }
+}
+@media (max-width:1200px) {
+  .quick-enq{
+    display: none;
+  }
+  
+}
