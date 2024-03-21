@@ -718,7 +718,22 @@ hr {
 .bac-form-group button{
   max-width: 200px;
 }
-
+/* submitassignemnt */
+.ae-row{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+}
+.bg-gray {
+  background-color: #f5f5f5;
+}
+.ae-content{
+  padding-right: 2rem;
+}
+.no-comments{
+  color: gray;
+  font-size: 13px;
+}
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
     font-size: 38px;
@@ -728,7 +743,7 @@ hr {
   }
 }
 @media (max-width: 768px) {
-  .home-box-v1 {
+  .home-box-v1,.ae-content {
     padding-right: 0 !important;
   }
   .draftbtn {
@@ -738,7 +753,7 @@ hr {
   .startedvalidrow {
     flex-wrap: wrap;
   }
-  .highlightwrap {
+  .highlightwrap,.ae-row {
     flex-direction: column;
   }
   .pdrow select ,.bac-form-group {

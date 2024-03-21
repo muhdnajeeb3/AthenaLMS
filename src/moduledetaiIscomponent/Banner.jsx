@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Col, Container, Modal } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 
 const Banner = ({ CourseDetails }) => {
@@ -18,6 +18,10 @@ const Banner = ({ CourseDetails }) => {
     setShowmore(!showmore);
     console.log(showmore);
   };
+  const navigate = useNavigate();
+  const viewAssignmentHandler = () => {
+navigate('/SubmitAssignments')
+  }
   return (
     <>
       <Container fluid className="bg-light">
@@ -251,7 +255,7 @@ const Banner = ({ CourseDetails }) => {
                     <Button className="quizz-assign-btn" variant="">
                       Take Lesson Quiz
                     </Button>
-                    <Button className="quizz-assign-btn" variant="">
+                    <Button className="quizz-assign-btn" variant="" onClick={viewAssignmentHandler}>
                       View Assignment
                     </Button>
                   </li>

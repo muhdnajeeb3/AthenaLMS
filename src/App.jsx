@@ -19,6 +19,7 @@ import StudClaimCertificate from "./screens/StudClaimCertificate";
 import BookaCall from "./screens/BookaCall";
 import EnrollCourse from "./screens/EnrollCourse";
 import EnrolToCourse from "./screens/EnrolToCourse";
+import SubmitAssignments from "./screens/SubmitAssignments";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route path="/bookaCall" element={<BookaCall />} />
           <Route path="/EnrollCourse" element={<EnrollCourse />} />
           <Route path="/EnrolToCourse" element={<EnrolToCourse />} />
+          <Route path="/SubmitAssignments" element={<SubmitAssignments />} />
         </Routes>
         <Footer />
       </BrowserRouter>
