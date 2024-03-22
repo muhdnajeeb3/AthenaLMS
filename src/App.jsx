@@ -20,6 +20,7 @@ import BookaCall from "./screens/BookaCall";
 import EnrollCourse from "./screens/EnrollCourse";
 import EnrolToCourse from "./screens/EnrolToCourse";
 import SubmitAssignments from "./screens/SubmitAssignments";
+import ProjectSubmissionDetails from "./screens/ProjectSubmissionDetails";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path="/EnrollCourse" element={<EnrollCourse />} />
           <Route path="/EnrolToCourse" element={<EnrolToCourse />} />
           <Route path="/SubmitAssignments" element={<SubmitAssignments />} />
+          <Route path="/ViewProject" element={<ProjectSubmissionDetails />} />
         </Routes>
         <Footer />
       </BrowserRouter>

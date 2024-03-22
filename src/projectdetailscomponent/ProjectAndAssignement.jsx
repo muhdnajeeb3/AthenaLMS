@@ -1,19 +1,24 @@
 import { Container } from "react-bootstrap";
-import Table from 'react-bootstrap/Table';
+import Table from "react-bootstrap/Table";
+import { useNavigate } from "react-router-dom";
 
 const ProjectAndAssignement = () => {
-    const tableHeadings = [
-        "Module",
-        "Start Date",
-        "Due Date",
-        "Days Left",
-        "Submitted Date",
-        "Status",
-        "Extension Request",
-        "Score",
-        "Grade",
-        "Action"
-      ];
+  const navigate = useNavigate();
+  const viewHandler = () => {
+    navigate("/ViewProject");
+  };
+  const tableHeadings = [
+    "Module",
+    "Start Date",
+    "Due Date",
+    "Days Left",
+    "Submitted Date",
+    "Status",
+    "Extension Request",
+    "Score",
+    "Grade",
+    "Action",
+  ];
   return (
     <Container fluid className="bg-light">
       <div className="pdrow">
@@ -95,42 +100,78 @@ const ProjectAndAssignement = () => {
           </select>
         </div>
         <hr className="certifiedmanagerhr" />
-        <Table responsive className="my-4" bordered  hover>
-      <thead>
-        <tr>
-          <th></th>
-          {tableHeadings.map((heading, index) => (
-            <th key={index}>{heading}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          {Array.from({ length: tableHeadings.length }).map((_, index) => (
-            <td key={index}>Table cell {index}</td>
-          ))}
-        </tr>
-        <tr>
-          <td></td>
-          {Array.from({ length: tableHeadings.length }).map((_, index) => (
-            <td key={index}>Table cell {index}</td>
-          ))}
-        </tr>
-        <tr>
-          <td></td>
-          {Array.from({ length: tableHeadings.length }).map((_, index) => (
-            <td key={index}>Table cell {index}</td>
-          ))}
-        </tr>
-        <tr>
-          <td></td>
-          {Array.from({ length: tableHeadings.length }).map((_, index) => (
-            <td key={index}>Table cell {index}</td>
-          ))}
-        </tr>
-      </tbody>
-    </Table>
+        <Table responsive className="my-4" bordered hover>
+          <thead>
+            <tr>
+              <th></th>
+              {tableHeadings.map((heading, index) => (
+                <th key={index}>{heading}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td>Leadership & Strategy</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Not Enrolled</td>
+              <td>N/A</td>
+              <td></td>
+              <td></td>
+              <td onClick={viewHandler} style={{ cursor: "pointer" }}>
+                View
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>Leadership & Strategy</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Not Enrolled</td>
+              <td>N/A</td>
+              <td></td>
+              <td></td>
+              <td onClick={viewHandler} style={{ cursor: "pointer" }}>
+                View
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>Leadership & Strategy</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Not Enrolled</td>
+              <td>N/A</td>
+              <td></td>
+              <td></td>
+              <td onClick={viewHandler} style={{ cursor: "pointer" }}>
+                View
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>Leadership & Strategy</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Not Enrolled</td>
+              <td>N/A</td>
+              <td></td>
+              <td></td>
+              <td onClick={viewHandler} style={{ cursor: "pointer" }}>
+                View
+              </td>
+            </tr>
+          </tbody>
+        </Table>
       </div>
     </Container>
   );

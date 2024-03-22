@@ -71,6 +71,20 @@ font-weight: bold;
   top: 151px;
   left: 23px;
 }
+.quizz-assign-btn {
+  border-color: var(--default) !important;
+  border-radius: 20px !important;
+  color: var(--default) !important;
+  border: 1px solid var(--default) !important;
+  background: #fff !important;
+  font-size: 14px!important;
+  max-width: 162px !important;
+}
+.quizz-assign-btn:hover {
+  border-color: var(--default)!important;
+  color: var(--default)!important;
+  border: 1px solid var(--default)!important;
+}
 @media (min-width:1200px) {
   .container-pr{
     padding-right: 4rem !important;
