@@ -21,6 +21,9 @@ import EnrollCourse from "./screens/EnrollCourse";
 import EnrolToCourse from "./screens/EnrolToCourse";
 import SubmitAssignments from "./screens/SubmitAssignments";
 import ProjectSubmissionDetails from "./screens/ProjectSubmissionDetails";
+import Terms from "./screens/Terms";
+import FasttrackQuiz from "./screens/FasttrackQuiz";
+import FasttrackTestResult from "./screens/FasttrackTestResult";
 
 function App() {
   return (
@@ -52,6 +55,9 @@ function App() {
           <Route path="/EnrolToCourse" element={<EnrolToCourse />} />
           <Route path="/SubmitAssignments" element={<SubmitAssignments />} />
           <Route path="/ViewProject" element={<ProjectSubmissionDetails />} />
+          <Route path="/Terms" element={<Terms />} />
+          <Route path="/FasttrackQuiz" element={<FasttrackQuiz />} />
+          <Route path="/FasttrackTestResult" element={<FasttrackTestResult />} />
         </Routes>
         <Footer />
       </BrowserRouter>

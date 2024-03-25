@@ -22,6 +22,9 @@ const Banner = ({ CourseDetails }) => {
   const viewAssignmentHandler = () => {
 navigate('/SubmitAssignments')
   }
+  const bannerbtnHandler = (btn) => {
+    navigate(`/${btn}`)
+      }
   return (
     <>
       <Container fluid className="bg-light">
@@ -43,6 +46,7 @@ navigate('/SubmitAssignments')
                   width: "191px",
                   height: "44px",
                 }}
+                onClick={()=>bannerbtnHandler(CourseDetails ? "Paynow" : 'CourseDetails')}
               >
                 {CourseDetails ? "Pay Now" : "Go to Course Home"}
               </Button>

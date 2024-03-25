@@ -774,6 +774,37 @@ hr {
 .project-file-title th{
   background-color: #f1f3f5 !important;
 }
+/* fasttract */
+.fasttrack-wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.fasttrack-timer-wrap{
+  background: var(--defaultgradient);
+  border-radius: 10px;
+  min-height: 76px;
+  display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    color: #fff;
+}
+.fasttrack-timer-wrap h2{
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.fasttrack-timer-wrap h5 {
+  font-size: 18px;
+}
+.select-answer{
+  border-radius: 10px;
+  min-height: 2rem;
+}
+.question-animation {
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-100%);
+}
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
     font-size: 38px;
