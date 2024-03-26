@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import ReactPlayer from "react-player";
 // import samplevideo from "./sample.mp4";
 import Vimeo from "@u-wave/react-vimeo";
@@ -34,6 +34,13 @@ const Progress = () => {
     setSidebarShow(!sidebarShow);
   };
   const now = 60;
+  const navigate = useNavigate();
+  const viewAssignmentHandler = () => {
+    navigate("/SubmitAssignments");
+  };
+  const takelessonHandler = () => {
+    navigate("/FasttrackQuiz");
+  };
   return (
     <>
       <Container
@@ -214,10 +221,10 @@ const Progress = () => {
                     }}
                     className="quiz-assignbtn-wrap"
                   >
-                    <Button className="quizz-assign-btn" variant="">
+                    <Button className="quizz-assign-btn" variant="" onClick={takelessonHandler}>
                       Take Lesson Quiz
                     </Button>
-                    <Button className="quizz-assign-btn" variant="">
+                    <Button className="quizz-assign-btn" variant="" onClick={viewAssignmentHandler}>
                       View Assignment
                     </Button>
                   </div>
@@ -285,10 +292,10 @@ const Progress = () => {
                     }}
                     className="quiz-assignbtn-wrap"
                   >
-                    <Button className="quizz-assign-btn" variant="">
+                    <Button className="quizz-assign-btn" variant="" onClick={takelessonHandler}>
                       Take Lesson Quiz
                     </Button>
-                    <Button className="quizz-assign-btn" variant="">
+                    <Button className="quizz-assign-btn" variant="" onClick={viewAssignmentHandler}>
                       View Assignment
                     </Button>
                   </div>

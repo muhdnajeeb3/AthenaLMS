@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import EducationDetailsForm from "./EducationDetailsForm";
 import WorkExperienceForm from "./WorkExperienceForm";
 import EditProfile from "./EditProfile";
+import IdCard from "./IdCard";
 
 const MemberProfile = () => {
   const [counters, setCounters] = useState({
@@ -16,6 +17,7 @@ const MemberProfile = () => {
   const [showPopupWE, setShowPopupWE] = useState(false);
   const [showPopupOD, setShowPopupOD] = useState(false);
   const [showPopupEP, setShowPopupEP] = useState(false);
+  const [showPopupid, setShowPopupid] = useState(false);
 
   const handleClose = () => setShowPopupED(false);
   const handleShow = () => setShowPopupED(true);
@@ -28,6 +30,9 @@ const MemberProfile = () => {
 
   const handleCloseEP = () => setShowPopupEP(false);
   const handleShowEP = () => setShowPopupEP(true);
+
+  const handleCloseid = () => setShowPopupid(false);
+  const handleShowid = () => setShowPopupid(true);
 
   const { counter } = counters;
 
@@ -497,7 +502,7 @@ const MemberProfile = () => {
               <div>
                 <div className="createvoice-list">
                   <span className="">Master In Data Sciences</span>
-                  <Link to="" className="prc">
+                  <Link to="" className="prc" onClick={handleShowid}>
                     View ID
                   </Link>
                 </div>
@@ -505,7 +510,7 @@ const MemberProfile = () => {
                   <span className="">
                     Master of Business Administration - Blockchain Management
                   </span>
-                  <Link to="" className="prc">
+                  <Link to="" className="prc" onClick={handleShowid}>
                     View ID
                   </Link>
                 </div>
@@ -513,11 +518,11 @@ const MemberProfile = () => {
                   <span className="">
                     Master of International Business Administration
                   </span>
-                  <Link to="" className="prc">
+                  <Link to="" className="prc" onClick={handleShowid}>
                     View ID
                   </Link>
                 </div>
-                <div className="createvoice-list">
+                <div className="createvoice-list" onClick={handleShowid}>
                   <span className="">
                     Master of International Business Administration
                   </span>
@@ -527,6 +532,12 @@ const MemberProfile = () => {
                 </div>
               </div>
             </div>
+            {showPopupid && (
+              <IdCard
+                handleClose={handleCloseid}
+                showPopupED={showPopupid}
+              />
+            )}
             {/* course you enrolled */}
             <div className="practicalinfo bg-white shadow p-4 pb-2 mb-3">
               <div className="practicalinfo-title w-100 mb-3">

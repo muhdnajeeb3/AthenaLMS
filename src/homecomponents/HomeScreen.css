@@ -760,7 +760,7 @@ hr {
   height: 132px;
 }
 .reference-card-wrap .reference-card .reference-card-img {
-  width: 210px ;
+  width: 210px;
   background: #666;
   height: 70px;
   display: flex;
@@ -768,28 +768,26 @@ hr {
   align-items: center;
   margin: 11px auto;
   cursor: pointer;
-
-
 }
-.project-file-title th{
+.project-file-title th {
   background-color: #f1f3f5 !important;
 }
 /* fasttract */
-.fasttrack-wrap{
+.fasttrack-wrap {
   max-width: 1200px;
   margin: 0 auto;
 }
-.fasttrack-timer-wrap{
+.fasttrack-timer-wrap {
   background: var(--defaultgradient);
   border-radius: 10px;
   min-height: 76px;
   display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: center;
-    color: #fff;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  color: #fff;
 }
-.fasttrack-timer-wrap h2{
+.fasttrack-timer-wrap h2 {
   font-size: 24px;
   margin-bottom: 5px;
   font-weight: bold;
@@ -797,13 +795,48 @@ hr {
 .fasttrack-timer-wrap h5 {
   font-size: 18px;
 }
-.select-answer{
+.select-answer {
   border-radius: 10px;
   min-height: 2rem;
 }
 .question-animation {
   transition: transform 0.5s ease-in-out;
   transform: translateX(-100%);
+}
+/* result */
+.result-attempt-wrap {
+  max-width: 888px;
+  margin: auto;
+  box-shadow: 0 2px 11px 0 rgba(0, 0, 0, 0.15);
+}
+.result-attempt-wrap .attempt-title{
+  font-size: 21px;
+  font-weight: 900;
+}
+.result-percentage {
+  font-weight: bold;
+  border-radius: 50%;
+  font-size: 71px;
+  background-color: #ffc300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin-top: 10px;
+}
+.selected-answer{
+  background-color: #eee;
+  text-decoration: underline;
+}
+.attempt-table-tile th{
+  background: var(--default) !important;
+  color: #fff !important;
+}
+.question-answer-wrap div{
+  padding-left: 3rem;
+  padding-right: 3rem;
+
 }
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
@@ -911,6 +944,11 @@ hr {
   }
   .speakto {
     align-items: center;
+  }
+  .question-answer-wrap div{
+    padding-left: 1rem;
+    padding-right: 1rem;
+  
   }
 }
 @media (max-width: 380px) {

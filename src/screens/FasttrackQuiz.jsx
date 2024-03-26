@@ -54,6 +54,10 @@ const FasttrackQuiz = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleAnswerChange = (questionIndex, selectedAnswer) => {
     setSelectedAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -85,7 +89,6 @@ const FasttrackQuiz = () => {
   if (loading) {
     return <div>Loading...</div>; // Render loading indicator while questions are being fetched
   }
-
 
   return (
     <Container fluid className="bg-white py-5">

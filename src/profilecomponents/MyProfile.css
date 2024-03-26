@@ -330,6 +330,31 @@
 .claim-certificate-card-wrap label {
   color: #6c757d;
 }
+/* idcard */
+.idcard-modal-wrap .modal-dialog{
+  max-width: 450px;
+}
+.idcard-modal-wrap .idcard-content{
+  display: flex;
+}
+.idcard-content .idcard-athena{
+  background: var(--defaultgradient);
+  min-height: 396px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.idcard-athena span{
+  transform: rotate(270deg);
+    color: #FFF;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+.idcard-content .id-card-details{
+  background-color: #eee;
+  padding: 1rem;
+}
 @media (max-width: 900px) {
   .ed-details-form .cpform-group label {
     font-size: 14px !important;

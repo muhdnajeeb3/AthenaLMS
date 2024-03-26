@@ -24,8 +24,14 @@ body {
 .content-end{
   justify-content: flex-end;
 }
+.content-sb{
+  justify-content: space-between;
+}
 .item-center{
   align-items: center !important;
+}
+.row-col{
+  flex-direction: column !important;
 }
 .font-14{
   font-size: 14px;

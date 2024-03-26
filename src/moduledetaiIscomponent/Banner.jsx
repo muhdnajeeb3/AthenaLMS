@@ -7,7 +7,7 @@ const Banner = ({ CourseDetails }) => {
   const [showmore, setShowmore] = useState(false);
   const [sidebarShow, setSidebarShow] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-    
+
   const handleClose = () => setShowPopup(false);
   const handleShow = () => setShowPopup(true);
 
@@ -20,11 +20,14 @@ const Banner = ({ CourseDetails }) => {
   };
   const navigate = useNavigate();
   const viewAssignmentHandler = () => {
-navigate('/SubmitAssignments')
-  }
+    navigate("/SubmitAssignments");
+  };
+  const takelessonHandler = () => {
+    navigate("/FasttrackQuiz");
+  };
   const bannerbtnHandler = (btn) => {
-    navigate(`/${btn}`)
-      }
+    navigate(`/${btn}`);
+  };
   return (
     <>
       <Container fluid className="bg-light">
@@ -46,7 +49,9 @@ navigate('/SubmitAssignments')
                   width: "191px",
                   height: "44px",
                 }}
-                onClick={()=>bannerbtnHandler(CourseDetails ? "Paynow" : 'CourseDetails')}
+                onClick={() =>
+                  bannerbtnHandler(CourseDetails ? "Paynow" : "CourseDetails")
+                }
               >
                 {CourseDetails ? "Pay Now" : "Go to Course Home"}
               </Button>
@@ -256,10 +261,18 @@ navigate('/SubmitAssignments')
                       marginTop: "1rem",
                     }}
                   >
-                    <Button className="quizz-assign-btn" variant="">
+                    <Button
+                      className="quizz-assign-btn"
+                      variant=""
+                      onClick={takelessonHandler}
+                    >
                       Take Lesson Quiz
                     </Button>
-                    <Button className="quizz-assign-btn" variant="" onClick={viewAssignmentHandler}>
+                    <Button
+                      className="quizz-assign-btn"
+                      variant=""
+                      onClick={viewAssignmentHandler}
+                    >
                       View Assignment
                     </Button>
                   </li>
@@ -445,40 +458,48 @@ navigate('/SubmitAssignments')
                     src="https://ulearn.uniathena.com/Images/icons/duration.svg"
                     alt=""
                     width={24}
-                    style={{filter:'invert(1)'}}
+                    style={{ filter: "invert(1)" }}
                   />
                 </div>
                 <div>
                   <h6>
                     <b>Connect to your</b>
                   </h6>
-                  <p style={{color:'var(--default)'}}>
-                  <b>Personal Tutor</b>
+                  <p style={{ color: "var(--default)" }}>
+                    <b>Personal Tutor</b>
                   </p>
-                  <Button className="setgoal-btn text-center text-white" onClick={handleShow}>
+                  <Button
+                    className="setgoal-btn text-center text-white"
+                    onClick={handleShow}
+                  >
                     <b>Connect</b>
                   </Button>
                 </div>
               </div>
             )}
-            <Modal
-              show={showPopup}
-              onHide={handleClose}
-              centered
-            >
-              <Modal.Header closeButton>
-              </Modal.Header>
+            <Modal show={showPopup} onHide={handleClose} centered>
+              <Modal.Header closeButton></Modal.Header>
               <Modal.Body>
-<h6 className="pt-1 py-2"><b>Connect Your Personal Tutor</b></h6>
+                <h6 className="pt-1 py-2">
+                  <b>Connect Your Personal Tutor</b>
+                </h6>
                 <div className="flex gap-10">
-              <Button variant="primary" onClick={handleClose} className="default-btn">
-                  Schedule Meeting
-                </Button>
-                <Link to='/bookaCall'>
-                <Button variant="primary" onClick={handleClose} className="default-btn">
-                  Request Call Back
-                </Button>
-                </Link>
+                  <Button
+                    variant="primary"
+                    onClick={handleClose}
+                    className="default-btn"
+                  >
+                    Schedule Meeting
+                  </Button>
+                  <Link to="/bookaCall">
+                    <Button
+                      variant="primary"
+                      onClick={handleClose}
+                      className="default-btn"
+                    >
+                      Request Call Back
+                    </Button>
+                  </Link>
                 </div>
               </Modal.Body>
             </Modal>
