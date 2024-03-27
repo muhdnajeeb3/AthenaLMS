@@ -438,9 +438,12 @@ const Banner = () => {
                 <hr className="my-3" />
                 <div className="assignmentdue mt-4">
                   <h5>Blockchain Fundamentals</h5>
+                  <Link to='/EnrollCourse'>
+                    
                   <Button className="draftbtn" variant="">
                     Pay Now
                   </Button>
+                  </Link>
                 </div>
                 <hr className="my-3" />
                 <p className="text-center">

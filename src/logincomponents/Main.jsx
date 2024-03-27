@@ -22,12 +22,12 @@ function Main() {
   const { studentInfo,error } = studentLogin;
   let IsActive;
   if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
-    const resultString = studentInfo[0].result;
+    const resultString = studentInfo[0]?.result;
     const resultArray = JSON.parse(resultString);
 
     if (resultArray && resultArray.length > 0) {
       const firstResultObject = resultArray[0];
-      IsActive = firstResultObject.IsActive;
+      IsActive = firstResultObject.status;
 
       console.log("IsActive:", IsActive);
     }
@@ -54,7 +54,7 @@ function Main() {
   };
 
   useEffect(() => {
-    if (IsActive) {
+    if (IsActive === 'Active') {
       navigate("/EnrolledHome");
     }
   }, [IsActive]);

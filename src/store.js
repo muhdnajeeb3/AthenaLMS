@@ -18,8 +18,8 @@ const initialState = {
       : null,
   },
   studentLogin: {
-    userInfo: localStorage.getItem("studentInfo")
-      ? JSON.parse(localStorage.getItem("studentInfo"))
+    studentInfo: localStorage.getItem("studentLogin")
+      ? JSON.parse(localStorage.getItem("studentLogin"))
       : null,
   },
 };

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Banner from "../coursemoredetailscomponent/Banner"
 import CourseModules from "../coursemoredetailscomponent/CourseModules"
 import '../coursemoredetailscomponent/CourseMoreDetails.css'
+import AboutAdmissionFee from "../coursemoredetailscomponent/AboutAdmissionFee";
 
 const CourseMoreDetails = () => {
   useEffect(() => {
@@ -11,6 +12,7 @@ const CourseMoreDetails = () => {
     <>
       <Banner />
       <CourseModules />
+      <AboutAdmissionFee />
     </>
   )
 }

@@ -50,11 +50,11 @@ export const studentlogin = (Email) => async (dispatch, getState) => {
       config
     );
     dispatch({ type: STUDENT_LOGIN_SUCCESS, payload: data });
-    const resultString = data[0]?.result;
-    const resultArray = JSON.parse(resultString);
-    const IsActive = resultArray?.[0]?.IsActive;
-    console.log(IsActive);
-    localStorage.setItem("studentLogin", JSON.stringify(IsActive));
+    // const resultString = data[0]?.result;
+    // const resultArray = JSON.parse(resultString);
+    // const IsActive = resultArray?.[0]?.status;
+    console.log(data);
+    localStorage.setItem("studentLogin", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: STUDENT_LOGIN_FAIL,

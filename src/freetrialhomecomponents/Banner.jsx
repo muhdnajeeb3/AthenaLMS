@@ -71,7 +71,7 @@ const Banner = () => {
                   </div>
                 </div>
                 <form action="">
-                {speakmethode === "Email" ? (
+                  {speakmethode === "Email" ? (
                     <>
                       <p className="mt-3">Please provide your Email Address</p>
                       <input
@@ -82,7 +82,8 @@ const Banner = () => {
                         placeholder="Enter Your Email"
                       />
                     </>
-                  ) : speakmethode === "Whatsapp" || speakmethode === "Telephone" ? (
+                  ) : speakmethode === "Whatsapp" ||
+                    speakmethode === "Telephone" ? (
                     <>
                       <p className="mt-3">
                         Please provide your{" "}
@@ -108,7 +109,10 @@ const Banner = () => {
             </div>
           </div>
         </div>
-        <Col className="col-md-6 pt-5 home-main-box-v2" style={{paddingBottom:'5rem'}}>
+        <Col
+          className="col-md-6 pt-5 home-main-box-v2"
+          style={{ paddingBottom: "5rem" }}
+        >
           <div>
             {divs.map((divContent, index) => (
               <div
@@ -146,51 +150,74 @@ const Banner = () => {
                 <hr className="mt-3" />
                 <div className="highlightwrap">
                   <div className="col-lg-6">
-                    <img src="https://ulearn.uniathena.com/Images/v2-icons/total-fee.svg" alt="" width='44'/>
+                    <img
+                      src="https://ulearn.uniathena.com/Images/v2-icons/total-fee.svg"
+                      alt=""
+                      width="44"
+                    />
                     <span>
                       <b>$5900.00 - Flexible</b> <br />
                       <b>$5000.00 - Fastrack</b>
                     </span>
                   </div>
                   <div className="col-lg-6">
-                    <img src="https://ulearn.uniathena.com/Images/v2-icons/duration.svg" alt="" width='44'/>
+                    <img
+                      src="https://ulearn.uniathena.com/Images/v2-icons/duration.svg"
+                      alt=""
+                      width="44"
+                    />
                     <span>
                       <b>Course Duration</b> <br />
                       Flexible (9 to 24 Months)
                     </span>
                   </div>
                   <div className="col-lg-6">
-                    <img src="https://ulearn.uniathena.com/Images/v2-icons/accreditations.svg" alt="" width='44'/>
+                    <img
+                      src="https://ulearn.uniathena.com/Images/v2-icons/accreditations.svg"
+                      alt=""
+                      width="44"
+                    />
                     <span>
                       <b>Accreditations</b> <br />
                       Ministry of Education, Italy
                     </span>
                   </div>
                   <div className="col-lg-6">
-                    <img src="https://ulearn.uniathena.com/Images/v2-icons/completely-online.svg" alt="" width='44'/>
+                    <img
+                      src="https://ulearn.uniathena.com/Images/v2-icons/completely-online.svg"
+                      alt=""
+                      width="44"
+                    />
                     <span>
                       <b>Completely Online</b> <br />
                       Learn @ your comfort
                     </span>
                   </div>
                   <div className="col-lg-6">
-                    <img src="https://ulearn.uniathena.com/Images/v2-icons/personal-tutor.svg" alt="" width='44'/>
+                    <img
+                      src="https://ulearn.uniathena.com/Images/v2-icons/personal-tutor.svg"
+                      alt=""
+                      width="44"
+                    />
                     <span>
                       <b>Personal Tutor</b> <br />
                       Helps you with learning
                     </span>
                   </div>
                   <div className="col-lg-6">
-                    <img src="https://ulearn.uniathena.com/Images/v2-icons/dual-certification.svg" alt="" width='44'/>
+                    <img
+                      src="https://ulearn.uniathena.com/Images/v2-icons/dual-certification.svg"
+                      alt=""
+                      width="44"
+                    />
                     <span>
                       <b>Certification</b> <br />
                       MBABM, PG Diploma & Certified Manager (Optional)
                     </span>
                   </div>
-                  
                 </div>
                 <div className="box-btn-wrap my-4">
-                <Link to="/UnitDetailView">
+                  <Link to="/UnitDetailView">
                     <Button className="resume-learning">
                       <span>RESUME LEARNING</span>
                     </Button>
@@ -211,9 +238,11 @@ const Banner = () => {
                   Know More About this Course &amp; Fee
                 </p>
                 <div className="gotodetailpage">
-                  <Button variant="warning" className="gotodetailpage-btn">
-                    Go to Course Details Page
-                  </Button>
+                  <Link to="/CourseMoreDetails">
+                    <Button variant="warning" className="gotodetailpage-btn">
+                      Go to Course Details Page
+                    </Button>
+                  </Link>
                 </div>
                 <div className="btm-demy-card">
                   <div className="card-btm-box-pink" />

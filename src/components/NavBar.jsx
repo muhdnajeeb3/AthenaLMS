@@ -8,29 +8,35 @@ import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../actions/userActions";
 
 function NavBar() {
-  const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo } = userSignin;
+  // const userSignin = useSelector((state) => state.userSignin);
+  // const { userInfo } = userSignin;
 
-  // const studentLogin = useSelector((state) => state.studentLogin);
-  // const { studentInfo } = studentLogin;
+  const studentLogin = useSelector((state) => state.studentLogin);
+  const { studentInfo } = studentLogin;
 
-  // console.log(studentInfo);
-  // const resultString = studentInfo[0].result;
+  console.log(studentInfo);
+  let IsActive;
+  let Email;
+  let Password;
+  let FirstName;
+  if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
+    const resultString = studentInfo[0]?.result;
+    const resultArray = JSON.parse(resultString);
 
-  // // Parsing the JSON string to get the array of objects
-  // const resultArray = JSON.parse(resultString);
+    if (resultArray && resultArray.length > 0) {
+      const firstResultObject = resultArray[0];
+      IsActive = firstResultObject.status;
+      Email = firstResultObject.Email;
+      Password = firstResultObject.Password;
+      FirstName = firstResultObject.FirstName;
 
-  // // Accessing the first object in the array
-  // const firstResultObject = resultArray[0];
-
-  // // Extracting Email, Password, and IsActive values from the first object
-  // const Email = firstResultObject.Email;
-  // const Password = firstResultObject.Password;
-  // const IsActive = firstResultObject.IsActive;
-
-  // console.log("Email:", Email);
-  // console.log("Password:", Password);
-  // console.log("IsActive:", IsActive);
+      console.log("IsActive:", IsActive);
+      console.log("Email:", Email);
+      console.log("Password:", Password);
+      console.log("IsActive:", IsActive);
+      console.log("firstname", FirstName);
+    }
+  }
 
   const dispatch = useDispatch();
   const logoutHandler = async () => {
@@ -111,10 +117,7 @@ function NavBar() {
                 className="athena-profile-pic"
                 src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
               />
-              <NavDropdown
-                title={userInfo?.firstName ? userInfo?.firstName : "Muizz"}
-                id="basic-nav-dropdown"
-              >
+              <NavDropdown title={FirstName || "Muizz"} id="basic-nav-dropdown">
                 <NavDropdown.Item href="">
                   <Link to="/MyProfile" className="profilelist">
                     <i className="fa fa-user" />
