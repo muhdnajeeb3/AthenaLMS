@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
+import {
+  GetCourseModule,
+  GetStudentEnrollment,
+} from "../actions/courseDetails";
+import Loader from "../reusablecomponents/Loader";
 
 const Banner = () => {
   const [currentDivIndex, setCurrentDivIndex] = useState(0);
+  const [animationClass, setAnimationClass] = useState("slide-down");
   const divs = ["Blocked", "Expired", "Enrolled"];
 
   const handlePrev = () => {
     setCurrentDivIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    setAnimationClass("slide-up");
   };
 
   const handleNext = () => {
     setCurrentDivIndex((prevIndex) => Math.min(prevIndex + 1, divs.length - 1));
+    setAnimationClass("slide-down");
   };
   var settings = {
     dots: true,
@@ -25,15 +34,36 @@ const Banner = () => {
     autoplaySpeed: 3000,
     cssEase: "linear",
   };
+
+  const EnrolledStudent = useSelector((state) => state.studentEnrollment);
+  const { loading, studentenrollment, error } = EnrolledStudent;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const parseStudentEnrollments = (enrollmentData) => {
+    return enrollmentData.flatMap((item) => JSON.parse(item.result));
+  };
+  const parsedEnrollments = studentenrollment
+    ? parseStudentEnrollments(studentenrollment)
+    : [];
+
+  useEffect(() => {
+    dispatch(GetStudentEnrollment());
+  }, [dispatch]);
+
+  const coursedetailHandler = (courseid) => {
+    dispatch(GetCourseModule(courseid));
+    navigate("/courseDetails");
+  };
+
   return (
     <Container fluid className="bg-light container-pr">
       <div className="quick-enq">
         <Link to="/bookaCall"> &nbsp;</Link>
 
         <Link to="">&nbsp;</Link>
-        <Link to="mailto:see@uniathena.com">
-          &nbsp;
-        </Link>
+        <Link to="mailto:see@uniathena.com">&nbsp;</Link>
         <img src="https://ulearn.uniathena.com/Images/group-4.png" width={77} />
       </div>
       <Row className="homebannerrow">
@@ -344,9 +374,14 @@ const Banner = () => {
         </div>
         <Col className="col-md-6 py-5 home-main-box-v2">
           <div>
-            {divs.map((divContent, index) => (
+            {loading ? <Loader /> : ""}
+            <h3>{error ? "Error" : ""} </h3>
+
+            {parsedEnrollments.map((data, index) => (
               <div
-                className="home-v2box"
+                className={`home-v2box ${
+                  currentDivIndex === index ? animationClass : ""
+                }`}
                 key={index}
                 style={{
                   display: currentDivIndex === index ? "block" : "none",
@@ -354,10 +389,10 @@ const Banner = () => {
               >
                 <div className="flex moduledate">
                   <div className="datestatuswrap flex">
-                    <span>October 17,2022</span>
-                    <span className="status">{divContent}</span>
+                    <span>{data.EnrolledOn}</span>
+                    <span className="status">Enrolled</span>
                   </div>
-                  {divContent === "Expired" && (
+                  {data?.status === "Expired" && (
                     <div className="dropcourse">
                       <span>Drop this Course</span>
                       <img
@@ -367,9 +402,7 @@ const Banner = () => {
                     </div>
                   )}
                 </div>
-                <h3 className="my-3">
-                  Master of Business Administration - Blockchain Management
-                </h3>
+                <h3 className="my-3">{data?.CourseName}</h3>
                 <hr className="hr-br-yellow" />
                 <h5 className="pt-2">
                   <strong>University: </strong>Guglielmo Marconi University,
@@ -406,15 +439,19 @@ const Banner = () => {
                       <span>RESUME LEARNING</span>
                     </Button>
                   </Link>
-                  <Link to="/CourseDetails">
-                    <Button className="goto-course" variant="">
-                      <img
-                        src="https://ulearn.uniathena.com/Images/icons/cursor.svg"
-                        alt=""
-                      />
-                      <span>GO TO COURSE HOME</span>
-                    </Button>
-                  </Link>
+                  {/* <Link to="/CourseDetails"> */}
+                  <Button
+                    className="goto-course"
+                    variant=""
+                    onClick={() => coursedetailHandler(data.CourseId)}
+                  >
+                    <img
+                      src="https://ulearn.uniathena.com/Images/icons/cursor.svg"
+                      alt=""
+                    />
+                    <span>GO TO COURSE HOME</span>
+                  </Button>
+                  {/* </Link> */}
                 </div>
                 <hr className="my-3" />
                 <div className="assignmentdue">
@@ -438,11 +475,10 @@ const Banner = () => {
                 <hr className="my-3" />
                 <div className="assignmentdue mt-4">
                   <h5>Blockchain Fundamentals</h5>
-                  <Link to='/EnrollCourse'>
-                    
-                  <Button className="draftbtn" variant="">
-                    Pay Now
-                  </Button>
+                  <Link to="/EnrollCourse">
+                    <Button className="draftbtn" variant="">
+                      Pay Now
+                    </Button>
                   </Link>
                 </div>
                 <hr className="my-3" />
@@ -473,7 +509,7 @@ const Banner = () => {
             </button>
             <button
               onClick={handleNext}
-              disabled={currentDivIndex === divs.length - 1}
+              disabled={currentDivIndex === parsedEnrollments.length - 1}
               className="modulearrowbtn"
               style={{ top: "45%" }}
             >

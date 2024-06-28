@@ -113,7 +113,7 @@
   z-index: 999;
   min-height: 594px !important;
   max-width: 580px;
-  animation: slide-down-animation 0.5s forwards;
+  /* animation: slide-down-animation 0.5s forwards; */
 }
 
 @keyframes slide-down-animation {
@@ -126,7 +126,23 @@
     transform: translateY(0);
   }
 }
+@keyframes slide-up-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(24%);
+}
+100% {
+    opacity: 1;
+    transform: translateY(0%);
+}
+}
+.home-v2box.slide-down {
+  animation: slide-down-animation 0.5s forwards;
+}
 
+.home-v2box.slide-up {
+  animation: slide-up-animation 0.5s forwards;
+}
 .moduledate {
   gap: 10px;
   justify-content: space-between;

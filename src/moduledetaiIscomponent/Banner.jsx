@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Col, Container, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
+import { useDispatch, useSelector } from "react-redux";
 
 const Banner = ({ CourseDetails }) => {
   const [showmore, setShowmore] = useState(false);
@@ -19,6 +20,11 @@ const Banner = ({ CourseDetails }) => {
     console.log(showmore);
   };
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const coursemodule = useSelector(state=>state.courseModule);
+  const {loading,error,courseModule} = coursemodule;
+
   const viewAssignmentHandler = () => {
     navigate("/SubmitAssignments");
   };
