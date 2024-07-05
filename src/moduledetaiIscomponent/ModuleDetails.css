@@ -82,11 +82,14 @@ ul.module-list li {
   list-style: none;
   margin-left: 24px;
   padding: 10px 0;
-  border-bottom: 1px solid #dee2e6;
   display: flex;
   justify-content: space-between;
   gap: 10px;
   min-height: 50px;
+}
+ul.module-list li:not(:last-child) {
+  border-bottom: 1px solid #dee2e6;
+
 }
 ul.module-list li:hover .openlesson-btn {
   display: block !important;

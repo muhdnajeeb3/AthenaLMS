@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Modal } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import { useDispatch, useSelector } from "react-redux";
+import { GetCourseModule } from "../actions/courseDetails";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const Banner = ({ CourseDetails }) => {
   const [showmore, setShowmore] = useState(false);
@@ -12,6 +17,14 @@ const Banner = ({ CourseDetails }) => {
   const handleClose = () => setShowPopup(false);
   const handleShow = () => setShowPopup(true);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const query = useQuery();
+  const courseId = query.get("CourseId");
+  useEffect(() => {
+    dispatch(GetCourseModule(courseId));
+  }, [courseId, dispatch]);
+
   const sidebarShowHideHandler = () => {
     setSidebarShow(!sidebarShow);
   };
@@ -19,11 +32,14 @@ const Banner = ({ CourseDetails }) => {
     setShowmore(!showmore);
     console.log(showmore);
   };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const coursemodule = useSelector(state=>state.courseModule);
-  const {loading,error,courseModule} = coursemodule;
+  const coursemodule = useSelector((state) => state.courseModule);
+  const { loading, error, courseModule } = coursemodule;
+
+  const CourseModuleContent =
+    (courseModule && JSON.parse(courseModule?.map((data) => data.result))) ||
+    [];
+  console.log(CourseModuleContent);
 
   const viewAssignmentHandler = () => {
     navigate("/SubmitAssignments");
@@ -34,6 +50,11 @@ const Banner = ({ CourseDetails }) => {
   const bannerbtnHandler = (btn) => {
     navigate(`/${btn}`);
   };
+
+  const openLessonHandler = (unitId, lessonId, moduleId, courseId) => {
+    const url = `/UnitDetailView?UID=${unitId}&LessonId=${lessonId}&ModuleId=${moduleId}&CourseId=${courseId}`;
+    navigate(url);
+  };
   return (
     <>
       <Container fluid className="bg-light">
@@ -41,7 +62,7 @@ const Banner = ({ CourseDetails }) => {
           <div className="text-dark pt-4 pb-3 mdtoprow w-100">
             <div>
               <h2 className="project-heading text-dark pb-1">
-                <b>Machine Learning</b>
+                <b>{CourseModuleContent[0]?.CourseName}</b>
               </h2>
               <p>
                 <b>Postgraduate Certificate In Machine Learning</b>
@@ -174,126 +195,102 @@ const Banner = ({ CourseDetails }) => {
             </span>
           </Button>
           <div className="col-md-9">
-            <div className="bg-white shadow">
-              <div
-                className="py-4 course-modules-wrap"
-                style={{ height: showmore ? "" : "575px", overflow: "hidden" }}
-              >
-                <h5 className="modulecardheading">1. Machine Learning</h5>
-                <p className="pl-4 pb-2">
-                  Estimated time to complete: 30 hours.
-                </p>
+            <div
+              style={{
+                height: showmore ? "" : "775px",
+                overflow: "hidden",
+              }}
+              className="bg-white shadow pb-3"
+            >
+              <div className="course-modules w-100 mb-3 course-modules-wrap mt-3">
+                <h3>
+                  <b>MODULES IN THIS COURSE</b>
+                </h3>
                 <hr />
-                <ul className="module-list clearfix">
-                  <li>Chapter 1 Fundamentals to Machine Learning</li>
-                  <li>
-                    <span>Introduction to Machine Learning</span>
-                    <Link to="/UnitDetailView">
-                      <Button className="openlesson-btn text-center text-white">
-                        <b>Open Lesson</b>
-                      </Button>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <span>Concept of Machine Learning</span>
-                    <Link to="/UnitDetailView">
-                      <Button className="openlesson-btn text-center text-white">
-                        <b>Open Lesson</b>
-                      </Button>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <span>Examples of Machine Learning Application</span>
-                    <Link to="/UnitDetailView">
-                      <Button className="openlesson-btn text-center text-white">
-                        <b>Open Lesson</b>
-                      </Button>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <span>Application of Machine Learning</span>
-                    <Link to="/UnitDetailView">
-                      <Button className="openlesson-btn text-center text-white">
-                        <b>Open Lesson</b>
-                      </Button>
-                    </Link>
-                  </li>
-                </ul>
-                <ul className="module-list clearfix">
-                  <li>Chapter 2 Fundamentals to Machine Learning</li>
-                  <li>
-                    <span>Introduction to Machine Learning</span>
-                    <Link to="/UnitDetailView">
-                      <Button className="openlesson-btn text-center text-white">
-                        <b>Open Lesson</b>
-                      </Button>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <span>Concept of Machine Learning</span>
-                    <Link to="/UnitDetailView">
-                      <Button className="openlesson-btn text-center text-white">
-                        <b>Open Lesson</b>
-                      </Button>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <span>Examples of Machine Learning Application</span>
-                    <Link to="/UnitDetailView">
-                      <Button className="openlesson-btn text-center text-white">
-                        <b>Open Lesson</b>
-                      </Button>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <span>Application of Machine Learning</span>
-                    <Link to="/UnitDetailView">
-                      <Button className="openlesson-btn text-center text-white">
-                        <b>Open Lesson</b>
-                      </Button>
-                    </Link>
-                  </li>
-                  <li
-                    style={{
-                      justifyContent: "flex-start",
-                      flexDirection: "column",
-                      borderBottom: "none",
-                      marginTop: "1rem",
-                    }}
-                  >
-                    <Button
-                      className="quizz-assign-btn"
-                      variant=""
-                      onClick={takelessonHandler}
-                    >
-                      Take Lesson Quiz
-                    </Button>
-                    <Button
-                      className="quizz-assign-btn"
-                      variant=""
-                      onClick={viewAssignmentHandler}
-                    >
-                      View Assignment
-                    </Button>
-                  </li>
-                </ul>
+                <p></p>
               </div>
-              <div className="text-center py-4">
-                <Button
-                  className="showmoreless"
-                  onClick={ShowHideHandler}
-                  variant=""
-                >
-                  <b>{showmore ? "Show Less" : "show More"}</b>
-                </Button>
-              </div>
+              {/* module name and unit */}
+              {CourseModuleContent.map((course, i) => (
+                <div key={i}>
+                  {course.Modules.map((module) => (
+                    <div key={module.ModuleId}>
+                      <div className="py-4 course-modules-wrap">
+                        <h5 className="modulecardheading">
+                          {i + 1}. {module.ModuleName}
+                        </h5>
+                        <p className="pl-4 pb-2">
+                          Estimated time to complete:{" "}
+                          {module?.ModuleDuration || "30 hours"}.
+                        </p>
+                        <hr />
+                        {module.Lessons.map((lesson) => (
+                          <ul
+                            className="module-list clearfix"
+                            key={lesson.LessonId}
+                          >
+                            <li>{lesson.LessonName}</li>
+                            {lesson.Units.map((unit) => (
+                              <li key={unit.UnitId}>
+                                <span>{unit.UnitName}</span>
+
+                                <Button
+                                  className="openlesson-btn text-center text-white"
+                                  onClick={() =>
+                                    openLessonHandler(
+                                      unit.UnitId,
+                                      lesson.LessonId,
+                                      module.ModuleId,
+                                      courseId
+                                    )
+                                  }
+                                >
+                                  <b>Open Lesson</b>
+                                </Button>
+                              </li>
+                            ))}
+                          </ul>
+                        ))}
+                      </div>
+                      <ul>
+                        <li
+                          className="d-flex mt-2 gap-3 "
+                          style={{
+                            justifyContent: "flex-start",
+                            flexDirection: "column",
+                            borderBottom: "none",
+                          }}
+                        >
+                          <Button
+                            className="quizz-assign-btn"
+                            variant=""
+                            onClick={takelessonHandler}
+                          >
+                            Take Lesson Quiz
+                          </Button>
+                          <Button
+                            className="quizz-assign-btn"
+                            variant=""
+                            onClick={viewAssignmentHandler}
+                          >
+                            View Assignment
+                          </Button>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
+            <div className="text-center py-4 bg-white shadow">
+              <Button
+                className="showmoreless"
+                onClick={ShowHideHandler}
+                variant=""
+              >
+                <b>{showmore ? "Show Less" : "show More"}</b>
+              </Button>
+            </div>
+            {/* HOW THIS COURSE WILL HELP YOUR CAREER */}
             <div className="bg-white shadow my-5 careerhelp">
               <div className=" py-4 course-modules-wrap">
                 <div className="course-modules w-100 mb-3">

@@ -3,10 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
-import {
-  GetCourseModule,
-  GetStudentEnrollment,
-} from "../actions/courseDetails";
+import { GetStudentEnrollment } from "../actions/courseDetails";
 import Loader from "../reusablecomponents/Loader";
 
 const Banner = () => {
@@ -53,8 +50,7 @@ const Banner = () => {
   }, [dispatch]);
 
   const coursedetailHandler = (courseid) => {
-    dispatch(GetCourseModule(courseid));
-    navigate("/courseDetails");
+    navigate(`/courseDetails?CourseId=${courseid}`);
   };
 
   return (

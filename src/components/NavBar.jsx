@@ -14,7 +14,6 @@ function NavBar() {
   const studentLogin = useSelector((state) => state.studentLogin);
   const { studentInfo } = studentLogin;
 
-  console.log(studentInfo);
   let IsActive;
   let Email;
   let Password;
@@ -29,12 +28,6 @@ function NavBar() {
       Email = firstResultObject.Email;
       Password = firstResultObject.Password;
       FirstName = firstResultObject.FirstName;
-
-      console.log("IsActive:", IsActive);
-      console.log("Email:", Email);
-      console.log("Password:", Password);
-      console.log("IsActive:", IsActive);
-      console.log("firstname", FirstName);
     }
   }
 

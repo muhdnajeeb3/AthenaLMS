@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { Link, useNavigate } from "react-router-dom";
-// import ReactPlayer from "react-player";
-// import samplevideo from "./sample.mp4";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import Vimeo from "@u-wave/react-vimeo";
 import EssentialReadings from "./EssentialReadings";
 import Table from "react-bootstrap/Table";
 import AdditionalResources from "./AdditionalResources";
 import pdf from "./mn.pdf";
 import Modal from "react-bootstrap/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCourseModule } from "../actions/courseDetails";
 
 const Progress = () => {
   const [progressShow, setProgressShow] = useState(false);
@@ -17,6 +22,14 @@ const Progress = () => {
   const [chapter, setChapter] = useState(1);
   const [levels, setLevels] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
+
+  const [activeLesson, setActiveLesson] = useState(1);
+  const [selectedUnit, setSelectedUnit] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const lessonHandler = (lessonId) => {
+    setActiveLesson(lessonId === activeLesson ? null : lessonId);
+  };
 
   const handleClose = () => setShowPopup(false);
   const handleShow = () => setShowPopup(true);
@@ -41,6 +54,95 @@ const Progress = () => {
   const takelessonHandler = () => {
     navigate("/FasttrackQuiz");
   };
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  const dispatch = useDispatch();
+  const query = useQuery();
+  const courseId = query.get("CourseId");
+  const moduleId = query.get("ModuleId");
+  const lessonId = query.get("LessonId");
+  const uid = query.get("UID");
+
+  useEffect(() => {
+    dispatch(GetCourseModule(courseId));
+  }, [courseId, dispatch]);
+
+  const coursemodule = useSelector((state) => state.courseModule);
+  const { loading, error, courseModule } = coursemodule;
+
+  // const CourseModuleContent =
+  //   (courseModule && JSON.parse(courseModule?.map((data) => data.result))) ||
+  //   [];
+
+  // const matchedModule = CourseModuleContent.flatMap((course) =>
+  //   course.Modules.filter((module) => module.ModuleId === parseInt(moduleId))
+  // )[0];
+  const CourseModuleContent = useMemo(() => {
+    return (
+      (courseModule && JSON.parse(courseModule.map((data) => data.result))) ||
+      []
+    );
+  }, [courseModule]);
+
+  const matchedModule = useMemo(() => {
+    return CourseModuleContent.flatMap((course) =>
+      course.Modules.filter((module) => module.ModuleId === parseInt(moduleId))
+    ).find((m) => m.ModuleId === parseInt(moduleId));
+  }, [CourseModuleContent, moduleId]);
+
+  console.log(matchedModule);
+  console.log(CourseModuleContent);
+
+  const unitClickHandler = (uid) => {
+    searchParams.set("UID", uid); // Assuming UnitId is the property you want to update
+    setSearchParams(searchParams);
+  };
+
+  useEffect(() => {
+    if (matchedModule && lessonId && uid) {
+      const lesson = matchedModule.Lessons.find(
+        (lesson) => lesson.LessonId === parseInt(lessonId)
+      );
+      const unit = lesson?.Units.find((unit) => unit.UnitId === parseInt(uid));
+      if (unit) {
+        setSelectedUnit(unit);
+      }
+    }
+  }, [matchedModule, lessonId, uid]);
+
+  const handleNextUnit = () => {
+    if (matchedModule && lessonId && uid) {
+      const lesson = matchedModule.Lessons.find(
+        (lesson) => lesson.LessonId === parseInt(lessonId)
+      );
+      const unitIndex = lesson?.Units.findIndex(
+        (unit) => unit.UnitId === parseInt(uid)
+      );
+      if (unitIndex !== -1 && unitIndex < lesson.Units.length - 1) {
+        const nextUnit = lesson.Units[unitIndex + 1];
+        searchParams.set("UID", nextUnit.UnitId);
+        setSearchParams(searchParams);
+      }
+    }
+  };
+
+  const handlePrevUnit = () => {
+    if (matchedModule && lessonId && uid) {
+      const lesson = matchedModule.Lessons.find(
+        (lesson) => lesson.LessonId === parseInt(lessonId)
+      );
+      const unitIndex = lesson?.Units.findIndex(
+        (unit) => unit.UnitId === parseInt(uid)
+      );
+      if (unitIndex > 0) {
+        const prevUnit = lesson.Units[unitIndex - 1];
+        searchParams.set("UID", prevUnit.UnitId);
+        setSearchParams(searchParams);
+      }
+    }
+  };
+
   return (
     <>
       <Container
@@ -117,189 +219,66 @@ const Progress = () => {
                   />
                   <Link to="">Course Home</Link>
                 </h2>
-                <div className="mt-3">
-                  <div
-                    className="coursechapters"
-                    onClick={() => chapterHandler(1)}
-                  >
-                    <img
-                      src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                      alt=""
-                      width={13}
-                      height={13}
-                    />
-                    <p>Chapter 1 Fundamentals to Machine Learning</p>
+                {matchedModule?.Lessons.map((lesson) => (
+                  <div key={lesson.LessonId} className="mt-3">
+                    <div
+                      className="coursechapters"
+                      onClick={() => lessonHandler(lesson.LessonId)}
+                    >
+                      <img
+                        src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
+                        alt=""
+                        width={13}
+                        height={13}
+                      />
+                      <p>{lesson.LessonName}</p>
+                    </div>
+                    {activeLesson === lesson.LessonId && (
+                      <>
+                        <ul className="coursechaptersections">
+                          {lesson.Units.map((unit) => (
+                            <li
+                              key={unit.UnitId}
+                              onClick={() => unitClickHandler(unit.UnitId)}
+                            >
+                              <span
+                                className={
+                                  unit.UntActive ? "clscompleted" : "clspending"
+                                }
+                              ></span>
+                              <p>{unit.UnitName}</p>
+                            </li>
+                          ))}
+                        </ul>
+                        <div
+                          style={{
+                            justifyContent: "flex-start",
+                            flexDirection: "column",
+                            display: "flex",
+                            borderBottom: "none",
+                            marginTop: "1rem",
+                          }}
+                          className="quiz-assignbtn-wrap"
+                        >
+                          <Button
+                            className="quizz-assign-btn"
+                            variant=""
+                            onClick={takelessonHandler}
+                          >
+                            Take Lesson Quiz
+                          </Button>
+                          <Button
+                            className="quizz-assign-btn"
+                            variant=""
+                            onClick={viewAssignmentHandler}
+                          >
+                            View Assignment
+                          </Button>
+                        </div>
+                      </>
+                    )}
                   </div>
-                  {chapter === 1 && (
-                    <ul className="coursechaptersections">
-                      <li>
-                        {/* <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        /> */}
-                        <span className="clscompleted"></span>
-                        <p>Introduction to Machine Learning</p>
-                      </li>
-                      <li>
-                        <span className="clscompleted"></span>
-                        <p>Concept of Machine Learning</p>
-                      </li>
-                      <li>
-                        <span className="clspending"></span>
-
-                        <p>Examples of Machine Learning Application</p>
-                      </li>
-                      <li>
-                        <span className="clspending"></span>
-                        <p>Application of Machine Learning</p>
-                      </li>
-                    </ul>
-                  )}
-                </div>
-                <div className="mt-3">
-                  <div
-                    className="coursechapters"
-                    onClick={() => chapterHandler(2)}
-                  >
-                    <img
-                      src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                      alt=""
-                      width={13}
-                      height={13}
-                    />
-                    <p>Chapter 2 Fundamentals to Machine Learning</p>
-                  </div>
-                  {chapter === 2 && (
-                    <ul className="coursechaptersections">
-                      <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
-                        <p>Introduction to Machine Learning</p>
-                      </li>
-                      <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
-                        <p>Concept of Machine Learning</p>
-                      </li>
-                      <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
-                        <p>Examples of Machine Learning Application</p>
-                      </li>
-                      <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
-                        <p>Application of Machine Learning</p>
-                      </li>
-                    </ul>
-                  )}
-                  <div
-                    style={{
-                      justifyContent: "flex-start",
-                      flexDirection: "column",
-                      display: "flex",
-                      borderBottom: "none",
-                      marginTop: "1rem",
-                    }}
-                    className="quiz-assignbtn-wrap"
-                  >
-                    <Button className="quizz-assign-btn" variant="" onClick={takelessonHandler}>
-                      Take Lesson Quiz
-                    </Button>
-                    <Button className="quizz-assign-btn" variant="" onClick={viewAssignmentHandler}>
-                      View Assignment
-                    </Button>
-                  </div>
-                </div>
-                <div className="mt-3">
-                  <div
-                    className="coursechapters"
-                    onClick={() => chapterHandler(3)}
-                  >
-                    <img
-                      src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                      alt=""
-                      width={13}
-                      height={13}
-                    />
-                    <p>Chapter 3 Fundamentals to Machine Learning</p>
-                  </div>
-                  {chapter === 3 && (
-                    <ul className="coursechaptersections">
-                      <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
-                        <p>Introduction to Machine Learning</p>
-                      </li>
-                      <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
-                        <p>Concept of Machine Learning</p>
-                      </li>
-                      <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
-                        <p>Examples of Machine Learning Application</p>
-                      </li>
-                      <li>
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/Tick-32.png"
-                          alt=""
-                          width={13}
-                          height={13}
-                        />
-                        <p>Application of Machine Learning</p>
-                      </li>
-                    </ul>
-                  )}
-                  <div
-                    style={{
-                      justifyContent: "flex-start",
-                      flexDirection: "column",
-                      display: "flex",
-                      borderBottom: "none",
-                      marginTop: "1rem",
-                    }}
-                    className="quiz-assignbtn-wrap"
-                  >
-                    <Button className="quizz-assign-btn" variant="" onClick={takelessonHandler}>
-                      Take Lesson Quiz
-                    </Button>
-                    <Button className="quizz-assign-btn" variant="" onClick={viewAssignmentHandler}>
-                      View Assignment
-                    </Button>
-                  </div>
-                </div>
+                ))}
                 <div className="pt-4 flex">
                   <Button
                     className="dreadmore-btn"
@@ -335,7 +314,7 @@ const Progress = () => {
             <div className="shadow bg-white p-4 pt-3 mb-4 w-100">
               <div className="mb-5">
                 <h3>
-                  <b>Simple & Multiple Linear Regression</b>
+                  <b>{selectedUnit?.UnitName}</b>
                 </h3>
                 <p>
                   Estimated time to complete:
@@ -443,13 +422,6 @@ const Progress = () => {
                   levels === 1 ? "contentactive" : "contentnotactive"
                 }`}
               >
-                {/* <ReactPlayer url={samplevideo} controls={true} width="100%" height="500px" muted 
-                config={{ file: { 
-                  attributes: {
-                    controlsList: 'nodownload'
-                  }
-                }}}
-                /> */}
                 <Vimeo
                   // video="328808137"
                   video="285854272"
@@ -493,8 +465,12 @@ const Progress = () => {
               )}
               {levels === 4 && <AdditionalResources />}
               <div className="prevnext-videobtn mt-4 mb-2 flex">
-                <Button variant="">{"<<"} Previous</Button>
-                <Button variant="">Next {">>"}</Button>
+                <Button variant="" onClick={handlePrevUnit}>
+                  {"<<"} Previous
+                </Button>
+                <Button variant="" onClick={handleNextUnit}>
+                  Next {">>"}
+                </Button>
               </div>
               <div className="addviewnote-btnwrap">
                 <Button variant="" onClick={handleShow}>
@@ -506,7 +482,11 @@ const Progress = () => {
                   <Modal.Title>Notes</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <input type="text" className="w-100" placeholder="Add Your Notes"/>
+                  <input
+                    type="text"
+                    className="w-100"
+                    placeholder="Add Your Notes"
+                  />
                 </Modal.Body>
                 <Modal.Footer className="completed-btnwrap">
                   <Button variant="primary" onClick={handleClose}>
