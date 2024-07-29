@@ -251,7 +251,7 @@ const Banner = ({ CourseDetails }) => {
                           </ul>
                         ))}
                       </div>
-                      <ul>
+                      {/* <ul>
                         <li
                           className="d-flex mt-2 gap-3 "
                           style={{
@@ -275,7 +275,7 @@ const Banner = ({ CourseDetails }) => {
                             View Assignment
                           </Button>
                         </li>
-                      </ul>
+                      </ul> */}
                     </div>
                   ))}
                 </div>

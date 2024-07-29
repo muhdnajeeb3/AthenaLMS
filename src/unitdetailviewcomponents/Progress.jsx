@@ -250,7 +250,7 @@ const Progress = () => {
                             </li>
                           ))}
                         </ul>
-                        <div
+                        {/* <div
                           style={{
                             justifyContent: "flex-start",
                             flexDirection: "column",
@@ -274,7 +274,7 @@ const Progress = () => {
                           >
                             View Assignment
                           </Button>
-                        </div>
+                        </div> */}
                       </>
                     )}
                   </div>
@@ -432,7 +432,7 @@ const Progress = () => {
                   responsive={true}
                 />
               </div>
-              {levels === 2 && <EssentialReadings />}
+              {levels === 2 && <EssentialReadings data={selectedUnit}/>}
               {levels === 3 && (
                 <Table striped bordered hover>
                   <thead>
