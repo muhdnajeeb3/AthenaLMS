@@ -20,14 +20,16 @@ function NavBar() {
   let FirstName;
   if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
     const resultString = studentInfo[0]?.result;
-    const resultArray = JSON.parse(resultString);
-
-    if (resultArray && resultArray.length > 0) {
-      const firstResultObject = resultArray[0];
-      IsActive = firstResultObject.status;
-      Email = firstResultObject.Email;
-      Password = firstResultObject.Password;
-      FirstName = firstResultObject.FirstName;
+    console.log(resultString);
+    if (resultString !== "VALIDATION|No Record Found") {
+      const resultArray = JSON.parse(resultString);
+      if (resultArray && resultArray.length > 0) {
+        const firstResultObject = resultArray[0];
+        IsActive = firstResultObject.status;
+        Email = firstResultObject.Email;
+        Password = firstResultObject.Password;
+        FirstName = firstResultObject.FirstName;
+      }
     }
   }
 

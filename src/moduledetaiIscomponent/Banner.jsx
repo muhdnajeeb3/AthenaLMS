@@ -35,10 +35,15 @@ const Banner = ({ CourseDetails }) => {
 
   const coursemodule = useSelector((state) => state.courseModule);
   const { loading, error, courseModule } = coursemodule;
+  console.log(courseModule);
 
-  const CourseModuleContent =
-    (courseModule && JSON.parse(courseModule?.map((data) => data.result))) ||
-    [];
+  let CourseModuleContent;
+  if (courseModule[0].result !== 'VALIDATION|No Record Found') {
+    
+     CourseModuleContent =
+      (courseModule && JSON.parse(courseModule?.map((data) => data.result))) ||
+      [];
+  }
   console.log(CourseModuleContent);
 
   const viewAssignmentHandler = () => {
@@ -229,7 +234,7 @@ const Banner = ({ CourseDetails }) => {
                             key={lesson.LessonId}
                           >
                             <li>{lesson.LessonName}</li>
-                            {lesson.Units.map((unit) => (
+                            {lesson?.Units?.map((unit) => (
                               <li key={unit.UnitId}>
                                 <span>{unit.UnitName}</span>
 

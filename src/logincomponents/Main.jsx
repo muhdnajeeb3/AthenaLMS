@@ -23,13 +23,19 @@ function Main() {
   let IsActive;
   if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
     const resultString = studentInfo[0]?.result;
-    const resultArray = JSON.parse(resultString);
-
-    if (resultArray && resultArray.length > 0) {
-      const firstResultObject = resultArray[0];
-      IsActive = firstResultObject.status;
-
-      console.log("IsActive:", IsActive);
+    console.log(resultString);
+  
+    try {
+      const resultArray = JSON.parse(resultString);
+  
+      if (resultArray && resultArray.length > 0) {
+        const firstResultObject = resultArray[0];
+        IsActive = firstResultObject.status;
+  
+        console.log("IsActive:", IsActive);
+      }
+    } catch (e) {
+      console.error("Error parsing JSON:", e, "resultString:", resultString);
     }
   }
 

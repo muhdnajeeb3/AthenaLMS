@@ -39,7 +39,10 @@ const Banner = () => {
   const navigate = useNavigate();
 
   const parseStudentEnrollments = (enrollmentData) => {
-    return enrollmentData.flatMap((item) => JSON.parse(item.result));
+    console.log(enrollmentData[0].result);
+    if (enrollmentData[0].result !== "VALIDATION|No Record Found") {
+      return enrollmentData?.flatMap((item) => JSON.parse(item.result));
+    }
   };
   const parsedEnrollments = studentenrollment
     ? parseStudentEnrollments(studentenrollment)
@@ -373,7 +376,7 @@ const Banner = () => {
             {loading ? <Loader /> : ""}
             <h3>{error ? "Error" : ""} </h3>
 
-            {parsedEnrollments.map((data, index) => (
+            {parsedEnrollments?.map((data, index) => (
               <div
                 className={`home-v2box ${
                   currentDivIndex === index ? animationClass : ""
@@ -505,7 +508,7 @@ const Banner = () => {
             </button>
             <button
               onClick={handleNext}
-              disabled={currentDivIndex === parsedEnrollments.length - 1}
+              disabled={currentDivIndex === parsedEnrollments?.length - 1}
               className="modulearrowbtn"
               style={{ top: "45%" }}
             >
