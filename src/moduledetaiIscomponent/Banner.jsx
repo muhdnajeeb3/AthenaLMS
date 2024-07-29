@@ -35,15 +35,10 @@ const Banner = ({ CourseDetails }) => {
 
   const coursemodule = useSelector((state) => state.courseModule);
   const { loading, error, courseModule } = coursemodule;
-  console.log(courseModule);
 
-  let CourseModuleContent;
-  if (courseModule[0].result !== 'VALIDATION|No Record Found') {
-    
-     CourseModuleContent =
-      (courseModule && JSON.parse(courseModule?.map((data) => data.result))) ||
-      [];
-  }
+  const CourseModuleContent =
+    (courseModule && JSON.parse(courseModule?.map((data) => data.result))) ||
+    [];
   console.log(CourseModuleContent);
 
   const viewAssignmentHandler = () => {
@@ -228,7 +223,7 @@ const Banner = ({ CourseDetails }) => {
                           {module?.ModuleDuration || "30 hours"}.
                         </p>
                         <hr />
-                        {module.Lessons.map((lesson) => (
+                        {module?.Lessons.map((lesson) => (
                           <ul
                             className="module-list clearfix"
                             key={lesson.LessonId}
