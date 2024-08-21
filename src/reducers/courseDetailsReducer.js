@@ -5,6 +5,9 @@ import {
   GETSTUDENT_ENROLLMENT_FAIL,
   GETSTUDENT_ENROLLMENT_REQUEST,
   GETSTUDENT_ENROLLMENT_SUCCESS,
+  GETUNIT_DETAILS_FAIL,
+  GETUNIT_DETAILS_REQUEST,
+  GETUNIT_DETAILS_SUCCESS,
 } from "../constants/courseDetails";
 
 export const GetStudentEnrollmentReducer = (state = {}, action) => {
@@ -28,6 +31,20 @@ export const GetCourseModuleReducer = (state = {}, action) => {
     case GETCOURSE_MODULE_SUCCESS:
       return { loading: false, courseModule: action.payload };
     case GETCOURSE_MODULE_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const GetUnitDetailsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case GETUNIT_DETAILS_REQUEST:
+      return { loading: true };
+    case GETUNIT_DETAILS_SUCCESS:
+      return { loading: false, unitDetail: action.payload };
+    case GETUNIT_DETAILS_FAIL:
       return { loading: false, error: action.payload };
 
     default:

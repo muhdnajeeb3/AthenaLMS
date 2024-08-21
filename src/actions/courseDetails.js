@@ -6,6 +6,9 @@ import {
   GETSTUDENT_ENROLLMENT_FAIL,
   GETSTUDENT_ENROLLMENT_REQUEST,
   GETSTUDENT_ENROLLMENT_SUCCESS,
+  GETUNIT_DETAILS_FAIL,
+  GETUNIT_DETAILS_REQUEST,
+  GETUNIT_DETAILS_SUCCESS,
 } from "../constants/courseDetails";
 
 export const GetStudentEnrollment = () => async (dispatch, getState) => {
@@ -13,23 +16,19 @@ export const GetStudentEnrollment = () => async (dispatch, getState) => {
   const {
     studentLogin: { studentInfo },
   } = getState();
-  let userId = null;
-  if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
-    try {
-      const resultArray = JSON.parse(studentInfo[0].result);
-      if (resultArray && resultArray.length > 0) {
-        userId = resultArray[0].UserId;
-      }
-    } catch (error) {
-      console.error("Error parsing studentInfo result:", error);
-    }
-  }
+  // console.log(studentInfo);
+  
+  let userId =studentInfo && studentInfo[0].UserId || null;
+
   try {
     const { data } = await axios.post(
       "https://ulearnapi.schneidestaging.in/api/User/GetStudentEnrollment",
       { Parameter: JSON.stringify({ UserId: userId }), Type: "GET" }
     );
-    dispatch({ type: GETSTUDENT_ENROLLMENT_SUCCESS, payload: data });
+    // Parse JSON response data here
+    const parsedData = JSON.parse(data.map((data) => data.result));
+
+    dispatch({ type: GETSTUDENT_ENROLLMENT_SUCCESS, payload: parsedData });
   } catch (error) {
     dispatch({
       type: GETSTUDENT_ENROLLMENT_FAIL,
@@ -46,26 +45,55 @@ export const GetCourseModule = (courseId) => async (dispatch, getState) => {
   const {
     studentLogin: { studentInfo },
   } = getState();
-  let userId = null;
-  if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
-    try {
-      const resultArray = JSON.parse(studentInfo[0].result);
-      if (resultArray && resultArray.length > 0) {
-        userId = resultArray[0].UserId;
-      }
-    } catch (error) {
-      console.error("Error parsing studentInfo result:", error);
-    }
-  }
+  let userId =studentInfo && studentInfo[0].UserId || null;
+
   try {
     const { data } = await axios.post(
       "https://ulearnapi.schneidestaging.in/api/Course/GetCourseModule",
-      { Parameter: JSON.stringify({ UserId: userId,CourseId:courseId }), Type: "GET" }
+      {
+        Parameter: JSON.stringify({ LeadId: userId, CourseId: courseId }),
+        Type: "GET",
+      }
     );
-    dispatch({ type: GETCOURSE_MODULE_SUCCESS, payload: data });
+    const parsedData = JSON.parse(data.map(data =>data.result));
+
+    dispatch({ type: GETCOURSE_MODULE_SUCCESS, payload: parsedData });
   } catch (error) {
     dispatch({
       type: GETCOURSE_MODULE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const GetUnitDetails = (unitId,unitversionid) => async (dispatch, getState) => {
+  dispatch({ type: GETUNIT_DETAILS_REQUEST });
+  const {
+    studentLogin: { studentInfo },
+  } = getState();
+  let userId =studentInfo && studentInfo[0].UserId || null;
+
+  try {
+    const { data } = await axios.post(
+      "https://ulearnapi.schneidestaging.in/api/Course/GetUnitDetails",
+      {
+        Parameter: JSON.stringify({
+          LeadId: userId,
+          UnitId: unitId,
+          VersionId: unitversionid,
+        }),
+        Type: "GET",
+      }
+    );
+    const parsedData = JSON.parse(data.map(data =>data.result));
+
+    dispatch({ type: GETUNIT_DETAILS_SUCCESS, payload: parsedData });
+  } catch (error) {
+    dispatch({
+      type: GETUNIT_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -14,7 +14,7 @@ import AdditionalResources from "./AdditionalResources";
 import pdf from "./mn.pdf";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { GetCourseModule } from "../actions/courseDetails";
+import { GetCourseModule, GetUnitDetails } from "../actions/courseDetails";
 
 const Progress = () => {
   const [progressShow, setProgressShow] = useState(false);
@@ -22,12 +22,21 @@ const Progress = () => {
   const [chapter, setChapter] = useState(1);
   const [levels, setLevels] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
+  const [unitversionid, setUnitversionid] = useState(6);
 
-  const [activeLesson, setActiveLesson] = useState(1);
+  const [activeLesson, setActiveLesson] = useState(null);
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [prevUnitName, setPrevUnitName] = useState(null);
+  const [nextUnitName, setNextUnitName] = useState(null);
+
+  
 
   const lessonHandler = (lessonId) => {
+    console.log(lessonId);
+    searchParams.set("LessonId", lessonId);
+
+    
     setActiveLesson(lessonId === activeLesson ? null : lessonId);
   };
 
@@ -64,23 +73,87 @@ const Progress = () => {
   const lessonId = query.get("LessonId");
   const uid = query.get("UID");
 
-  useEffect(() => {
-    dispatch(GetCourseModule(courseId));
-  }, [courseId, dispatch]);
+  
+  
 
   const coursemodule = useSelector((state) => state.courseModule);
   const { loading, error, courseModule } = coursemodule;
 
-  // const CourseModuleContent =
-  //   (courseModule && JSON.parse(courseModule?.map((data) => data.result))) ||
+  const unitdetail = useSelector((state) => state.unitDetail);
+  const { loading: unitLoading, error: unitError, unitDetail } = unitdetail;
+
+  useEffect(() => {
+    // Check if courseModule data is already available in the state
+    if (!courseModule || courseModule.length === 0) {
+      dispatch(GetCourseModule(courseId));
+    }
+  }, [courseId, dispatch, courseModule]);
+
+  useEffect(() => {
+    if (uid) {
+      dispatch(GetUnitDetails(uid,unitversionid));
+    }
+  }, [uid, dispatch,unitversionid]);
+
+  useEffect(() => {
+    if (unitDetail) {
+      try {
+        setSelectedUnit(unitDetail[0]);
+        setActiveLesson(lessonId)
+      } catch (e) {
+        console.error("Error parsing unitDetail:", e);
+      }
+    }
+  }, [unitDetail,lessonId]);
+
+  console.log(courseModule);
+  
+console.log(activeLesson);
+
+  // const unitdetailcontent =
+  //   (unitDetail && JSON.parse(unitDetail?.map((data) => data.result))) ||
   //   [];
 
   // const matchedModule = CourseModuleContent.flatMap((course) =>
   //   course.Modules.filter((module) => module.ModuleId === parseInt(moduleId))
   // )[0];
+
+  // useEffect(() => {
+  //   console.log(unitdetailcontent,'unittesteding');
+  //       setSelectedUnit(unitdetailcontent);
+
+  // }, [ unitdetailcontent]);
+
+  useEffect(() => {
+    if (courseModule && courseModule.length > 0) {
+      // Find the index of the current unit
+      const currentIndex = courseModule.findIndex(
+        (unit) => unit.UnitId === uid
+      );
+
+      if (currentIndex !== -1) {
+        // Set previous unit name
+        if (currentIndex > 0) {
+          setPrevUnitName(courseModule[currentIndex - 1].UnitName);
+        } else {
+          setPrevUnitName(null); // No previous unit
+        }
+
+        // Set next unit name
+        if (currentIndex < courseModule.length - 1) {
+          setNextUnitName(courseModule[currentIndex + 1].UnitName);
+        } else {
+          setNextUnitName(null); // No next unit
+        }
+      }
+    }
+  }, [courseModule, uid]);
+
+
+
   const CourseModuleContent = useMemo(() => {
     return (
-      (courseModule && JSON.parse(courseModule.map((data) => data.result))) ||
+      courseModule ||
       []
     );
   }, [courseModule]);
@@ -90,58 +163,80 @@ const Progress = () => {
       course.Modules.filter((module) => module.ModuleId === parseInt(moduleId))
     ).find((m) => m.ModuleId === parseInt(moduleId));
   }, [CourseModuleContent, moduleId]);
+  
 
+  // const MatchedModule = courseModule?.flatMap((course) => 
+  //   course?.Modules?.filter((module) => module.ModuleId === parseInt(moduleId))
+  // );
+
+  // console.log(MatchedModule);
   console.log(matchedModule);
-  console.log(CourseModuleContent);
+  
+  const mergedUnits = useMemo(() => {
+    return matchedModule
+      ? matchedModule.Lessons.flatMap((lesson) => lesson.Units)
+      : [];
+  }, [matchedModule]);
 
-  const unitClickHandler = (uid) => {
-    searchParams.set("UID", uid); // Assuming UnitId is the property you want to update
+  useEffect(() => {
+    if (mergedUnits.length > 0) {
+      const currentIndex = mergedUnits.findIndex((unit) => unit.UnitId === parseInt(uid));
+
+      if (currentIndex !== -1) {
+        setPrevUnitName(
+          currentIndex > 0 ? mergedUnits[currentIndex - 1].UnitName : null
+        );
+        setNextUnitName(
+          currentIndex < mergedUnits.length - 1
+            ? mergedUnits[currentIndex + 1].UnitName
+            : null
+        );
+      }
+    }
+  }, [mergedUnits, uid]);
+  
+
+  const unitClickHandler = (uid,UnitVersionId) => {
+    
+    searchParams.set("UID", uid);
+    setUnitversionid(UnitVersionId)
+     // Assuming UnitId is the property you want to update
     setSearchParams(searchParams);
   };
 
-  useEffect(() => {
-    if (matchedModule && lessonId && uid) {
-      const lesson = matchedModule.Lessons.find(
-        (lesson) => lesson.LessonId === parseInt(lessonId)
-      );
-      const unit = lesson?.Units.find((unit) => unit.UnitId === parseInt(uid));
-      if (unit) {
-        setSelectedUnit(unit);
-      }
-    }
-  }, [matchedModule, lessonId, uid]);
+  // useEffect(() => {
+  //   if (matchedModule && lessonId && uid) {
+  //     const lesson = matchedModule.Lessons.find(
+  //       (lesson) => lesson.LessonId === parseInt(lessonId)
+  //     );
+  //     const unit = lesson?.Units.find((unit) => unit.UnitId === parseInt(uid));
+  //     if (unit) {
+  //       setSelectedUnit(unit);
+  //     }
+  //   }
+  // }, [matchedModule, lessonId, uid]);
 
   const handleNextUnit = () => {
-    if (matchedModule && lessonId && uid) {
-      const lesson = matchedModule.Lessons.find(
-        (lesson) => lesson.LessonId === parseInt(lessonId)
-      );
-      const unitIndex = lesson?.Units.findIndex(
-        (unit) => unit.UnitId === parseInt(uid)
-      );
-      if (unitIndex !== -1 && unitIndex < lesson.Units.length - 1) {
-        const nextUnit = lesson.Units[unitIndex + 1];
-        searchParams.set("UID", nextUnit.UnitId);
-        setSearchParams(searchParams);
-      }
+    const currentIndex = mergedUnits.findIndex((unit) => unit.UnitId === parseInt(uid));
+    if (currentIndex !== -1 && currentIndex < mergedUnits.length - 1) {
+      const nextUnit = mergedUnits[currentIndex + 1];
+      searchParams.set("UID", nextUnit.UnitId);
+      setSearchParams(searchParams);
     }
   };
 
   const handlePrevUnit = () => {
-    if (matchedModule && lessonId && uid) {
-      const lesson = matchedModule.Lessons.find(
-        (lesson) => lesson.LessonId === parseInt(lessonId)
-      );
-      const unitIndex = lesson?.Units.findIndex(
-        (unit) => unit.UnitId === parseInt(uid)
-      );
-      if (unitIndex > 0) {
-        const prevUnit = lesson.Units[unitIndex - 1];
-        searchParams.set("UID", prevUnit.UnitId);
-        setSearchParams(searchParams);
-      }
+    const currentIndex = mergedUnits.findIndex((unit) => unit.UnitId === parseInt(uid));
+    if (currentIndex > 0) {
+      const prevUnit = mergedUnits[currentIndex - 1];
+      searchParams.set("UID", prevUnit.UnitId);
+      setSearchParams(searchParams);
     }
   };
+
+  const movetomodulepage = () => {
+    navigate(`/courseDetails?CourseId=${courseId}`)
+  }
 
   return (
     <>
@@ -233,17 +328,18 @@ const Progress = () => {
                       />
                       <p>{lesson.LessonName}</p>
                     </div>
-                    {activeLesson === lesson.LessonId && (
+                  
+                    {Number(activeLesson) === lesson.LessonId && (
                       <>
                         <ul className="coursechaptersections">
                           {lesson.Units.map((unit) => (
                             <li
                               key={unit.UnitId}
-                              onClick={() => unitClickHandler(unit.UnitId)}
+                              onClick={() => unitClickHandler(unit.UnitId,unit.UnitVersionId)}
                             >
                               <span
                                 className={
-                                  unit.UntActive ? "clscompleted" : "clspending"
+                                  unit?.UnitActive ? "clscompleted" : "clspending"
                                 }
                               ></span>
                               <p>{unit.UnitName}</p>
@@ -287,6 +383,7 @@ const Progress = () => {
                       width: "165px",
                       height: "44px",
                     }}
+                    onClick={movetomodulepage}
                   >
                     GO TO MODULE
                   </Button>
@@ -432,7 +529,7 @@ const Progress = () => {
                   responsive={true}
                 />
               </div>
-              {levels === 2 && <EssentialReadings data={selectedUnit}/>}
+              {levels === 2 && <EssentialReadings data={selectedUnit} />}
               {levels === 3 && (
                 <Table striped bordered hover>
                   <thead>
@@ -499,8 +596,16 @@ const Progress = () => {
               </div>
               <hr className="my-2" />
               <div className="prevnext-videobtn mt-3 flex">
-                <Button variant="">Concept of Machine Learning</Button>
-                <Button variant="">Application of Machine Learning</Button>
+              {prevUnitName && (
+        <Button variant="" onClick={handlePrevUnit}>
+          {prevUnitName}
+        </Button>
+      )}
+      {nextUnitName && (
+        <Button variant="" onClick={handleNextUnit}>
+          {nextUnitName}
+        </Button>
+      )}
               </div>
             </div>
           </div>

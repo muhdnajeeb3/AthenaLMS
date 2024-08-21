@@ -1,6 +1,14 @@
 import { Breadcrumb, Button, Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
+  const coursemodule = useSelector((state) => state.courseModule);
+  const { courseModule } = coursemodule;
+  console.log(courseModule);
+
+  const courseId = (courseModule && courseModule[0].CourseId) || null;
+
   return (
     <Container fluid className="bg-light">
       <div className="moduledetailwrap">
@@ -13,11 +21,13 @@ const Banner = () => {
               <b>Postgraduate Certificate In Machine Learning</b>
             </p>
             <Breadcrumb>
-              <Breadcrumb.Item href="/" className="breadcrumb">
-                Dashboard
+              <Breadcrumb.Item className="breadcrumb">
+                <Link to="/">Dashboard</Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item href="/ModuleDetails">
-                Module Details
+              <Breadcrumb.Item>
+                <Link to={`/ModuleDetails?CourseId=${courseId}`}>
+                  Module Details
+                </Link>
               </Breadcrumb.Item>
               {/* <Breadcrumb.Item active>UnitDetailsView</Breadcrumb.Item> */}
             </Breadcrumb>

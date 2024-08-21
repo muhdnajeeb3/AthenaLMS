@@ -49,12 +49,14 @@ export const studentlogin = (Email) => async (dispatch, getState) => {
       EmailPAssword,
       config
     );
-    dispatch({ type: STUDENT_LOGIN_SUCCESS, payload: data });
+    const parsedData = JSON.parse(data.map(data =>data.result));
+
+    dispatch({ type: STUDENT_LOGIN_SUCCESS, payload: parsedData });
     // const resultString = data[0]?.result;
     // const resultArray = JSON.parse(resultString);
     // const IsActive = resultArray?.[0]?.status;
-    console.log(data);
-    localStorage.setItem("studentLogin", JSON.stringify(data));
+    console.log(parsedData);
+    localStorage.setItem("studentLogin", JSON.stringify(parsedData));
   } catch (error) {
     dispatch({
       type: STUDENT_LOGIN_FAIL,

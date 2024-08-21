@@ -36,10 +36,11 @@ const Banner = ({ CourseDetails }) => {
   const coursemodule = useSelector((state) => state.courseModule);
   const { loading, error, courseModule } = coursemodule;
 
-  const CourseModuleContent =
-    (courseModule && JSON.parse(courseModule?.map((data) => data.result))) ||
-    [];
-  console.log(CourseModuleContent);
+  console.log(courseModule);
+  let CourseName;
+  if (courseModule) {
+    CourseName = courseModule[0]?.CourseName || "Course Name";
+  }
 
   const viewAssignmentHandler = () => {
     navigate("/SubmitAssignments");
@@ -62,7 +63,7 @@ const Banner = ({ CourseDetails }) => {
           <div className="text-dark pt-4 pb-3 mdtoprow w-100">
             <div>
               <h2 className="project-heading text-dark pb-1">
-                <b>{CourseModuleContent[0]?.CourseName}</b>
+                <b>{CourseName}</b>
               </h2>
               <p>
                 <b>Postgraduate Certificate In Machine Learning</b>
@@ -210,7 +211,7 @@ const Banner = ({ CourseDetails }) => {
                 <p></p>
               </div>
               {/* module name and unit */}
-              {CourseModuleContent.map((course, i) => (
+              {courseModule?.map((course, i) => (
                 <div key={i}>
                   {course.Modules.map((module) => (
                     <div key={module.ModuleId}>

@@ -14,24 +14,27 @@ function NavBar() {
   const studentLogin = useSelector((state) => state.studentLogin);
   const { studentInfo } = studentLogin;
 
+  console.log(studentInfo);
+  
+
   let IsActive;
   let Email;
   let Password;
-  let FirstName;
-  if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
-    const resultString = studentInfo[0]?.result;
-    console.log(resultString);
-    if (resultString !== "VALIDATION|No Record Found") {
-      const resultArray = JSON.parse(resultString);
-      if (resultArray && resultArray.length > 0) {
-        const firstResultObject = resultArray[0];
-        IsActive = firstResultObject.status;
-        Email = firstResultObject.Email;
-        Password = firstResultObject.Password;
-        FirstName = firstResultObject.FirstName;
-      }
-    }
-  }
+  let FirstName =studentInfo && studentInfo[0]?.FirstName;
+  // if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
+  //   const resultString = studentInfo[0]?.result;
+  //   console.log(resultString);
+  //   if (resultString !== "VALIDATION|No Record Found") {
+  //     const resultArray = JSON.parse(resultString);
+  //     if (resultArray && resultArray.length > 0) {
+  //       const firstResultObject = resultArray[0];
+  //       IsActive = firstResultObject.status;
+  //       Email = firstResultObject.Email;
+  //       Password = firstResultObject.Password;
+  //       FirstName = firstResultObject.FirstName;
+  //     }
+  //   }
+  // }
 
   const dispatch = useDispatch();
   const logoutHandler = async () => {
@@ -56,6 +59,7 @@ function NavBar() {
   if (isLoginPage || Homepage) {
     return null;
   }
+
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary" bg="light">

@@ -35,18 +35,14 @@ const Banner = () => {
   const EnrolledStudent = useSelector((state) => state.studentEnrollment);
   const { loading, studentenrollment, error } = EnrolledStudent;
 
+  const studentLogin = useSelector((state) => state.studentLogin);
+  const { studentInfo } = studentLogin;
+
+  let FirstName =studentInfo && studentInfo[0]?.FirstName;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const parseStudentEnrollments = (enrollmentData) => {
-    console.log(enrollmentData[0].result);
-    if (enrollmentData[0].result !== "VALIDATION|No Record Found") {
-      return enrollmentData?.flatMap((item) => JSON.parse(item.result));
-    }
-  };
-  const parsedEnrollments = studentenrollment
-    ? parseStudentEnrollments(studentenrollment)
-    : [];
+  
 
   useEffect(() => {
     dispatch(GetStudentEnrollment());
@@ -68,7 +64,7 @@ const Banner = () => {
       <Row className="homebannerrow">
         <div className="col-md-6 py-5 home-box-v1">
           <h2 className="greeting pb-2">
-            <span id="MainContent_lblUser">Good Afternoon, Muizz</span>
+            <span id="MainContent_lblUser">Good Afternoon, {FirstName || 'username'}</span>
           </h2>
           <p>
             If a man empties his purse into his head, no man can take it away
@@ -376,7 +372,7 @@ const Banner = () => {
             {loading ? <Loader /> : ""}
             <h3>{error ? "Error" : ""} </h3>
 
-            {parsedEnrollments?.map((data, index) => (
+            {studentenrollment?.map((data, index) => (
               <div
                 className={`home-v2box ${
                   currentDivIndex === index ? animationClass : ""
@@ -508,7 +504,7 @@ const Banner = () => {
             </button>
             <button
               onClick={handleNext}
-              disabled={currentDivIndex === parsedEnrollments?.length - 1}
+              disabled={currentDivIndex === studentenrollment?.length - 1}
               className="modulearrowbtn"
               style={{ top: "45%" }}
             >
