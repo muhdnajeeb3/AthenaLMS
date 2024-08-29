@@ -180,7 +180,7 @@ console.log(activeLesson);
 
   useEffect(() => {
     if (mergedUnits.length > 0) {
-      const currentIndex = mergedUnits.findIndex((unit) => unit.UnitId === parseInt(uid));
+      const currentIndex = mergedUnits.findIndex((unit) => unit?.UnitId === parseInt(uid));
 
       if (currentIndex !== -1) {
         setPrevUnitName(
@@ -217,7 +217,7 @@ console.log(activeLesson);
   // }, [matchedModule, lessonId, uid]);
 
   const handleNextUnit = () => {
-    const currentIndex = mergedUnits.findIndex((unit) => unit.UnitId === parseInt(uid));
+    const currentIndex = mergedUnits.findIndex((unit) => unit?.UnitId === parseInt(uid));
     if (currentIndex !== -1 && currentIndex < mergedUnits.length - 1) {
       const nextUnit = mergedUnits[currentIndex + 1];
       searchParams.set("UID", nextUnit.UnitId);
@@ -226,10 +226,10 @@ console.log(activeLesson);
   };
 
   const handlePrevUnit = () => {
-    const currentIndex = mergedUnits.findIndex((unit) => unit.UnitId === parseInt(uid));
+    const currentIndex = mergedUnits.findIndex((unit) => unit?.UnitId === parseInt(uid));
     if (currentIndex > 0) {
       const prevUnit = mergedUnits[currentIndex - 1];
-      searchParams.set("UID", prevUnit.UnitId);
+      searchParams.set("UID", prevUnit?.UnitId);
       setSearchParams(searchParams);
     }
   };

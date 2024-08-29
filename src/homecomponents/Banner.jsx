@@ -79,7 +79,9 @@ const Banner = () => {
                   <b>You have new mail notification</b>
                 </div>
                 <div className="mailnumber">
+                  <Link to='/InboxMails'>
                   <span>22</span>
+                  </Link>
                 </div>
               </div>
               <div className="mailview">View</div>
