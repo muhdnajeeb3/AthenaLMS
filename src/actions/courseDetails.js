@@ -6,6 +6,9 @@ import {
   GETPROJECT_DETAILS_FAIL,
   GETPROJECT_DETAILS_REQUEST,
   GETPROJECT_DETAILS_SUCCESS,
+  GETQUESTION_DETAILS_FAIL,
+  GETQUESTION_DETAILS_REQUEST,
+  GETQUESTION_DETAILS_SUCCESS,
   GETSTUDENT_ENROLLMENT_FAIL,
   GETSTUDENT_ENROLLMENT_REQUEST,
   GETSTUDENT_ENROLLMENT_SUCCESS,
@@ -123,6 +126,34 @@ export const GetUnitDetails =
     } catch (error) {
       dispatch({
         type: GETPROJECT_DETAILS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+  // getquestion
+  export const GetQuestionDetails = (TestId) => async (dispatch, getState) => {
+    dispatch({ type: GETQUESTION_DETAILS_REQUEST });
+    const {
+      studentLogin: { studentInfo },
+    } = getState();
+    let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+  
+    try {
+      const { data } = await axios.post(`${BaseUrl}/Course/GetQuestionnairesDetails`, {
+        Parameter: JSON.stringify({ LeadId: LeadId, TestId: TestId }),
+        Type: "GET",
+      });
+      
+      const parsedData = JSON.parse(data.map((data) => data.result));
+  
+      dispatch({ type: GETQUESTION_DETAILS_SUCCESS, payload: parsedData });
+    } catch (error) {
+      dispatch({
+        type: GETQUESTION_DETAILS_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

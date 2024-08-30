@@ -7,6 +7,7 @@ import {
   GetProjectDetails,
   GetStudentEnrollment,
 } from "../actions/courseDetails";
+import { FormatDate } from "../utils/FormateDate";
 
 const ProjectAndAssignement = () => {
   const navigate = useNavigate();
@@ -24,20 +25,16 @@ const ProjectAndAssignement = () => {
     error: projecterror,
   } = ProjectDetail;
 
-  console.log(
-    studentenrollment?.map((data) => data.CourseId),
-    "stude"
-  );
   console.log(projectDetail, "p");
 
-  // console.log(
-  //   projectDetail?.map((data) => JSON.parse(data.BriefDetails)),
-  //   "brief"
-  // );
 
-  const viewHandler = (projectId) => {
-    navigate(`/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`);
-  };
+  // const parsedData = projectDetail?.map((data) => JSON.parse(data?.BriefDetails));
+
+  // console.log(parsedData ? parsedData : '','kokok');
+  
+
+
+  
 
   useEffect(() => {
     // Check if studentenrollment data is already available in the state
@@ -63,6 +60,10 @@ const ProjectAndAssignement = () => {
   const handleCourseChange = (event) => {
     const courseId = event.target.value;
     setSelectedCourseId(courseId);
+  };
+
+  const viewHandler = (projectId) => {
+    navigate(`/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`);
   };
 
   const tableHeadings = [
@@ -114,21 +115,17 @@ const ProjectAndAssignement = () => {
             {projectDetail?.map((project, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{project.ProjectName}</td>
-                <td>
-                  {project.ProjectStartDate &&
-                    new Date(project.ProjectStartDate).toLocaleDateString(
-                      "en-CA"
-                    )}
-                </td>
+                <td>{project.ModuleName}</td>
+                <td>{FormatDate(project.ProjectStartDate)}</td>
 
-                <td>{project.dueDate}</td>
-                <td>{project.daysLeft}</td>
-                <td>{project.submittedDate || ""}</td>
+
+                <td>{FormatDate(project.DueDate)}</td>
+                <td>{project.DaysLeft || ""}</td>
+                <td>{FormatDate(project.SubmittedDate) || ""}</td>
                 <td>{project.ProjectCurrentStatus}</td>
                 <td>{project.extensionRequest || "N/A"}</td>
-                <td>{project.score || ""}</td>
-                <td>{project.grade || ""}</td>
+                <td>{project.Score || ""}</td>
+                <td>{project.Grade || ""}</td>
                 <td onClick={()=>viewHandler(project.ProjectId)} style={{ cursor: "pointer" }}>
                   View
                 </td>

@@ -24,6 +24,7 @@ import ProjectSubmissionDetails from "./screens/ProjectSubmissionDetails";
 import Terms from "./screens/Terms";
 import FasttrackQuiz from "./screens/FasttrackQuiz";
 import FasttrackTestResult from "./screens/FasttrackTestResult";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -31,34 +32,35 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/EnrolledHome" element={<HomeScreen />} />
-          <Route path="/FreeTrialHome" element={<FreeTrialHome />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/ProjectandAssignments" element={<ProjectDetails />} />
-          <Route path="/ModuleDetails" element={<ModuleDetails />} />
-          <Route path="/CourseDetails" element={<CourseDetails />} />
-          <Route path="/UnitDetailView" element={<UnitDetailView />} />
-          <Route path="/MyProfile" element={<MyProfile />} />
-          <Route path="/ChangePassword" element={<ChangePassword />} />
-          <Route path="/CourseMoreDetails" element={<CourseMoreDetails />} />
-          <Route path="/MyOnlineClass" element={<MyOnlineClass />} />
-          <Route path="/ExploreCourses" element={<ExploreCourses />} />
-          <Route path="/InboxMails" element={<InboxMails />} />
-          <Route path="/CreateInvoice" element={<CreateInvoice />} />
-          <Route
-            path="/StudClaimCertificate"
-            element={<StudClaimCertificate />}
-          />
-          <Route path="/bookaCall" element={<BookaCall />} />
-          <Route path="/EnrollCourse" element={<EnrollCourse />} />
-          <Route path="/EnrolToCourse" element={<EnrolToCourse />} />
-          <Route path="/SubmitAssignments" element={<SubmitAssignments />} />
-          <Route path="/ViewProject" element={<ProjectSubmissionDetails />} />
-          <Route path="/Terms" element={<Terms />} />
-          <Route path="/FasttrackQuiz" element={<FasttrackQuiz />} />
-          <Route path="/FasttrackTestResult" element={<FasttrackTestResult />} />
-        </Routes>
+          <Route path="/" element={<Login />} />
+
+          {/* Protected Routes */}
+          <Route element={<PrivateRoute />}>
+          <Route path="/FreeTrialHome" element={<FreeTrialHome />} />
+            <Route path="/EnrolledHome" element={<HomeScreen />} />
+            <Route path="/ProjectandAssignments" element={<ProjectDetails />} />
+            <Route path="/ModuleDetails" element={<ModuleDetails />} />
+            <Route path="/CourseDetails" element={<CourseDetails />} />
+            <Route path="/UnitDetailView" element={<UnitDetailView />} />
+            <Route path="/MyProfile" element={<MyProfile />} />
+            <Route path="/ChangePassword" element={<ChangePassword />} />
+            <Route path="/CourseMoreDetails" element={<CourseMoreDetails />} />
+            <Route path="/MyOnlineClass" element={<MyOnlineClass />} />
+            <Route path="/ExploreCourses" element={<ExploreCourses />} />
+            <Route path="/InboxMails" element={<InboxMails />} />
+            <Route path="/CreateInvoice" element={<CreateInvoice />} />
+            <Route path="/StudClaimCertificate" element={<StudClaimCertificate />} />
+            <Route path="/bookaCall" element={<BookaCall />} />
+            <Route path="/EnrollCourse" element={<EnrollCourse />} />
+            <Route path="/EnrolToCourse" element={<EnrolToCourse />} />
+            <Route path="/SubmitAssignments" element={<SubmitAssignments />} />
+            <Route path="/ViewProject" element={<ProjectSubmissionDetails />} />
+            <Route path="/Terms" element={<Terms />} />
+            <Route path="/FasttrackQuiz" element={<FasttrackQuiz />} />
+            <Route path="/FasttrackTestResult" element={<FasttrackTestResult />} />
+          </Route>
+          </Routes>
         <Footer />
       </BrowserRouter>
     </>

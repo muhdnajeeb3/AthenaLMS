@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Breadcrumb, Container, Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { GetQuestionDetails } from "../actions/courseDetails";
 
 const FasttrackQuiz = () => {
   const [timeLeft, setTimeLeft] = useState(30 * 60);
@@ -10,34 +12,35 @@ const FasttrackQuiz = () => {
   const [loading, setLoading] = useState(true);
   const [animateNext, setAnimateNext] = useState(false);
 
-  useEffect(() => {
-    const quizQuestions = [
-      {
-        question: "Who is the parent company of Tableau?",
-        answers: ["Microsoft", "Salesforce", "Google", "Amazon"],
-        correctAnswer: "Salesforce",
-      },
-      {
-        question: "Who is the parent company of Tableau?",
-        answers: ["Microsoft", "Salesforce", "Google", "Amazon"],
-        correctAnswer: "Salesforce",
-      },
-      {
-        question: "Who is the parent company of Tableau?",
-        answers: ["Microsoft", "Salesforce", "Google", "Amazon"],
-        correctAnswer: "Salesforce",
-      },
-      {
-        question: "Who is the parent company of Tableau?",
-        answers: ["Microsoft", "Salesforce", "Google", "Amazon"],
-        correctAnswer: "Salesforce",
-      },
-      // Add more questions here
-    ];
+  const dispatch = useDispatch();
 
-    setQuestions(quizQuestions);
-    setLoading(false); // Set loading to false after questions are initialized
-  }, []);
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  const query = useQuery();
+
+  const TestId = query.get("TestId");
+
+  const QuestionDetails = useSelector((state) => state.questionDetail);
+  const { questionDetail } = QuestionDetails;
+
+  useEffect(() => {
+    if (TestId) {
+      dispatch(GetQuestionDetails(TestId));
+    }
+  }, [dispatch,TestId]);
+
+  useEffect(() => {
+    if (questionDetail && questionDetail.length > 0) {
+      const quizQuestions = questionDetail[0].QnA.map((qna) => ({
+        question: qna?.QuesText,
+        answers: qna?.QtAn?.map((ans) => ans.Answer),
+        correctAnswer: qna?.QtAn?.find((ans) => ans.OptionNum === 1)?.Answer, // Assuming correct answer is the first option, update this as per your logic
+      }));
+      setQuestions(quizQuestions);
+      setLoading(false);
+    }
+  }, [questionDetail]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,7 +59,7 @@ const FasttrackQuiz = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [currentQuestionIndex]);
 
   const handleAnswerChange = (questionIndex, selectedAnswer) => {
     setSelectedAnswers((prevAnswers) => ({
@@ -66,9 +69,10 @@ const FasttrackQuiz = () => {
   };
 
   const handleNextQuestion = () => {
-    if (selectedAnswers === "") {
-      alert("choose one");
-    }
+    // if (selectedAnswers[currentQuestionIndex] === undefined) {
+    //   alert("Please choose an answer before proceeding.");
+    //   return;
+    // }
     setAnimateNext(true);
     setTimeout(() => {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -86,16 +90,12 @@ const FasttrackQuiz = () => {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
-  if (loading) {
-    return <div>Loading...</div>; // Render loading indicator while questions are being fetched
-  }
-
   return (
     <Container fluid className="bg-white py-5">
       <div className="fasttrack-wrap">
         <div className="fasttrack-timer-wrap p-3">
           <div>
-            <h2>Data Visualization</h2>
+            <h2>{questionDetail?.[0]?.TestName}</h2>
             <h5>Master In Data Sciences</h5>
           </div>
           <div>
@@ -132,7 +132,7 @@ const FasttrackQuiz = () => {
                 <span>{questions[currentQuestionIndex]?.question}</span>
               </div>
               <div className="shadow select-answer p-4">
-                {questions[currentQuestionIndex].answers.map(
+                {questions[currentQuestionIndex]?.answers?.map(
                   (answer, answerIndex) => (
                     <Form.Check
                       key={answerIndex}

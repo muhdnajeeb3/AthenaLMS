@@ -14,27 +14,7 @@ function NavBar() {
   const studentLogin = useSelector((state) => state.studentLogin);
   const { studentInfo } = studentLogin;
 
-  console.log(studentInfo);
-  
-
-  let IsActive;
-  let Email;
-  let Password;
-  let FirstName =studentInfo && studentInfo[0]?.FirstName;
-  // if (studentInfo && studentInfo.length > 0 && studentInfo[0]?.result) {
-  //   const resultString = studentInfo[0]?.result;
-  //   console.log(resultString);
-  //   if (resultString !== "VALIDATION|No Record Found") {
-  //     const resultArray = JSON.parse(resultString);
-  //     if (resultArray && resultArray.length > 0) {
-  //       const firstResultObject = resultArray[0];
-  //       IsActive = firstResultObject.status;
-  //       Email = firstResultObject.Email;
-  //       Password = firstResultObject.Password;
-  //       FirstName = firstResultObject.FirstName;
-  //     }
-  //   }
-  // }
+  let FirstName = studentInfo && studentInfo[0]?.FirstName;
 
   const dispatch = useDispatch();
   const logoutHandler = async () => {
@@ -60,15 +40,16 @@ function NavBar() {
     return null;
   }
 
-
   return (
     <Navbar expand="lg" className="bg-body-tertiary" bg="light">
       <Container style={{ maxWidth: "1200px" }}>
-        <Navbar.Brand href="/">
-          <img
-            src="https://ulearn.uniathena.com/Images/athenanew-logo.svg"
-            alt=""
-          />
+        <Navbar.Brand href="">
+          <Link to="/EnrolledHome">
+            <img
+              src="https://ulearn.uniathena.com/Images/athenanew-logo.svg"
+              alt=""
+            />
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -82,9 +63,6 @@ function NavBar() {
             <Link to="/MyOnlineClass" className="nav-link">
               ONLINE CLASS
             </Link>
-            {/* <Nav.Link href="/">DASHBOARD</Nav.Link> */}
-            {/* <Nav.Link href="#">PROJECT DETAILS</Nav.Link> */}
-            {/* <Nav.Link href="#link">ONLINE CLASS</Nav.Link> */}
             <Nav.Link href="#link">MY SURVEY</Nav.Link>
             <NavDropdown title="APPLICATIONS" id="basic-nav-dropdown">
               <NavDropdown.Item
@@ -116,7 +94,10 @@ function NavBar() {
                 className="athena-profile-pic"
                 src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
               />
-              <NavDropdown title={FirstName || "Muizz"} id="basic-nav-dropdown">
+              <NavDropdown
+                title={FirstName || "Username"}
+                id="basic-nav-dropdown"
+              >
                 <NavDropdown.Item href="">
                   <Link to="/MyProfile" className="profilelist">
                     <i className="fa fa-user" />

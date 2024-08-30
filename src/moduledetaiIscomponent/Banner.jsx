@@ -45,8 +45,8 @@ const Banner = ({ CourseDetails }) => {
   const viewAssignmentHandler = () => {
     navigate("/SubmitAssignments");
   };
-  const takelessonHandler = () => {
-    navigate("/FasttrackQuiz");
+  const takelessonHandler = (TestId) => {
+    navigate(`/FasttrackQuiz?TestId=${TestId}`);
   };
   const bannerbtnHandler = (btn) => {
     navigate(`/${btn}`);
@@ -246,6 +246,32 @@ const Banner = ({ CourseDetails }) => {
                                   }
                                 >
                                   <b>Open Lesson</b>
+                                </Button>
+                              </li>
+                            ))}
+                            {lesson?.Quz?.map((data, index) => (
+                              <li
+                                key={index}
+                                className="d-flex mt-2 gap-3 "
+                                style={{
+                                  justifyContent: "flex-start",
+                                  flexDirection: "column",
+                                  borderBottom: "none",
+                                }}
+                              >
+                                <Button
+                                  className="quizz-assign-btn"
+                                  variant=""
+                                  onClick={() => takelessonHandler(data.TestId)}
+                                >
+                                  Take Lesson Quiz
+                                </Button>
+                                <Button
+                                  className="quizz-assign-btn"
+                                  variant=""
+                                  onClick={viewAssignmentHandler}
+                                >
+                                  View Assignment
                                 </Button>
                               </li>
                             ))}

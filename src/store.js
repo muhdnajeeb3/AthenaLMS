@@ -10,7 +10,7 @@ import {
   userSigninReducer,
 } from "./reducers/userReducers";
 import { encrIptDecryptReducer } from "./reducers/ecriptDecriptReducers";
-import { GetCourseModuleReducer, GetProjectDetailsReducer, GetStudentEnrollmentReducer, GetUnitDetailsReducer } from "./reducers/courseDetailsReducer";
+import { GetCourseModuleReducer, GetProjectDetailsReducer, GetQuestionDetailsReducer, GetStudentEnrollmentReducer, GetUnitDetailsReducer } from "./reducers/courseDetailsReducer";
 
 const initialState = {
   userSignin: {
@@ -31,7 +31,8 @@ const reducer = combineReducers({
   studentEnrollment : GetStudentEnrollmentReducer,
   courseModule: GetCourseModuleReducer,
   unitDetail: GetUnitDetailsReducer,
-  projectDetail: GetProjectDetailsReducer
+  projectDetail: GetProjectDetailsReducer,
+  questionDetail: GetQuestionDetailsReducer
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

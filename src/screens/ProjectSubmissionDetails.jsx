@@ -1,21 +1,71 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Modal, Table } from "react-bootstrap";
 import Vimeo from "@u-wave/react-vimeo";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { GetProjectDetails } from "../actions/courseDetails";
+import { FormatDate, FormatDateAndTime } from "../utils/FormateDate";
 
 const ProjectSubmissionDetails = () => {
   const [projectdetails, setProjectdetails] = useState("Project Files");
   const [showPopup, setShowPopup] = useState(false);
 
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const query = useQuery();
+
+  const courseId = query.get("courseId");
+  const moduleId = query.get("ModuleId");
+  const ProjectID = query.get("projectId");
+
+  const ProjectDetail = useSelector((state) => state.projectDetail);
+  const {
+    loading: projectloading,
+    projectDetail,
+    error: projecterror,
+  } = ProjectDetail;
+
+  const viewProjectmatchedData = projectDetail?.filter(
+    (data) => data.ProjectId == ProjectID
+  );
+
+  const viewProjectData = viewProjectmatchedData
+    ? viewProjectmatchedData[0]
+    : [];
+  console.log(viewProjectData);
+
+  const tutorDetailsString = viewProjectData?.TutorDetails;
+
+  let tutorDetails;
+
+  if (tutorDetailsString && tutorDetailsString.trim() !== "") {
+    tutorDetails = JSON.parse(tutorDetailsString);
+  } else {
+    console.log("Tutor details are not available.");
+  }
+
+  useEffect(() => {
+    // Check if courseModule data is already available in the state
+    if (!projectDetail || projectDetail.length === 0) {
+      dispatch(GetProjectDetails(courseId));
+    }
+  }, [courseId, dispatch, projectDetail]);
+
   const handleClose = () => setShowPopup(false);
   const handleShow = () => setShowPopup(true);
+
   const isPF = projectdetails === "Project Files";
   const isSP = projectdetails === "Submit Project";
   const isVL = projectdetails === "View Log";
-  const navigate = useNavigate();
+
   const gobackHandler = () => {
     navigate("/ProjectandAssignments");
   };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -54,11 +104,11 @@ const ProjectSubmissionDetails = () => {
           <div className="shadow p-3">
             <div className="flex gap-10 col-md-3 ">
               <b>Module</b>
-              <span>Introduction to Data Analytics</span>
+              <span>{viewProjectData?.ModuleName}</span>
             </div>
             <div className="flex gap-10 col-md-3">
               <b>Start Date</b>
-              <span>23/04/2021</span>
+              <span>{FormatDate(viewProjectData?.ProjectStartDate)}</span>
             </div>
             <div className="flex gap-10 col-md-3">
               <b>Last Date for Submission</b>
@@ -66,19 +116,19 @@ const ProjectSubmissionDetails = () => {
             </div>
             <div className="flex gap-10 col-md-3">
               <b>Days Left</b>
-              <span>NA</span>
+              <span>{viewProjectData?.DaysLeft}</span>
             </div>
             <div className="flex gap-10 col-md-3">
               <b>Personal Tutor</b>
-              <span>NJ</span>
+              <span>{tutorDetails?.PersonalTutor}</span>
             </div>
             <div className="flex gap-10 col-md-3">
               <b>Tutor Email</b>
-              <span>test@mail.com</span>
+              <span>{tutorDetails?.TutorEmail}</span>
             </div>
             <div className="flex gap-10 col-md-3">
               <b>Status</b>
-              <span>Evaluated</span>
+              <span>{viewProjectData?.ProjectCurrentStatus}</span>
             </div>
           </div>
         </div>
@@ -165,60 +215,36 @@ const ProjectSubmissionDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th>Submitted File</th>
-                  <th>2/7/2022 10:50:48 AMe</th>
-                  <th>Joju Test Schneide</th>
-                  <th>89_GMU_MDS_IDA_AB_V2022.11.docx </th>
-                  <th>
-                    <img
-                      src="https://ulearn.uniathena.com/Images/icons/download.svg"
-                      alt=""
-                      width={35}
-                    />
-                  </th>
-                </tr>
-                <tr>
-                  <th>Submitted File</th>
-                  <th>2/7/2022 10:50:48 AMe</th>
-                  <th>Joju Test Schneide</th>
-                  <th>89_GMU_MDS_IDA_AB_V2022.11.docx </th>
-                  <th>
-                    <img
-                      src="https://ulearn.uniathena.com/Images/icons/download.svg"
-                      alt=""
-                      width={35}
-                    />
-                  </th>
-                </tr>
-                <tr>
-                  <th>Submitted File</th>
-                  <th>2/7/2022 10:50:48 AMe</th>
-                  <th>Joju Test Schneide</th>
-                  <th>89_GMU_MDS_IDA_AB_V2022.11.docx </th>
-                  <th>
-                    <img
-                      src="https://ulearn.uniathena.com/Images/icons/download.svg"
-                      alt=""
-                      width={35}
-                    />
-                  </th>
-                </tr>
-                <tr>
-                  <th>Submitted File</th>
-                  <th>2/7/2022 10:50:48 AMe</th>
-                  <th>Joju Test Schneide</th>
-                  <th>89_GMU_MDS_IDA_AB_V2022.11.docx </th>
-                  <th>
-                    <img
-                      src="https://ulearn.uniathena.com/Images/icons/download.svg"
-                      alt=""
-                      width={35}
-                    />
-                  </th>
-                </tr>
+                {viewProjectData?.ProjectFileDetails?.map((data, i) => (
+                  <tr key={i}>
+                    <th>{data?.FileType}</th>
+                    <th>{FormatDateAndTime(data.SubmittedOn)}</th>
+                    <th>{data.SubmittedBy}</th>
+                    <th>{data.FileName} </th>
+                    <th>
+                      <a href={data.FilePath} download>
+                        <img
+                          src="https://ulearn.uniathena.com/Images/icons/download.svg"
+                          alt=""
+                          width={35}
+                        />
+                      </a>
+                    </th>
+                  </tr>
+                ))}
               </tbody>
             </Table>
+          </div>
+        )}
+        {isSP && (
+          <div className="m-auto py-3" style={{ maxWidth: "1200px" }}>
+            <select style={{ width: "250px" }} className="p-2">
+              <option selected="" value="Default">
+                Select Submission type
+              </option>
+              <option value="Last Week">First Draft</option>
+              <option value="Last Month">Second Draft</option>
+            </select>
           </div>
         )}
         {isVL && (
@@ -236,42 +262,17 @@ const ProjectSubmissionDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th>Verifier</th>
-                  <th>Muhd najeeb</th>
-                  <th>Feb 7 2022 2:57PM</th>
-                  <th>Evaluated</th>
-                  <th>60</th>
-                  <th>Merit</th>
-                  <th>Testing For Evaluation in new domain</th>
-                </tr>
-                <tr>
-                  <th>Verifier</th>
-                  <th>Muhd najeeb</th>
-                  <th>Feb 7 2022 2:57PM</th>
-                  <th>Evaluated</th>
-                  <th>60</th>
-                  <th>Merit</th>
-                  <th>Testing For Evaluation in new domain</th>
-                </tr>
-                <tr>
-                  <th>Verifier</th>
-                  <th>Muhd najeeb</th>
-                  <th>Feb 7 2022 2:57PM</th>
-                  <th>Evaluated</th>
-                  <th>60</th>
-                  <th>Merit</th>
-                  <th>Testing For Evaluation in new domain</th>
-                </tr>
-                <tr>
-                  <th>Verifier</th>
-                  <th>Muhd najeeb</th>
-                  <th>Feb 7 2022 2:57PM</th>
-                  <th>Evaluated</th>
-                  <th>60</th>
-                  <th>Merit</th>
-                  <th>Testing For Evaluation in new domain</th>
-                </tr>
+                {viewProjectData?.ViewLog?.map((data, i) => (
+                  <tr key={i}>
+                    <th>{data?.Role}</th>
+                    <th>{data.Name}</th>
+                    <th>{FormatDateAndTime(data.ActionedOn)}</th>
+                    <th>{data.Status} </th>
+                    <th>{data.Score}</th>
+                    <th>{data.Grade}</th>
+                    <th>{data.Remark}</th>
+                  </tr>
+                ))}
               </tbody>
             </Table>
           </div>

@@ -38,11 +38,10 @@ const Banner = () => {
   const studentLogin = useSelector((state) => state.studentLogin);
   const { studentInfo } = studentLogin;
 
-  let FirstName =studentInfo && studentInfo[0]?.FirstName;
+  let FirstName = studentInfo && studentInfo[0]?.FirstName;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     dispatch(GetStudentEnrollment());
@@ -64,7 +63,9 @@ const Banner = () => {
       <Row className="homebannerrow">
         <div className="col-md-6 py-5 home-box-v1">
           <h2 className="greeting pb-2">
-            <span id="MainContent_lblUser">Good Afternoon, {FirstName || 'username'}</span>
+            <span id="MainContent_lblUser">
+              Good Afternoon, {FirstName || "username"}
+            </span>
           </h2>
           <p>
             If a man empties his purse into his head, no man can take it away
@@ -79,12 +80,12 @@ const Banner = () => {
                   <b>You have new mail notification</b>
                 </div>
                 <div className="mailnumber">
-                  <Link to='/InboxMails'>
                   <span>22</span>
-                  </Link>
                 </div>
               </div>
-              <div className="mailview">View</div>
+              <div className="mailview">
+                <Link to="/InboxMails">View</Link>
+              </div>
             </div>
           </div>
           <div className="newmailbox mt-4" style={{ minHeight: "560px" }}>
