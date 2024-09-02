@@ -418,7 +418,7 @@ const Banner = () => {
                         Started on : 08/09/2023 I Valid till 07/11/2023
                       </span>
                       <Link
-                        to="/ModuleDetails"
+                        to={`/ModuleDetails?CourseId=${data.CourseId}`}
                         className="gotomodulepage item-center"
                       >
                         <span>Go to Module Home Page </span>

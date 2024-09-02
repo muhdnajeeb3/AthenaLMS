@@ -69,7 +69,7 @@ const MemberProfile = () => {
                 />
               </div>
               <div className="w-100  p-2">
-                <div className="editprofile">
+                <div className="editprofile id-name-wrap">
                   <h6>
                     <b>Joju</b>
                     <b>Test Schneide</b> <b className="id-dash"> | </b>{" "}

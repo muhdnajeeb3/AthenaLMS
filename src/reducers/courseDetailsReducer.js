@@ -5,9 +5,6 @@ import {
   GETPROJECT_DETAILS_FAIL,
   GETPROJECT_DETAILS_REQUEST,
   GETPROJECT_DETAILS_SUCCESS,
-  GETQUESTION_DETAILS_FAIL,
-  GETQUESTION_DETAILS_REQUEST,
-  GETQUESTION_DETAILS_SUCCESS,
   GETSTUDENT_ENROLLMENT_FAIL,
   GETSTUDENT_ENROLLMENT_REQUEST,
   GETSTUDENT_ENROLLMENT_SUCCESS,
@@ -58,27 +55,13 @@ export const GetUnitDetailsReducer = (state = {}, action) => {
   }
 };
 
-export const GetProjectDetailsReducer = (state = {}, action) => {
+export const GetProjectDetailsReducer = (state = { projectDetail: null }, action) => {
   switch (action.type) {
     case GETPROJECT_DETAILS_REQUEST:
       return { loading: true };
     case GETPROJECT_DETAILS_SUCCESS:
       return { loading: false, projectDetail: action.payload };
     case GETPROJECT_DETAILS_FAIL:
-      return { loading: false, error: action.payload };
-
-    default:
-      return state;
-  }
-};
-
-export const GetQuestionDetailsReducer = (state = {}, action) => {
-  switch (action.type) {
-    case GETQUESTION_DETAILS_REQUEST:
-      return { loading: true };
-    case GETQUESTION_DETAILS_SUCCESS:
-      return { loading: false, questionDetail: action.payload };
-    case GETQUESTION_DETAILS_FAIL:
       return { loading: false, error: action.payload };
 
     default:

@@ -49,7 +49,7 @@ const Banner = ({ CourseDetails }) => {
     navigate(`/FasttrackQuiz?TestId=${TestId}`);
   };
   const bannerbtnHandler = (btn) => {
-    navigate(`/${btn}`);
+    navigate(`/${btn}?CourseId=${courseId}`);
   };
 
   const openLessonHandler = (unitId, lessonId, moduleId, courseId) => {
@@ -249,9 +249,9 @@ const Banner = ({ CourseDetails }) => {
                                 </Button>
                               </li>
                             ))}
-                            {lesson?.Quz?.map((data, index) => (
+                            {lesson?.Quz?.map((data, quzindex) => (
                               <li
-                                key={index}
+                                key={quzindex}
                                 className="d-flex mt-2 gap-3 "
                                 style={{
                                   justifyContent: "flex-start",

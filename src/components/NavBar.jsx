@@ -6,6 +6,7 @@ import "./NavBar.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../actions/userActions";
+import { LinkContainer } from "react-router-bootstrap";
 
 function NavBar() {
   // const userSignin = useSelector((state) => state.userSignin);
@@ -41,29 +42,34 @@ function NavBar() {
   }
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary" bg="light">
+    <Navbar
+      expand="lg"
+      className="bg-body-tertiary"
+      bg="light"
+      collapseOnSelect
+    >
       <Container style={{ maxWidth: "1200px" }}>
-        <Navbar.Brand href="">
-          <Link to="/EnrolledHome">
+        <LinkContainer to="/EnrolledHome">
+          <Navbar.Brand>
             <img
               src="https://ulearn.uniathena.com/Images/athenanew-logo.svg"
               alt=""
             />
-          </Link>
-        </Navbar.Brand>
+          </Navbar.Brand>
+        </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Link to="/FreeTrialHome" className="nav-link">
-              DASHBOARD
-            </Link>
-            <Link to="/ProjectandAssignments" className="nav-link">
-              PROJECT DETAILS
-            </Link>
-            <Link to="/MyOnlineClass" className="nav-link">
-              ONLINE CLASS
-            </Link>
-            <Nav.Link href="#link">MY SURVEY</Nav.Link>
+            <LinkContainer to="/FreeTrialHome">
+              <Nav.Link>DASHBOARD</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/ProjectandAssignments">
+              <Nav.Link>PROJECT DETAILS</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/MyOnlineClass">
+              <Nav.Link>ONLINE CLASS</Nav.Link>
+            </LinkContainer>
+            <Nav.Link href="#">MY SURVEY</Nav.Link>
             <NavDropdown title="APPLICATIONS" id="basic-nav-dropdown">
               <NavDropdown.Item
                 href="https://learn.uniathena.com/quick-application/user-details"
@@ -72,21 +78,20 @@ function NavBar() {
                 Quick Application
               </NavDropdown.Item>
             </NavDropdown>
-            <Link
-              to="https://www.proquest.com/"
-              className="nav-link"
-              target="__blank"
-            >
+            <Nav.Link href="https://www.proquest.com/" target="__blank">
               E-LIBRARY
-            </Link>
-            {/* <Nav.Link href="#link">E-LIBRARY</Nav.Link> */}
+            </Nav.Link>
             <NavDropdown title={NotificationBtn} id="basic-nav-dropdown">
-              <NavDropdown.Item href="#" className="mail">
-                <Link to="/InboxMails">2 new Mails</Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item href="" className="mail">
-                <Link to="/InboxMails">13 new unread Mails</Link>
-              </NavDropdown.Item>
+              <LinkContainer to="/InboxMails">
+                <NavDropdown.Item className="mail">
+                  2 new Mails
+                </NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to="/InboxMails">
+                <NavDropdown.Item className="mail">
+                  13 new unread Mails
+                </NavDropdown.Item>
+              </LinkContainer>
             </NavDropdown>
             <div className="mt-1 profiledrop">
               <img
@@ -98,27 +103,24 @@ function NavBar() {
                 title={FirstName || "Username"}
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Item href="">
-                  <Link to="/MyProfile" className="profilelist">
+                <LinkContainer to="/MyProfile">
+                  <NavDropdown.Item className="profilelist">
                     <i className="fa fa-user" />
                     <span>MY PROFILE</span>
-                  </Link>
-                </NavDropdown.Item>
-                <NavDropdown.Item href="">
-                  <Link to="/ChangePassword" className="profilelist">
+                  </NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/ChangePassword">
+                  <NavDropdown.Item className="profilelist">
                     <i className="fa fa-refresh" />
                     <span>PASSWORD</span>
-                  </Link>
-                </NavDropdown.Item>
-                <NavDropdown.Item href="">
-                  <Link
-                    to="#logout"
-                    className="profilelist"
-                    onClick={logoutHandler}
-                  >
-                    <i className="fa fa-user" />
-                    <span>LOGOUT</span>
-                  </Link>
+                  </NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Item
+                  onClick={logoutHandler}
+                  className="profilelist"
+                >
+                  <i className="fa fa-user" />
+                  <span>LOGOUT</span>
                 </NavDropdown.Item>
               </NavDropdown>
             </div>

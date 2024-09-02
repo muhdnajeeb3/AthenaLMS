@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Breadcrumb, Container, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { GetQuestionDetails } from "../actions/courseDetails";
+import { GetQuestionDetails } from "../actions/quizDetails";
 
 const FasttrackQuiz = () => {
   const [timeLeft, setTimeLeft] = useState(30 * 60);
@@ -23,6 +23,7 @@ const FasttrackQuiz = () => {
 
   const QuestionDetails = useSelector((state) => state.questionDetail);
   const { questionDetail } = QuestionDetails;
+  
 
   useEffect(() => {
     if (TestId) {
@@ -84,7 +85,7 @@ const FasttrackQuiz = () => {
 
   const handleSubmitQuiz = () => {
     console.log("Selected Answers:", selectedAnswers);
-    navigate("/FasttrackTestResult");
+    navigate(`/FasttrackTestResult?TestId=${TestId}`);
   };
 
   const minutes = Math.floor(timeLeft / 60);
@@ -112,10 +113,6 @@ const FasttrackQuiz = () => {
             <Breadcrumb.Item href="/ModuleDetails">Unit 3</Breadcrumb.Item>
           </Breadcrumb>
         </div>
-        <div
-          key={currentQuestionIndex}
-          className={animateNext ? "question-animation" : ""}
-        >
           <div className="practicalinfo pb-2">
             <div className="practicalinfo-title w-100 mb-2">
               <h5>
@@ -125,6 +122,10 @@ const FasttrackQuiz = () => {
               </h5>
             </div>
           </div>
+        <div
+          key={currentQuestionIndex}
+          className={animateNext ? "question-animation" : ""}
+        >
           <div>
             <form>
               <div className="flex gap-10 mb-4">

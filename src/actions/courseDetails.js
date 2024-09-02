@@ -6,9 +6,6 @@ import {
   GETPROJECT_DETAILS_FAIL,
   GETPROJECT_DETAILS_REQUEST,
   GETPROJECT_DETAILS_SUCCESS,
-  GETQUESTION_DETAILS_FAIL,
-  GETQUESTION_DETAILS_REQUEST,
-  GETQUESTION_DETAILS_SUCCESS,
   GETSTUDENT_ENROLLMENT_FAIL,
   GETSTUDENT_ENROLLMENT_REQUEST,
   GETSTUDENT_ENROLLMENT_SUCCESS,
@@ -20,10 +17,19 @@ import {
 const BaseUrl = "https://ulearnapi.schneidestaging.in/api";
 
 export const GetStudentEnrollment = () => async (dispatch, getState) => {
-  dispatch({ type: GETSTUDENT_ENROLLMENT_REQUEST });
   const {
     studentLogin: { studentInfo },
+    studentEnrollment: { studentenrollment}
   } = getState();
+
+  if (studentenrollment && studentenrollment.length > 0 ) {
+    
+    console.log("studentenrollment already there, skipping fetch.");
+    return;
+  }
+  
+
+  dispatch({ type: GETSTUDENT_ENROLLMENT_REQUEST });
   // console.log(studentInfo);
 
   let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
@@ -49,10 +55,20 @@ export const GetStudentEnrollment = () => async (dispatch, getState) => {
 };
 
 export const GetCourseModule = (courseId) => async (dispatch, getState) => {
-  dispatch({ type: GETCOURSE_MODULE_REQUEST });
   const {
     studentLogin: { studentInfo },
+    courseModule: { courseModule }
   } = getState();
+
+  if (courseModule && courseModule.length > 0 && courseModule?.[0].CourseId === Number(courseId)) {
+    // The courseId matches the one already stored, so don't fetch again
+    console.log("CourseId matches, skipping fetch.");
+    return;
+  }
+  
+
+  dispatch({ type: GETCOURSE_MODULE_REQUEST });
+
   let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
 
   try {
@@ -75,12 +91,26 @@ export const GetCourseModule = (courseId) => async (dispatch, getState) => {
   }
 };
 
-export const GetUnitDetails =
-  (unitId, unitversionid) => async (dispatch, getState) => {
-    dispatch({ type: GETUNIT_DETAILS_REQUEST });
+export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getState) => {
     const {
       studentLogin: { studentInfo },
+      unitDetail: { unitDetail }
     } = getState();
+
+    console.log(unitDetail);
+
+    if (unitDetail && unitDetail.length > 0 && unitDetail?.[0].UnitId === Number(unitId)) {
+      // The unitDetail matches the one already stored, so don't fetch again
+      console.log("unitDetail matches, skipping fetch.");
+      return;
+    }
+
+    console.log('runnnung');
+    
+    
+
+    dispatch({ type: GETUNIT_DETAILS_REQUEST });
+
     let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
 
     try {
@@ -108,10 +138,20 @@ export const GetUnitDetails =
 
   // projectdetails
   export const GetProjectDetails = (courseId) => async (dispatch, getState) => {
-    dispatch({ type: GETPROJECT_DETAILS_REQUEST });
     const {
       studentLogin: { studentInfo },
+      projectDetail: { projectDetail },
     } = getState();
+
+    console.log(studentInfo);
+    
+    if (projectDetail && projectDetail.length > 0 && projectDetail[0].CourseId === courseId) {
+      // The courseId matches the one already stored, so don't fetch again
+      console.log("CourseId matches, skipping fetch.");
+      return;
+    }
+    
+    dispatch({ type: GETPROJECT_DETAILS_REQUEST });
     let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
   
     try {
@@ -126,34 +166,6 @@ export const GetUnitDetails =
     } catch (error) {
       dispatch({
         type: GETPROJECT_DETAILS_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
-
-  // getquestion
-  export const GetQuestionDetails = (TestId) => async (dispatch, getState) => {
-    dispatch({ type: GETQUESTION_DETAILS_REQUEST });
-    const {
-      studentLogin: { studentInfo },
-    } = getState();
-    let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
-  
-    try {
-      const { data } = await axios.post(`${BaseUrl}/Course/GetQuestionnairesDetails`, {
-        Parameter: JSON.stringify({ LeadId: LeadId, TestId: TestId }),
-        Type: "GET",
-      });
-      
-      const parsedData = JSON.parse(data.map((data) => data.result));
-  
-      dispatch({ type: GETQUESTION_DETAILS_SUCCESS, payload: parsedData });
-    } catch (error) {
-      dispatch({
-        type: GETQUESTION_DETAILS_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

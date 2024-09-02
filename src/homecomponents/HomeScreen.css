@@ -970,6 +970,16 @@ hr {
     padding-right: 1rem;
   
   }
+  .fasttrack-timer-wrap{
+    flex-direction: column;
+  }
+  .fasttrack-timer-wrap h5{
+    text-align: center;
+  }
+  .profilecards .id-name-wrap{
+    flex-direction: column;
+    align-items: start;
+  }
 }
 @media (max-width: 380px) {
   .slick-dots {
