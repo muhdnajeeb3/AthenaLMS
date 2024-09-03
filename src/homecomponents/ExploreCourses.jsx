@@ -144,6 +144,7 @@ const ExploreCourses = () => {
           </div>
           <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
+      </div>
         <div className="flex w-100">
           <Link
           to='/ExploreCourses'
@@ -153,7 +154,6 @@ const ExploreCourses = () => {
             Explore All Courses
           </Link>
         </div>
-      </div>
     </Container>
   );
 };

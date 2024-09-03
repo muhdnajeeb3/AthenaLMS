@@ -30,13 +30,10 @@ const Progress = () => {
   const [prevUnitName, setPrevUnitName] = useState(null);
   const [nextUnitName, setNextUnitName] = useState(null);
 
-  
-
   const lessonHandler = (lessonId) => {
     console.log(lessonId);
     searchParams.set("LessonId", lessonId);
 
-    
     setActiveLesson(lessonId === activeLesson ? null : lessonId);
   };
 
@@ -60,8 +57,8 @@ const Progress = () => {
   const viewAssignmentHandler = () => {
     navigate("/SubmitAssignments");
   };
-  const takelessonHandler = () => {
-    navigate("/FasttrackQuiz");
+  const takelessonHandler = (TestId) => {
+    navigate(`/FasttrackQuiz?TestId=${TestId}`);
   };
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -72,9 +69,6 @@ const Progress = () => {
   const moduleId = query.get("ModuleId");
   const lessonId = query.get("LessonId");
   const uid = query.get("UID");
-
-  
-  
 
   const coursemodule = useSelector((state) => state.courseModule);
   const { loading, error, courseModule } = coursemodule;
@@ -91,24 +85,22 @@ const Progress = () => {
 
   useEffect(() => {
     if (uid) {
-      dispatch(GetUnitDetails(uid,unitversionid));
+      dispatch(GetUnitDetails(uid, unitversionid));
     }
-  }, [uid, dispatch,unitversionid]);
+  }, [uid, dispatch, unitversionid]);
 
   useEffect(() => {
     if (unitDetail) {
       try {
         setSelectedUnit(unitDetail[0]);
-        setActiveLesson(lessonId)
+        setActiveLesson(lessonId);
       } catch (e) {
         console.error("Error parsing unitDetail:", e);
       }
     }
-  }, [unitDetail,lessonId]);
+  }, [unitDetail, lessonId]);
 
-  console.log(courseModule);
-  
-console.log(activeLesson);
+  console.log(selectedUnit,'unitdet');
 
   // const unitdetailcontent =
   //   (unitDetail && JSON.parse(unitDetail?.map((data) => data.result))) ||
@@ -149,13 +141,8 @@ console.log(activeLesson);
     }
   }, [courseModule, uid]);
 
-
-
   const CourseModuleContent = useMemo(() => {
-    return (
-      courseModule ||
-      []
-    );
+    return courseModule || [];
   }, [courseModule]);
 
   const matchedModule = useMemo(() => {
@@ -163,15 +150,14 @@ console.log(activeLesson);
       course.Modules.filter((module) => module.ModuleId === parseInt(moduleId))
     ).find((m) => m.ModuleId === parseInt(moduleId));
   }, [CourseModuleContent, moduleId]);
-  
 
-  // const MatchedModule = courseModule?.flatMap((course) => 
+  // const MatchedModule = courseModule?.flatMap((course) =>
   //   course?.Modules?.filter((module) => module.ModuleId === parseInt(moduleId))
   // );
 
   // console.log(MatchedModule);
   console.log(matchedModule);
-  
+
   const mergedUnits = useMemo(() => {
     return matchedModule
       ? matchedModule.Lessons.flatMap((lesson) => lesson.Units)
@@ -180,7 +166,9 @@ console.log(activeLesson);
 
   useEffect(() => {
     if (mergedUnits.length > 0) {
-      const currentIndex = mergedUnits.findIndex((unit) => unit?.UnitId === parseInt(uid));
+      const currentIndex = mergedUnits.findIndex(
+        (unit) => unit?.UnitId === parseInt(uid)
+      );
 
       if (currentIndex !== -1) {
         setPrevUnitName(
@@ -194,13 +182,11 @@ console.log(activeLesson);
       }
     }
   }, [mergedUnits, uid]);
-  
 
-  const unitClickHandler = (uid,UnitVersionId) => {
-    
+  const unitClickHandler = (uid, UnitVersionId) => {
     searchParams.set("UID", uid);
-    setUnitversionid(UnitVersionId)
-     // Assuming UnitId is the property you want to update
+    setUnitversionid(UnitVersionId);
+    // Assuming UnitId is the property you want to update
     setSearchParams(searchParams);
   };
 
@@ -217,7 +203,9 @@ console.log(activeLesson);
   // }, [matchedModule, lessonId, uid]);
 
   const handleNextUnit = () => {
-    const currentIndex = mergedUnits.findIndex((unit) => unit?.UnitId === parseInt(uid));
+    const currentIndex = mergedUnits.findIndex(
+      (unit) => unit?.UnitId === parseInt(uid)
+    );
     if (currentIndex !== -1 && currentIndex < mergedUnits.length - 1) {
       const nextUnit = mergedUnits[currentIndex + 1];
       searchParams.set("UID", nextUnit.UnitId);
@@ -226,7 +214,9 @@ console.log(activeLesson);
   };
 
   const handlePrevUnit = () => {
-    const currentIndex = mergedUnits.findIndex((unit) => unit?.UnitId === parseInt(uid));
+    const currentIndex = mergedUnits.findIndex(
+      (unit) => unit?.UnitId === parseInt(uid)
+    );
     if (currentIndex > 0) {
       const prevUnit = mergedUnits[currentIndex - 1];
       searchParams.set("UID", prevUnit?.UnitId);
@@ -235,8 +225,8 @@ console.log(activeLesson);
   };
 
   const movetomodulepage = () => {
-    navigate(`/courseDetails?CourseId=${courseId}`)
-  }
+    navigate(`/courseDetails?CourseId=${courseId}`);
+  };
 
   return (
     <>
@@ -328,23 +318,56 @@ console.log(activeLesson);
                       />
                       <p>{lesson.LessonName}</p>
                     </div>
-                  
+
                     {Number(activeLesson) === lesson.LessonId && (
                       <>
                         <ul className="coursechaptersections">
                           {lesson.Units.map((unit) => (
                             <li
                               key={unit.UnitId}
-                              onClick={() => unitClickHandler(unit.UnitId,unit.UnitVersionId)}
+                              onClick={() =>
+                                unitClickHandler(
+                                  unit.UnitId,
+                                  unit.UnitVersionId
+                                )
+                              }
                             >
                               <span
                                 className={
-                                  unit?.UnitActive ? "clscompleted" : "clspending"
+                                  unit?.UnitActive
+                                    ? "clscompleted"
+                                    : "clspending"
                                 }
                               ></span>
                               <p>{unit.UnitName}</p>
                             </li>
                           ))}
+                          {lesson?.Quz?.map((data, quzindex) => (
+                              <li
+                                key={quzindex}
+                                className="d-flex mt-2 gap-3 "
+                                style={{
+                                  justifyContent: "flex-start",
+                                  flexDirection: "column",
+                                  borderBottom: "none",
+                                }}
+                              >
+                                <Button
+                                  className="quizz-assign-btn"
+                                  variant=""
+                                  onClick={() => takelessonHandler(data.TestId)}
+                                >
+                                  Take Lesson Quiz
+                                </Button>
+                                <Button
+                                  className="quizz-assign-btn"
+                                  variant=""
+                                  onClick={viewAssignmentHandler}
+                                >
+                                  View Assignment
+                                </Button>
+                              </li>
+                            ))}
                         </ul>
                         {/* <div
                           style={{
@@ -596,16 +619,16 @@ console.log(activeLesson);
               </div>
               <hr className="my-2" />
               <div className="prevnext-videobtn mt-3 flex">
-              {prevUnitName && (
-        <Button variant="" onClick={handlePrevUnit}>
-          {prevUnitName}
-        </Button>
-      )}
-      {nextUnitName && (
-        <Button variant="" onClick={handleNextUnit}>
-          {nextUnitName}
-        </Button>
-      )}
+                {prevUnitName && (
+                  <Button variant="" onClick={handlePrevUnit}>
+                    {prevUnitName}
+                  </Button>
+                )}
+                {nextUnitName && (
+                  <Button variant="" onClick={handleNextUnit}>
+                    {nextUnitName}
+                  </Button>
+                )}
               </div>
             </div>
           </div>

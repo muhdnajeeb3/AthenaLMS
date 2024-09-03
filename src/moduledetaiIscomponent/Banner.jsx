@@ -278,31 +278,7 @@ const Banner = ({ CourseDetails }) => {
                           </ul>
                         ))}
                       </div>
-                      {/* <ul>
-                        <li
-                          className="d-flex mt-2 gap-3 "
-                          style={{
-                            justifyContent: "flex-start",
-                            flexDirection: "column",
-                            borderBottom: "none",
-                          }}
-                        >
-                          <Button
-                            className="quizz-assign-btn"
-                            variant=""
-                            onClick={takelessonHandler}
-                          >
-                            Take Lesson Quiz
-                          </Button>
-                          <Button
-                            className="quizz-assign-btn"
-                            variant=""
-                            onClick={viewAssignmentHandler}
-                          >
-                            View Assignment
-                          </Button>
-                        </li>
-                      </ul> */}
+                      
                     </div>
                   ))}
                 </div>

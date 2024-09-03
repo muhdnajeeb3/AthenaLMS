@@ -1,5 +1,7 @@
 .footerbackground {
-  background: rgba(239, 241, 254, 0.5) !important;
+  background: #303030 !important;
+  padding: 0 0 3rem 0 !important;
+  color: #fff !important;
 }
 .footer {
   padding-top: 3.2rem;
@@ -11,7 +13,6 @@
   gap: 10px;
   justify-content: center;
   margin-bottom: 2rem;
-
 }
 .footer-url {
   background: #343a40;
@@ -30,26 +31,30 @@
 .footer p {
   font-size: 14px !important;
   line-height: 26px !important;
-}
-.footer p {
   padding: 0;
   line-height: 23px;
   margin: 0;
   font-size: 13px;
-  color: #333;
+}
+.footer h6{
+  color: #ff4e9a;
+    font-weight: bold;
+    /* margin-top: 34px; */
+    margin-bottom: 15px;
 }
 .foot-links p a {
-  margin-bottom: 16px !important;
-  display: block;
+  margin-bottom: 8px !important;
+    display: block;
+    color: #fff !important;
+    text-decoration: none !important;
 }
-a {
-  text-decoration: none !important;
-  color: #212529 !important;
+.foot-links > div, .subscribe{
+  height: 271px !important;
 }
 .footer span {
   font-size: 13px !important;
   line-height: 46px;
-  color: #303030;
+  color: #fff;
 }
 .btn-br-small-purple {
   border-color: #7b00bc !important;
@@ -67,12 +72,18 @@ a {
   border-radius: 4px;
 }
 .foot-links p a:hover {
-    color: blue !important;
+  color: #ff4e9a !important;
+
+}
+a {
+  text-decoration: none !important;
+  color: #212529 !important;
 }
 @media (min-width: 768px) {
   .colfooter {
     width: 22% !important;
   }
+  
 }
 @media (max-width: 568px) {
     .colfooter {
@@ -116,7 +127,7 @@ a {
 }
 
 .footer-address h6 {
-  color: #333;
+  color: #ff4e9a;
   font-weight: bold;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -136,11 +147,6 @@ a {
   margin-bottom: 40px;
   padding: 0 0;
 }
-
-.footerbackground {
-  padding: 0 0 0 0 !important;
-}
-
 .footer-url p {
   margin-bottom: 1px !important;
 }
@@ -177,6 +183,13 @@ a {
 .w-70 {
   width: 80%;
 }
+footer .btn-br-small-pink {
+  background: #FF4E9A;
+  color: #fff;
+  border: 0;
+  width: 80%;
+  display: block;
+}
 @media only screen and (max-width: 768px) {
   .example input[type="text"] {
     width: 100%;
@@ -198,6 +211,14 @@ a {
   .footerbackground .body-content .footer .winner .img.fot-log-new {
     margin: 0 !important;
   }
+  .subscribe{
+    order: 1;
+    margin-top: 2rem;
+  }
+   footer .foot-links {
+    margin-top: 2rem;
+        
+  }
 }
 @media only screen and (min-width: 480px) and (max-width: 768px) {
   .newslatterrow {
@@ -212,4 +233,13 @@ a {
   .container-md {
     max-width: 90% !important;
   }
+  .foot-links > div, .subscribe{
+    height: auto !important;
+  }
+}
+@media (max-width:480px) {
+  .w-70,footer .btn-br-small-pink {
+    width: 100% !important;
+  }
+  
 }

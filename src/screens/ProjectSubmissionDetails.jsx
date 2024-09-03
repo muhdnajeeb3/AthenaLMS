@@ -66,6 +66,11 @@ const ProjectSubmissionDetails = () => {
     navigate("/ProjectandAssignments");
   };
 
+  const projectStartDate = new Date(viewProjectData?.ProjectStartDate); // Convert the start date to a Date object
+  const currentDate = new Date(); // Get the current date
+
+  const isGatewayActive = currentDate >= projectStartDate;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -94,12 +99,15 @@ const ProjectSubmissionDetails = () => {
             </div>
           </div>
         </div>
+        {
+          !isGatewayActive && 
         <div className="m-auto" style={{ maxWidth: "1200px" }}>
           <span style={{ color: "red" }}>
             Your project submission gateway not activated yet. It will be
-            activated on 28/07/2021
+            activated on {FormatDate(viewProjectData?.ProjectStartDate)}
           </span>
         </div>
+        }
         <div className="project-sub-details-wrap m-auto pt-5 pb-4">
           <div className="shadow p-3">
             <div className="flex gap-10 col-md-3 ">

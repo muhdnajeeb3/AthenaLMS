@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Banner = () => {
   const [currentDivIndex, setCurrentDivIndex] = useState(0);
   const [speakmethode, setSpeakmethode] = useState("email");
+
+  const studentLogin = useSelector((state) => state.studentLogin);
+  const { studentInfo } = studentLogin;
+
+  let FirstName = studentInfo && studentInfo?.[0]?.FirstName;
+
+  
 
   const SpeakMethodeHandler = (methode) => {
     setSpeakmethode(methode);
@@ -24,7 +32,7 @@ const Banner = () => {
       <Row className="homebannerrow">
         <div className="col-md-6 py-5 home-box-v1">
           <h2 className="greeting pb-2">
-            <span id="MainContent_lblUser">Good Afternoon, Muizz</span>
+            <span id="MainContent_lblUser">Good Afternoon, {FirstName}</span>
           </h2>
           <p>
             We are what we repeatedly do. Excellence then is not an act but a
