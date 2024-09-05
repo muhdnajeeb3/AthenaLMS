@@ -149,7 +149,7 @@ const ExploreCourses = () => {
           <Link
           to='/ExploreCourses'
             className="dreadmore-btn"
-            style={{ borderRadius: "0", margin: "0 0 0 auto" }}
+            style={{ borderRadius: "0", margin: "2rem 0 0 auto" }}
           >
             Explore All Courses
           </Link>

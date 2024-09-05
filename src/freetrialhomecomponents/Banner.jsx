@@ -27,12 +27,26 @@ const Banner = () => {
   const handleNext = () => {
     setCurrentDivIndex((prevIndex) => Math.min(prevIndex + 1, divs.length - 1));
   };
+
+  const currentHour = new Date().getHours();
+
+  // Determine the greeting message based on the current time
+  let greetingMessage = '';
+
+  if (currentHour < 12) {
+    greetingMessage = 'Good Morning';
+  } else if (currentHour < 18) {
+    greetingMessage = 'Good Afternoon';
+  } else {
+    greetingMessage = 'Good Evening';
+  }
+
   return (
     <Container fluid className="bg-light">
       <Row className="homebannerrow">
         <div className="col-md-6 py-5 home-box-v1">
           <h2 className="greeting pb-2">
-            <span id="MainContent_lblUser">Good Afternoon, {FirstName}</span>
+            <span id="MainContent_lblUser">{greetingMessage}, {FirstName}</span>
           </h2>
           <p>
             We are what we repeatedly do. Excellence then is not an act but a

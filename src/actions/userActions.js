@@ -17,7 +17,7 @@ export const signin = (Username, Password) => async (dispatch) => {
       { Username, Password }
     );
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-    // localStorage.setItem("Authenticate", JSON.stringify(data));
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_SIGNIN_FAIL,

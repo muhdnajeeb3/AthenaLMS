@@ -14,6 +14,7 @@ const BaseUrl = "https://ulearnapi.schneidestaging.in/api";
 export const GetQuestionDetails = (TestId) => async (dispatch, getState) => {
   const {
     studentLogin: { studentInfo },
+    userSignin: { userInfo },
     questionDetail: { questionDetail },
   } = getState();
 
@@ -30,6 +31,8 @@ export const GetQuestionDetails = (TestId) => async (dispatch, getState) => {
   dispatch({ type: GETQUESTION_DETAILS_REQUEST });
 
   let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+  const token = userInfo && userInfo?.token;
+
 
   try {
     const { data } = await axios.post(
@@ -37,6 +40,12 @@ export const GetQuestionDetails = (TestId) => async (dispatch, getState) => {
       {
         Parameter: JSON.stringify({ LeadId: LeadId, TestId: TestId }),
         Type: "GET",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
       }
     );
 
@@ -58,6 +67,7 @@ export const GetQuestionDetails = (TestId) => async (dispatch, getState) => {
 export const GetStudentScore = (TestId) => async (dispatch, getState) => {
   const {
     studentLogin: { studentInfo },
+    userSignin: { userInfo },
     studentScore: { studentScore },
   } = getState();  
 
@@ -74,6 +84,8 @@ export const GetStudentScore = (TestId) => async (dispatch, getState) => {
   dispatch({ type: GETSTUDENT_SCORE_REQUEST });
 
   let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+  const token = userInfo && userInfo?.token;
+
 
   try {
     const { data } = await axios.post(
@@ -81,6 +93,12 @@ export const GetStudentScore = (TestId) => async (dispatch, getState) => {
       {
         Parameter: JSON.stringify({ LeadId: LeadId, TestId: TestId }),
         Type: "GET",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
       }
     );
 

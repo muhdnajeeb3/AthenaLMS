@@ -862,6 +862,14 @@ hr {
   background-color: var(--default);
   border-color: var(--default);
 }
+/* projectsubmission */
+.draftfiles-wrap .nav-link.active {
+  color: var(--default) !important;
+  border-color: var(--default) !important;
+}
+.draftfiles-wrap .nav-link {
+  color: #303030 !important;
+}
 @media (max-width: 1024px) {
   .homebannerrow .greeting {
     font-size: 38px;

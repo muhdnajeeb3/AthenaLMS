@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   GetProjectDetails,
+  GetProjectModuleDetails,
   GetStudentEnrollment,
 } from "../actions/courseDetails";
 import { FormatDate } from "../utils/FormateDate";
@@ -27,14 +28,6 @@ const ProjectAndAssignement = () => {
 
   console.log(projectDetail, "p");
 
-
-  // const parsedData = projectDetail?.map((data) => JSON.parse(data?.BriefDetails));
-
-  // console.log(parsedData ? parsedData : '','kokok');
-  
-
-
-  
 
   useEffect(() => {
     // Check if studentenrollment data is already available in the state
@@ -62,7 +55,15 @@ const ProjectAndAssignement = () => {
     setSelectedCourseId(courseId);
   };
 
-  const viewHandler = (projectId) => {
+  const viewHandler = (action,projectId) => {
+    
+    console.log(action,'ac');
+    console.log(projectId,'pi');
+    dispatch(GetProjectModuleDetails(projectId));
+    // if (action === 'Start') {
+      
+    // }
+    
     navigate(`/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`);
   };
 
@@ -126,19 +127,27 @@ const ProjectAndAssignement = () => {
                 <td>{project.extensionRequest || "N/A"}</td>
                 <td>{project.Score || ""}</td>
                 <td>{project.Grade || ""}</td>
-                <td onClick={()=>viewHandler(project.ProjectId)} style={{ cursor: "pointer" }}>
-                  View
+                <td onClick={()=>viewHandler(project.Action,project.ProjectId)} style={{ cursor: "pointer" }}>
+                  {project.Action}
                 </td>
               </tr>
             ))}
             {/* In case no project details are available */}
-            {!projectDetail?.length && (
+            {projectloading && (
               <tr>
                 <td colSpan={tableHeadings.length + 1} className="text-center">
-                  No project details available for the selected course.
+                  Loading...
                 </td>
               </tr>
             )}
+             {projecterror && (
+              <tr>
+                <td colSpan={tableHeadings.length + 1} className="text-center">
+                No project details available for the selected course.
+                </td>
+              </tr>
+            )}
+
           </tbody>
         </Table>
       </div>

@@ -6,6 +6,9 @@ import {
   GETPROJECT_DETAILS_FAIL,
   GETPROJECT_DETAILS_REQUEST,
   GETPROJECT_DETAILS_SUCCESS,
+  GETPROJECTMODULE_DETAILS_FAIL,
+  GETPROJECTMODULE_DETAILS_REQUEST,
+  GETPROJECTMODULE_DETAILS_SUCCESS,
   GETSTUDENT_ENROLLMENT_FAIL,
   GETSTUDENT_ENROLLMENT_REQUEST,
   GETSTUDENT_ENROLLMENT_SUCCESS,
@@ -19,6 +22,7 @@ const BaseUrl = "https://ulearnapi.schneidestaging.in/api";
 export const GetStudentEnrollment = () => async (dispatch, getState) => {
   const {
     studentLogin: { studentInfo },
+    userSignin: { userInfo },
     studentEnrollment: { studentenrollment}
   } = getState();
 
@@ -33,12 +37,19 @@ export const GetStudentEnrollment = () => async (dispatch, getState) => {
   // console.log(studentInfo);
 
   let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+  const token = userInfo && userInfo?.token;
 
   try {
     const { data } = await axios.post(`${BaseUrl}/User/GetStudentEnrollment`, {
       Parameter: JSON.stringify({ LeadId: LeadId }),
       Type: "GET",
-    });
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+        "Content-Type": "application/json",
+      }
+  });
 
     const parsedData = JSON.parse(data.map((data) => data.result));
 
@@ -57,6 +68,7 @@ export const GetStudentEnrollment = () => async (dispatch, getState) => {
 export const GetCourseModule = (courseId) => async (dispatch, getState) => {
   const {
     studentLogin: { studentInfo },
+    userSignin: { userInfo },
     courseModule: { courseModule }
   } = getState();
 
@@ -70,11 +82,18 @@ export const GetCourseModule = (courseId) => async (dispatch, getState) => {
   dispatch({ type: GETCOURSE_MODULE_REQUEST });
 
   let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+  const token = userInfo && userInfo?.token;
 
   try {
     const { data } = await axios.post(`${BaseUrl}/Course/GetCourseModule`, {
       Parameter: JSON.stringify({ LeadId: LeadId, CourseId: courseId }),
       Type: "GET",
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+        "Content-Type": "application/json",
+      }
     });
     
     const parsedData = JSON.parse(data.map((data) => data.result));
@@ -94,6 +113,7 @@ export const GetCourseModule = (courseId) => async (dispatch, getState) => {
 export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getState) => {
     const {
       studentLogin: { studentInfo },
+      userSignin: { userInfo },
       unitDetail: { unitDetail }
     } = getState();
 
@@ -105,13 +125,10 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
       return;
     }
 
-    console.log('runnnung');
-    
-    
-
     dispatch({ type: GETUNIT_DETAILS_REQUEST });
 
     let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+    const token = userInfo && userInfo?.token;
 
     try {
       const { data } = await axios.post(`${BaseUrl}/Course/GetUnitDetails`, {
@@ -121,7 +138,13 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
           VersionId: unitversionid,
         }),
         Type: "GET",
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
+    });
       const parsedData = JSON.parse(data.map((data) => data.result));
 
       dispatch({ type: GETUNIT_DETAILS_SUCCESS, payload: parsedData });
@@ -140,25 +163,29 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
   export const GetProjectDetails = (courseId) => async (dispatch, getState) => {
     const {
       studentLogin: { studentInfo },
+    userSignin: { userInfo },
       projectDetail: { projectDetail },
     } = getState();
-
-    console.log(studentInfo);
     
     if (projectDetail && projectDetail.length > 0 && projectDetail[0].CourseId === courseId) {
-      // The courseId matches the one already stored, so don't fetch again
-      console.log("CourseId matches, skipping fetch.");
       return;
     }
     
     dispatch({ type: GETPROJECT_DETAILS_REQUEST });
     let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+    const token = userInfo && userInfo?.token;
   
     try {
       const { data } = await axios.post(`${BaseUrl}/Project/GetProjectDetails`, {
         Parameter: JSON.stringify({ LeadId: LeadId, CourseId: courseId }),
         Type: "GET",
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
+    });
       
       const parsedData = JSON.parse(data.map((data) => data.result));
   
@@ -166,6 +193,62 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
     } catch (error) {
       dispatch({
         type: GETPROJECT_DETAILS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+  // startproject
+
+  export const GetProjectModuleDetails = (projectId) => async (dispatch, getState) => {
+    const {
+      studentLogin: { studentInfo },
+    userSignin: { userInfo },
+      projectDetail: { projectDetail },
+    } = getState();
+    
+    dispatch({ type: GETPROJECTMODULE_DETAILS_REQUEST });
+
+    let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+    const token = userInfo && userInfo?.token;
+
+    const viewProjectmatchedData = projectDetail?.filter(
+      (data) => data.ProjectId == projectId
+    );
+
+    // console.log(viewProjectmatchedData,'view');
+    // "Parameter": "{\"LeadId\":123,\"CourseId\":456,\"ProjectId\":789,\"StartDate\":\"2024-09-01\",\"DueDate\":\"2024-12-31\",\"ModuleId\":101,
+    // \"CurrStatus\":\"Started\",\"CurSlNo\":1,\"CreatedBy\":\"1\",\"CreatedOn\":\"2024-09-05T10:00:00\",\"UpdatedBy\":\"1\",\
+    // "UpdatedOn\":\"2024-09-05T10:00:00\",\"PersonalTutorId\":1001}",
+
+    const {CourseId,DueDate,ModuleId,TutorDetails,ProjectId,ProjectStartDate} = viewProjectmatchedData[0];
+
+    const TutorDetailsData = JSON.parse(TutorDetails);
+    // console.log(TutorDetailsData);
+    
+    
+  
+    try {
+      const { data } = await axios.post(`${BaseUrl}/Project/GetProjectModuleDetails`, {
+        Parameter: JSON.stringify({ LeadId: LeadId, CourseId: CourseId,ProjectId: ProjectId,CreatedBy:LeadId,CurrStatus:null,ModuleId:ModuleId ,StartDate:ProjectStartDate,DueDate:DueDate}),
+        Type: "INSERT",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
+    });
+      
+      const parsedData = JSON.parse(data.map((data) => data.result));
+  
+      dispatch({ type: GETPROJECTMODULE_DETAILS_SUCCESS, payload: parsedData });
+    } catch (error) {
+      dispatch({
+        type: GETPROJECTMODULE_DETAILS_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

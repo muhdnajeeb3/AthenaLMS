@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Modal, Table } from "react-bootstrap";
+import { Button, Container, Modal, Tab, Table, Tabs } from "react-bootstrap";
 import Vimeo from "@u-wave/react-vimeo";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetProjectDetails } from "../actions/courseDetails";
 import { FormatDate, FormatDateAndTime } from "../utils/FormateDate";
+import axios from "axios";
+import { DownloadProjectFile, SubmitProjectFile } from "../actions/aws";
 
 const ProjectSubmissionDetails = () => {
   const [projectdetails, setProjectdetails] = useState("Project Files");
   const [showPopup, setShowPopup] = useState(false);
+  const [file, setFile] = useState(null);
+  const [remark, setRemark] = useState("");
+  const [error, setError] = useState("");
+  const [fileUploadResponse, setFileUploadResponse] = useState("");
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -28,6 +34,84 @@ const ProjectSubmissionDetails = () => {
     projectDetail,
     error: projecterror,
   } = ProjectDetail;
+
+  const SubmitFileResponse = useSelector((state) => state.submitFileResponse);
+  const { submitFileResponse } = SubmitFileResponse;
+
+  const DownloadFileResponse = useSelector((state) => state.downloadFileResponse);
+  const { downloadFileResponse } = DownloadFileResponse;
+
+  console.log(submitFileResponse?.data,'response');
+  console.log(downloadFileResponse?.data,'response');
+  
+
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+
+    if (selectedFile && selectedFile.size > maxSize) {
+      setError("File size should not exceed 10MB.");
+      setFile(null);
+    } else {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const fileString = reader.result.split(",")[1]; // Get base64 string
+        const fileNameWithoutExtension = selectedFile.name.replace(
+          /\.[^/.]+$/,
+          ""
+        );
+        const uploadFileEntity = {
+          BucketName: "westford-uc-bucket",
+          ProjectData: "Airtics",
+          FileExtension: selectedFile.name.split(".").pop(),
+          ProjectFolderName: "Airtics/UAT/",
+          FileName: fileNameWithoutExtension,
+          FileString: fileString,
+        };
+
+        try {
+          dispatch(SubmitProjectFile(uploadFileEntity));
+
+          setError("");
+        } catch (error) {
+          setError("File upload to S3 failed.");
+          console.error(error);
+        }
+      };
+
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const handleRemarkChange = (event) => {
+    setRemark(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!fileUploadResponse || !remark) {
+      setError("Please select a file and enter a remark.");
+      return;
+    }
+
+    try {
+      const submitData = {
+        remark,
+        fileData: fileUploadResponse, // Include the response from S3
+      };
+
+      console.log("Submitting form data:", submitData);
+
+      const response = await axios.post("/api/SUBMIT_DATA", submitData);
+
+      console.log("Form submission successful:", response.data);
+      setFileUploadResponse(null); // Clear the file data after successful submission
+    } catch (error) {
+      setError("Form submission failed.");
+      console.error(error);
+    }
+  };
 
   const viewProjectmatchedData = projectDetail?.filter(
     (data) => data.ProjectId == ProjectID
@@ -66,6 +150,32 @@ const ProjectSubmissionDetails = () => {
     navigate("/ProjectandAssignments");
   };
 
+
+  const filedownloadHandler = async (filePath) => {
+    try {
+      dispatch(DownloadProjectFile(filePath));
+      
+      // Wait for the download to complete
+      await new Promise(resolve => setTimeout(resolve, 3000)); // Adjust timeout as needed
+      
+      if (downloadFileResponse) {
+        const link = document.createElement('a');
+        link.href = downloadFileResponse.data;
+        console.log(downloadFileResponse);
+        
+        
+        link.download = filePath.split('/').pop();
+        link.click();
+      } else {
+        console.error('Failed to download file');
+        // Handle error (show alert, etc.)
+      }
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      // Handle error (show alert, etc.)
+    }
+  };
+
   const projectStartDate = new Date(viewProjectData?.ProjectStartDate); // Convert the start date to a Date object
   const currentDate = new Date(); // Get the current date
 
@@ -99,15 +209,14 @@ const ProjectSubmissionDetails = () => {
             </div>
           </div>
         </div>
-        {
-          !isGatewayActive && 
-        <div className="m-auto" style={{ maxWidth: "1200px" }}>
-          <span style={{ color: "red" }}>
-            Your project submission gateway not activated yet. It will be
-            activated on {FormatDate(viewProjectData?.ProjectStartDate)}
-          </span>
-        </div>
-        }
+        {!isGatewayActive && (
+          <div className="m-auto" style={{ maxWidth: "1200px" }}>
+            <span style={{ color: "red" }}>
+              Your project submission gateway not activated yet. It will be
+              activated on {FormatDate(viewProjectData?.ProjectStartDate)}
+            </span>
+          </div>
+        )}
         <div className="project-sub-details-wrap m-auto pt-5 pb-4">
           <div className="shadow p-3">
             <div className="flex gap-10 col-md-3 ">
@@ -229,14 +338,14 @@ const ProjectSubmissionDetails = () => {
                     <th>{FormatDateAndTime(data.SubmittedOn)}</th>
                     <th>{data.SubmittedBy}</th>
                     <th>{data.FileName} </th>
-                    <th>
-                      <a href={data.FilePath} download>
+                    <th onClick={() => filedownloadHandler(data?.FilePath)}>
+                      {/* <a href={downloadFileResponse?.data} download> */}
                         <img
                           src="https://ulearn.uniathena.com/Images/icons/download.svg"
                           alt=""
                           width={35}
                         />
-                      </a>
+                      {/* </a> */}
                     </th>
                   </tr>
                 ))}
@@ -245,15 +354,104 @@ const ProjectSubmissionDetails = () => {
           </div>
         )}
         {isSP && (
-          <div className="m-auto py-3" style={{ maxWidth: "1200px" }}>
-            <select style={{ width: "250px" }} className="p-2">
-              <option selected="" value="Default">
-                Select Submission type
-              </option>
-              <option value="Last Week">First Draft</option>
-              <option value="Last Month">Second Draft</option>
-            </select>
-          </div>
+          <>
+            <div className="m-auto py-3" style={{ maxWidth: "1200px" }}>
+              <select style={{ width: "250px" }} className="p-2">
+                <option selected="" value="Default">
+                  Select Submission type
+                </option>
+                <option value="Last Week">First Draft</option>
+                <option value="Last Month">Second Draft</option>
+              </select>
+            </div>
+            <Modal show={true} onHide={handleClose} centered size="lg">
+              <Modal.Header closeButton>Draft Files</Modal.Header>
+              <Modal.Body>
+                <div className="m-auto py-2">
+                  <select style={{ width: "200px" }} className="p-2">
+                    <option selected="" value="Default">
+                      Select Submission type
+                    </option>
+                    <option value="Last Week">First Draft</option>
+                    <option value="Last Month">Second Draft</option>
+                  </select>
+                </div>
+                <div className="draftfiles-wrap my-2">
+                  <Tabs
+                    defaultActiveKey="profile"
+                    id="uncontrolled-tab-example"
+                    className="mb-3"
+                  >
+                    <Tab
+                      eventKey="home"
+                      title={
+                        <>
+                          <i className="fa fa-file"></i>{" "}
+                          <span className="d-none d-md-inline-block">
+                            View Draft Files
+                          </span>
+                        </>
+                      }
+                    >
+                      View Draft Content
+                    </Tab>
+                    <Tab
+                      eventKey="profile"
+                      title={
+                        <>
+                          <i className="fa fa-user"></i>{" "}
+                          <span className="d-none d-md-inline-block">
+                            Upload Draft Files
+                          </span>
+                        </>
+                      }
+                    >
+                      <div className="mb-3">
+                        <label htmlFor="fileInput" className="form-label">
+                          Upload File
+                        </label>
+                        <input
+                          type="file"
+                          className="form-control"
+                          id="fileInput"
+                          style={{
+                            maxWidth: "230px",
+                            minHeight: "auto",
+                            height: "40px",
+                          }}
+                          onChange={handleFileChange}
+                          accept=".jpg,.jpeg,.png,.pdf,.docx" // Adjust allowed file types as needed
+                        />
+                        {error && (
+                          <div className="text-danger mt-2">{error}</div>
+                        )}
+
+                        <label htmlFor="remark" className="form-label mt-3">
+                          Remark
+                        </label>
+                        <textarea
+                          className="form-control"
+                          id="remark"
+                          rows="3"
+                          value={remark}
+                          onChange={handleRemarkChange}
+                          placeholder="Enter your remark"
+                        />
+
+                        <button
+                          className="btn btn-primary dreadmore-btn  mt-3"
+                          onClick={handleSubmit}
+                          disabled={!fileUploadResponse || !remark}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </Tab>
+                  </Tabs>
+                </div>
+              </Modal.Body>
+            </Modal>
+          </>
         )}
         {isVL && (
           <div className="m-auto py-3" style={{ maxWidth: "1200px" }}>

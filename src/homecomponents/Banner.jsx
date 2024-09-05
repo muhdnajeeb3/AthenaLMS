@@ -51,6 +51,20 @@ const Banner = () => {
     navigate(`/courseDetails?CourseId=${courseid}`);
   };
 
+  // Get the current hour (0-23)
+  const currentHour = new Date().getHours();
+
+  // Determine the greeting message based on the current time
+  let greetingMessage = '';
+
+  if (currentHour < 12) {
+    greetingMessage = 'Good Morning';
+  } else if (currentHour < 18) {
+    greetingMessage = 'Good Afternoon';
+  } else {
+    greetingMessage = 'Good Evening';
+  }
+
   return (
     <Container fluid className="bg-light container-pr">
       <div className="quick-enq">
@@ -64,7 +78,7 @@ const Banner = () => {
         <div className="col-md-6 py-5 home-box-v1">
           <h2 className="greeting pb-2">
             <span id="MainContent_lblUser">
-              Good Afternoon, {FirstName || "username"}
+              {greetingMessage}, {FirstName || "username"}
             </span>
           </h2>
           <p>
