@@ -14,6 +14,9 @@ import {
   GETUNIT_DETAILS_FAIL,
   GETUNIT_DETAILS_REQUEST,
   GETUNIT_DETAILS_SUCCESS,
+  SUBMITPROJECT_FILE_FAIL,
+  SUBMITPROJECT_FILE_REQUEST,
+  SUBMITPROJECT_FILE_SUCCESS,
 } from "../constants/courseDetails";
 
 export const GetStudentEnrollmentReducer = (state = {}, action) => {
@@ -80,6 +83,20 @@ export const GetProjectModuleDetailsReducer = (state = { }, action) => {
     case GETPROJECTMODULE_DETAILS_SUCCESS:
       return { loading: false, projectModuleDetail: action.payload };
     case GETPROJECTMODULE_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const SubmitFileReducer = (state = { }, action) => {
+  switch (action.type) {
+    case SUBMITPROJECT_FILE_REQUEST:
+      return { loading: true };
+    case SUBMITPROJECT_FILE_SUCCESS:
+      return { loading: false, submitFile: action.payload };
+    case SUBMITPROJECT_FILE_FAIL:
       return { loading: false, error: action.payload };
 
     default:

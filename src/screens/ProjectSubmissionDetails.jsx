@@ -3,14 +3,15 @@ import { Button, Container, Modal, Tab, Table, Tabs } from "react-bootstrap";
 import Vimeo from "@u-wave/react-vimeo";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { GetProjectDetails } from "../actions/courseDetails";
+import { GetProjectDetails, SubmitProjectFile } from "../actions/courseDetails";
 import { FormatDate, FormatDateAndTime } from "../utils/FormateDate";
-import axios from "axios";
-import { DownloadProjectFile, SubmitProjectFile } from "../actions/aws";
+import { DownloadProjectFile, UploadFile } from "../actions/aws";
 
 const ProjectSubmissionDetails = () => {
   const [projectdetails, setProjectdetails] = useState("Project Files");
   const [showPopup, setShowPopup] = useState(false);
+  const [showFilePopup, setShowFilePopup] = useState(false);
+  const [selectedDraftType, setSelectedDraftType] = useState("");
   const [file, setFile] = useState(null);
   const [remark, setRemark] = useState("");
   const [error, setError] = useState("");
@@ -25,25 +26,24 @@ const ProjectSubmissionDetails = () => {
   const query = useQuery();
 
   const courseId = query.get("courseId");
-  const moduleId = query.get("ModuleId");
   const ProjectID = query.get("projectId");
 
   const ProjectDetail = useSelector((state) => state.projectDetail);
-  const {
-    loading: projectloading,
-    projectDetail,
-    error: projecterror,
-  } = ProjectDetail;
+  const { projectDetail } = ProjectDetail;
 
-  const SubmitFileResponse = useSelector((state) => state.submitFileResponse);
-  const { submitFileResponse } = SubmitFileResponse;
+  const UploadFileResponse = useSelector((state) => state.uploadFileResponse);
+  const { uploadFileResponse } = UploadFileResponse;
 
-  const DownloadFileResponse = useSelector((state) => state.downloadFileResponse);
+  const DownloadFileResponse = useSelector(
+    (state) => state.downloadFileResponse
+  );
   const { downloadFileResponse } = DownloadFileResponse;
 
-  console.log(submitFileResponse?.data,'response');
-  console.log(downloadFileResponse?.data,'response');
-  
+  useEffect(() => {
+    if (uploadFileResponse?.data) {
+      setFileUploadResponse(uploadFileResponse?.data);
+    }
+  }, [uploadFileResponse]);
 
   const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
@@ -68,9 +68,10 @@ const ProjectSubmissionDetails = () => {
           FileName: fileNameWithoutExtension,
           FileString: fileString,
         };
+        setFile(uploadFileEntity);
 
         try {
-          dispatch(SubmitProjectFile(uploadFileEntity));
+          dispatch(UploadFile(uploadFileEntity));
 
           setError("");
         } catch (error) {
@@ -91,7 +92,13 @@ const ProjectSubmissionDetails = () => {
     event.preventDefault();
 
     if (!fileUploadResponse || !remark) {
-      setError("Please select a file and enter a remark.");
+      setError(
+        !fileUploadResponse
+          ? "Please select a file"
+          : !remark
+          ? "Please enter a remark."
+          : "Please select a file and enter a remark."
+      );
       return;
     }
 
@@ -100,12 +107,17 @@ const ProjectSubmissionDetails = () => {
         remark,
         fileData: fileUploadResponse, // Include the response from S3
       };
+      const refresh = "refresh";
 
-      console.log("Submitting form data:", submitData);
+      const FileName = file?.FileName;
 
-      const response = await axios.post("/api/SUBMIT_DATA", submitData);
+      dispatch(SubmitProjectFile(ProjectID, submitData, FileName));
 
-      console.log("Form submission successful:", response.data);
+      setTimeout(() => {
+        dispatch(GetProjectDetails(courseId, refresh));
+      }, 3000);
+
+      setShowFilePopup(false);
       setFileUploadResponse(null); // Clear the file data after successful submission
     } catch (error) {
       setError("Form submission failed.");
@@ -120,7 +132,6 @@ const ProjectSubmissionDetails = () => {
   const viewProjectData = viewProjectmatchedData
     ? viewProjectmatchedData[0]
     : [];
-  console.log(viewProjectData);
 
   const tutorDetailsString = viewProjectData?.TutorDetails;
 
@@ -128,19 +139,29 @@ const ProjectSubmissionDetails = () => {
 
   if (tutorDetailsString && tutorDetailsString.trim() !== "") {
     tutorDetails = JSON.parse(tutorDetailsString);
-  } else {
-    console.log("Tutor details are not available.");
   }
 
   useEffect(() => {
     // Check if courseModule data is already available in the state
-    if (!projectDetail || projectDetail.length === 0) {
+    // if (!projectDetail || projectDetail.length === 0) {
       dispatch(GetProjectDetails(courseId));
-    }
-  }, [courseId, dispatch, projectDetail]);
+      console.log('get project run');
+      
+    // }
+  }, [courseId, dispatch]);
 
   const handleClose = () => setShowPopup(false);
   const handleShow = () => setShowPopup(true);
+  const handleDraftClose = () => setShowFilePopup(false);
+
+  const handleDraftSelect = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedDraftType(selectedValue);
+
+    if (selectedValue !== "Default") {
+      setShowFilePopup(true);
+    }
+  };
 
   const isPF = projectdetails === "Project Files";
   const isSP = projectdetails === "Submit Project";
@@ -150,31 +171,19 @@ const ProjectSubmissionDetails = () => {
     navigate("/ProjectandAssignments");
   };
 
-
-  const filedownloadHandler = async (filePath) => {
-    try {
-      dispatch(DownloadProjectFile(filePath));
-      
-      // Wait for the download to complete
-      await new Promise(resolve => setTimeout(resolve, 3000)); // Adjust timeout as needed
-      
-      if (downloadFileResponse) {
-        const link = document.createElement('a');
-        link.href = downloadFileResponse.data;
-        console.log(downloadFileResponse);
-        
-        
-        link.download = filePath.split('/').pop();
-        link.click();
-      } else {
-        console.error('Failed to download file');
-        // Handle error (show alert, etc.)
-      }
-    } catch (error) {
-      console.error('Error downloading file:', error);
-      // Handle error (show alert, etc.)
-    }
+  const filedownloadHandler = (filePath) => {
+    dispatch(DownloadProjectFile(filePath)); // Initiate the download
   };
+
+  // Use effect to listen to changes in the `downloadFileResponse`
+  useEffect(() => {
+    if (downloadFileResponse) {
+      const link = document.createElement("a");
+      link.href = downloadFileResponse.data; // Ensure this contains the Blob URL or file path
+      link.download = downloadFileResponse.fileName || "downloadedFile"; // Set the file name appropriately
+      link.click();
+    }
+  }, [downloadFileResponse]);
 
   const projectStartDate = new Date(viewProjectData?.ProjectStartDate); // Convert the start date to a Date object
   const currentDate = new Date(); // Get the current date
@@ -339,13 +348,11 @@ const ProjectSubmissionDetails = () => {
                     <th>{data.SubmittedBy}</th>
                     <th>{data.FileName} </th>
                     <th onClick={() => filedownloadHandler(data?.FilePath)}>
-                      {/* <a href={downloadFileResponse?.data} download> */}
-                        <img
-                          src="https://ulearn.uniathena.com/Images/icons/download.svg"
-                          alt=""
-                          width={35}
-                        />
-                      {/* </a> */}
+                      <img
+                        src="https://ulearn.uniathena.com/Images/icons/download.svg"
+                        alt=""
+                        width={35}
+                      />
                     </th>
                   </tr>
                 ))}
@@ -356,7 +363,12 @@ const ProjectSubmissionDetails = () => {
         {isSP && (
           <>
             <div className="m-auto py-3" style={{ maxWidth: "1200px" }}>
-              <select style={{ width: "250px" }} className="p-2">
+              <select
+                style={{ width: "250px" }}
+                className="p-2"
+                onChange={handleDraftSelect}
+                value={selectedDraftType}
+              >
                 <option selected="" value="Default">
                   Select Submission type
                 </option>
@@ -364,11 +376,21 @@ const ProjectSubmissionDetails = () => {
                 <option value="Last Month">Second Draft</option>
               </select>
             </div>
-            <Modal show={true} onHide={handleClose} centered size="lg">
+            <Modal
+              show={showFilePopup}
+              onHide={handleDraftClose}
+              centered
+              size="lg"
+            >
               <Modal.Header closeButton>Draft Files</Modal.Header>
               <Modal.Body>
                 <div className="m-auto py-2">
-                  <select style={{ width: "200px" }} className="p-2">
+                  <select
+                    style={{ width: "200px" }}
+                    className="p-2"
+                    value={selectedDraftType}
+                    onChange={handleDraftSelect}
+                  >
                     <option selected="" value="Default">
                       Select Submission type
                     </option>
@@ -441,7 +463,7 @@ const ProjectSubmissionDetails = () => {
                         <button
                           className="btn btn-primary dreadmore-btn  mt-3"
                           onClick={handleSubmit}
-                          disabled={!fileUploadResponse || !remark}
+                          // disabled={!fileUploadResponse || !remark}
                         >
                           Save
                         </button>

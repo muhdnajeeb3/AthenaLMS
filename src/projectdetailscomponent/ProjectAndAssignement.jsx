@@ -28,12 +28,9 @@ const ProjectAndAssignement = () => {
 
   console.log(projectDetail, "p");
 
-
   useEffect(() => {
     // Check if studentenrollment data is already available in the state
-    if (!studentenrollment || studentenrollment.length === 0) {
-      dispatch(GetStudentEnrollment());
-    }
+    dispatch(GetStudentEnrollment());
   }, [dispatch, studentenrollment]);
 
   useEffect(() => {
@@ -55,16 +52,18 @@ const ProjectAndAssignement = () => {
     setSelectedCourseId(courseId);
   };
 
-  const viewHandler = (action,projectId) => {
-    
-    console.log(action,'ac');
-    console.log(projectId,'pi');
-    dispatch(GetProjectModuleDetails(projectId));
-    // if (action === 'Start') {
-      
-    // }
-    
-    navigate(`/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`);
+  const viewHandler = (action, projectId) => {
+    const refresh = "refresh";
+    if (action === "Start") {
+      dispatch(GetProjectModuleDetails(projectId));
+      setTimeout(() => {
+        dispatch(GetProjectDetails(selectedCourseId, refresh));
+      }, 2500);
+    } else {
+      navigate(
+        `/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`
+      );
+    }
   };
 
   const tableHeadings = [
@@ -79,6 +78,7 @@ const ProjectAndAssignement = () => {
     "Grade",
     "Action",
   ];
+
   return (
     <Container fluid className="bg-light">
       <div className="pdrow">
@@ -118,8 +118,6 @@ const ProjectAndAssignement = () => {
                 <td>{index + 1}</td>
                 <td>{project.ModuleName}</td>
                 <td>{FormatDate(project.ProjectStartDate)}</td>
-
-
                 <td>{FormatDate(project.DueDate)}</td>
                 <td>{project.DaysLeft || ""}</td>
                 <td>{FormatDate(project.SubmittedDate) || ""}</td>
@@ -127,7 +125,10 @@ const ProjectAndAssignement = () => {
                 <td>{project.extensionRequest || "N/A"}</td>
                 <td>{project.Score || ""}</td>
                 <td>{project.Grade || ""}</td>
-                <td onClick={()=>viewHandler(project.Action,project.ProjectId)} style={{ cursor: "pointer" }}>
+                <td
+                  onClick={() => viewHandler(project.Action, project.ProjectId)}
+                  style={{ cursor: "pointer" }}
+                >
                   {project.Action}
                 </td>
               </tr>
@@ -140,14 +141,13 @@ const ProjectAndAssignement = () => {
                 </td>
               </tr>
             )}
-             {projecterror && (
+            {projecterror && (
               <tr>
                 <td colSpan={tableHeadings.length + 1} className="text-center">
-                No project details available for the selected course.
+                  No project details available for the selected course.
                 </td>
               </tr>
             )}
-
           </tbody>
         </Table>
       </div>

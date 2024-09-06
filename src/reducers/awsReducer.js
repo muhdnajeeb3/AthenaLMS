@@ -1,12 +1,12 @@
-import { DOWNLOAD_FILES_FAIL, DOWNLOAD_FILES_REQUEST, DOWNLOAD_FILES_SUCCESS, SUBMITPROJECT_FILE_FAIL, SUBMITPROJECT_FILE_REQUEST, SUBMITPROJECT_FILE_SUCCESS } from "../constants/aws";
+import { DOWNLOAD_FILES_FAIL, DOWNLOAD_FILES_REQUEST, DOWNLOAD_FILES_SUCCESS, UPLOAD_FILE_FAIL, UPLOAD_FILE_REQUEST, UPLOAD_FILE_SUCCESS } from "../constants/aws";
 
-export const SubmitFileReducer = (state = { }, action) => {
+export const UploadFileReducer = (state = { }, action) => {
     switch (action.type) {
-      case SUBMITPROJECT_FILE_REQUEST:
+      case UPLOAD_FILE_REQUEST:
         return { loading: true };
-      case SUBMITPROJECT_FILE_SUCCESS:
-        return { loading: false, submitFileResponse: action.payload };
-      case SUBMITPROJECT_FILE_FAIL:
+      case UPLOAD_FILE_SUCCESS:
+        return { loading: false, uploadFileResponse: action.payload };
+      case UPLOAD_FILE_FAIL:
         return { loading: false, error: action.payload };
   
       default:

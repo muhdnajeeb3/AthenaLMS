@@ -15,6 +15,9 @@ import {
   GETUNIT_DETAILS_FAIL,
   GETUNIT_DETAILS_REQUEST,
   GETUNIT_DETAILS_SUCCESS,
+  SUBMITPROJECT_FILE_FAIL,
+  SUBMITPROJECT_FILE_REQUEST,
+  SUBMITPROJECT_FILE_SUCCESS,
 } from "../constants/courseDetails";
 
 const BaseUrl = "https://ulearnapi.schneidestaging.in/api";
@@ -160,14 +163,15 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
   };
 
   // projectdetails
-  export const GetProjectDetails = (courseId) => async (dispatch, getState) => {
+  export const GetProjectDetails = (courseId,refresh = false) => async (dispatch, getState) => {
     const {
       studentLogin: { studentInfo },
-    userSignin: { userInfo },
+      userSignin: { userInfo },
       projectDetail: { projectDetail },
     } = getState();
     
-    if (projectDetail && projectDetail.length > 0 && projectDetail[0].CourseId === courseId) {
+    if (projectDetail && projectDetail.length > 0 && projectDetail[0].CourseId === Number(courseId) && !refresh) {
+      console.log("CourseId matches, skipping fetch.");
       return;
     }
     
@@ -227,13 +231,15 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
     const {CourseId,DueDate,ModuleId,TutorDetails,ProjectId,ProjectStartDate} = viewProjectmatchedData[0];
 
     const TutorDetailsData = JSON.parse(TutorDetails);
-    // console.log(TutorDetailsData);
+
+    const { PersonalTutorId } = TutorDetailsData;
+    
     
     
   
     try {
       const { data } = await axios.post(`${BaseUrl}/Project/GetProjectModuleDetails`, {
-        Parameter: JSON.stringify({ LeadId: LeadId, CourseId: CourseId,ProjectId: ProjectId,CreatedBy:LeadId,CurrStatus:null,ModuleId:ModuleId ,StartDate:ProjectStartDate,DueDate:DueDate}),
+        Parameter: JSON.stringify({ LeadId: LeadId, CourseId: CourseId,ProjectId: ProjectId,CreatedBy:LeadId,CurrStatus:null,ModuleId:ModuleId ,StartDate:ProjectStartDate,DueDate:DueDate,PersonalTutorId:PersonalTutorId}),
         Type: "INSERT",
       },
       {
@@ -249,6 +255,66 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
     } catch (error) {
       dispatch({
         type: GETPROJECTMODULE_DETAILS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+  export const SubmitProjectFile = (projectId,submitData,FileName) => async (dispatch, getState) => {
+    console.log(projectId,'prroro');
+    console.log('ssss',submitData);
+    console.log('ssss',FileName);
+    
+    const {
+      studentLogin: { studentInfo },
+      userSignin: { userInfo },
+      projectDetail: { projectDetail },
+    } = getState();
+    
+    dispatch({ type: SUBMITPROJECT_FILE_REQUEST });
+
+    let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+    const token = userInfo && userInfo?.token;
+
+    const viewProjectmatchedData = projectDetail?.filter(
+      (data) => data.ProjectId == projectId
+    );
+
+    console.log(viewProjectmatchedData);
+    
+
+    // console.log(viewProjectmatchedData,'view');
+  //  "parameter": "{  \"FileID\": null, \"AssignID\": 123, \"BelongsTo\": \"student\", \"LeadId\": 456, \"FileName\": \"project_report.pdf\", \"FilePath\": \"/files/student_456/project_report.pdf\", \"IsActive\": 1, \"CreatedBy\": \"1\", \"CreatedOn\": \"2024-08-20T14:30:00\", \"Grade\": null, \"ReasonForChange\": null, \"TranRemarks\": \"Initial submission\" }",
+
+    const {CourseId,ProjectId,AssignID} = viewProjectmatchedData[0];
+
+    
+    
+    
+  
+    try {
+      const { data } = await axios.post(`${BaseUrl}/Project/SubmitProjectFile`, {
+        Parameter: JSON.stringify({ LeadId: LeadId,AssignID,BelongsTo:"student",FileName:FileName,FilePath:submitData?.fileData,CreatedBy:LeadId, CourseId: CourseId,ProjectId: ProjectId,TranRemarks:submitData?.remark}),
+        Type: "INSERT",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
+    });
+      
+      const parsedData = JSON.parse(data.map((data) => data.result));
+      console.log('response',parsedData);
+      
+  
+      dispatch({ type: SUBMITPROJECT_FILE_SUCCESS, payload: parsedData });
+    } catch (error) {
+      dispatch({
+        type: SUBMITPROJECT_FILE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
