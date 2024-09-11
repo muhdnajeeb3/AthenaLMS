@@ -8,7 +8,7 @@ import {
   GETSTUDENT_SCORE_SUCCESS,
 } from "../constants/quizDetails";
 
-const BaseUrl = "https://ulearnapi.schneidestaging.in/api";
+const BaseUrl = import.meta.env.VITE_BASE_URL;
 
 // getquestion
 export const GetQuestionDetails = (TestId) => async (dispatch, getState) => {

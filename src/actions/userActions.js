@@ -9,11 +9,14 @@ import {
   USER_SIGNIN_SUCCESS,
 } from "../constants/userConstants";
 
+const BaseUrl = import.meta.env.VITE_BASE_URL;
+
+
 export const signin = (Username, Password) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_REQUEST, payload: { Username, Password } });
   try {
     const { data } = await Axios.post(
-      "https://ulearnapi.schneidestaging.in/api/User/Authenticate",
+      `${BaseUrl}/User/Authenticate`,
       { Username, Password }
     );
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
@@ -45,16 +48,14 @@ export const studentlogin = (Email) => async (dispatch, getState) => {
       Parameter: JSON.stringify({ Email, Password: encrIptDecrypt }),
     };
     const { data } = await Axios.post(
-      "https://ulearnapi.schneidestaging.in/api/User/StudentLogin",
+      `${BaseUrl}/User/StudentLogin`,
       EmailPAssword,
       config
     );
     const parsedData = JSON.parse(data.map(data =>data.result));
 
     dispatch({ type: STUDENT_LOGIN_SUCCESS, payload: parsedData });
-    // const resultString = data[0]?.result;
-    // const resultArray = JSON.parse(resultString);
-    // const IsActive = resultArray?.[0]?.status;
+
     console.log(parsedData);
     localStorage.setItem("studentLogin", JSON.stringify(parsedData));
   } catch (error) {

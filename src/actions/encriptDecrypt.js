@@ -5,8 +5,9 @@ import {
   ENCRIPTDECRYPT_SUCCESS,
 } from "../constants/EncrIptDecrypt";
 
-export const EncriptDecrypt =
-  (Parameter, Type) => async (dispatch, getState) => {
+const BaseUrl = import.meta.env.VITE_BASE_URL;
+
+export const EncriptDecrypt = (Parameter, Type) => async (dispatch, getState) => {
     dispatch({ type: ENCRIPTDECRYPT_REQUEST, payload: { Parameter, Type } });
     const {
       userSignin: { userInfo },
@@ -18,7 +19,7 @@ export const EncriptDecrypt =
         },
       };
       const { data } = await Axios.post(
-        "https://ulearnapi.schneidestaging.in/api/User/EncriptDecrypt",
+        `${BaseUrl}/User/EncriptDecrypt`,
         { Parameter, Type },
         config
       );
