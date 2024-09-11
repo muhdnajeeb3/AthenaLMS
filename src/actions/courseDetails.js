@@ -210,7 +210,7 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
   export const GetProjectModuleDetails = (projectId) => async (dispatch, getState) => {
     const {
       studentLogin: { studentInfo },
-    userSignin: { userInfo },
+      userSignin: { userInfo },
       projectDetail: { projectDetail },
     } = getState();
     
@@ -264,10 +264,7 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
   };
 
   export const SubmitProjectFile = (projectId,submitData,FileName) => async (dispatch, getState) => {
-    console.log(projectId,'prroro');
-    console.log('ssss',submitData);
-    console.log('ssss',FileName);
-    
+
     const {
       studentLogin: { studentInfo },
       userSignin: { userInfo },
@@ -284,20 +281,12 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
     );
 
     console.log(viewProjectmatchedData);
-    
-
-    // console.log(viewProjectmatchedData,'view');
-  //  "parameter": "{  \"FileID\": null, \"AssignID\": 123, \"BelongsTo\": \"student\", \"LeadId\": 456, \"FileName\": \"project_report.pdf\", \"FilePath\": \"/files/student_456/project_report.pdf\", \"IsActive\": 1, \"CreatedBy\": \"1\", \"CreatedOn\": \"2024-08-20T14:30:00\", \"Grade\": null, \"ReasonForChange\": null, \"TranRemarks\": \"Initial submission\" }",
-
-    const {CourseId,ProjectId,AssignID} = viewProjectmatchedData[0];
-
-    
-    
-    
+ 
+    const {CourseId,AssignID,Grade} = viewProjectmatchedData[0];
   
     try {
       const { data } = await axios.post(`${BaseUrl}/Project/SubmitProjectFile`, {
-        Parameter: JSON.stringify({ LeadId: LeadId,AssignID,BelongsTo:"student",FileName:FileName,FilePath:submitData?.fileData,CreatedBy:LeadId, CourseId: CourseId,ProjectId: ProjectId,TranRemarks:submitData?.remark}),
+        Parameter: JSON.stringify({ LeadId: LeadId,AssignID,BelongsTo:"student",Grade:Grade,RefID:projectId,FileName:FileName,FilePath:submitData?.fileData,CreatedBy:LeadId, CourseId: CourseId,TranRemarks:submitData?.remark}),
         Type: "INSERT",
       },
       {

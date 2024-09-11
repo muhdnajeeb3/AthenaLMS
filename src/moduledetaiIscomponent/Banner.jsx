@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCourseModule } from "../actions/courseDetails";
+import Skeleton from "react-loading-skeleton";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -63,6 +64,8 @@ const Banner = ({ CourseDetails }) => {
           <div className="text-dark pt-4 pb-3 mdtoprow w-100">
             <div>
               <h2 className="project-heading text-dark pb-1">
+                {loading && <Skeleton />}
+
                 <b>{CourseName}</b>
               </h2>
               <p>
@@ -210,6 +213,12 @@ const Banner = ({ CourseDetails }) => {
                 <hr />
                 <p></p>
               </div>
+              {loading && (
+                <div className="p-4">
+                  <Skeleton count={10} />
+                </div>
+              )}
+
               {/* module name and unit */}
               {courseModule?.map((course, i) => (
                 <div key={i}>
@@ -278,7 +287,6 @@ const Banner = ({ CourseDetails }) => {
                           </ul>
                         ))}
                       </div>
-                      
                     </div>
                   ))}
                 </div>

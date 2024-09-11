@@ -145,7 +145,7 @@ const ExploreCourses = () => {
           <Button className="startfreetrial-btn">Start Free Trail</Button>
         </div>
       </div>
-        <div className="flex w-100">
+        <div className="flex w-100 mx-auto" style={{maxWidth:"1200px"}}>
           <Link
           to='/ExploreCourses'
             className="dreadmore-btn"

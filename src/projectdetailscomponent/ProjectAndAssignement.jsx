@@ -52,19 +52,24 @@ const ProjectAndAssignement = () => {
     setSelectedCourseId(courseId);
   };
 
-  const viewHandler = (action, projectId) => {
+  const viewHandler = async (action, projectId) => {
     const refresh = "refresh";
     if (action === "Start") {
-      dispatch(GetProjectModuleDetails(projectId));
-      setTimeout(() => {
+      try {
+        // Wait for the first dispatch to complete
+        await dispatch(GetProjectModuleDetails(projectId));
+        
+        // After it's done, trigger the second dispatch
         dispatch(GetProjectDetails(selectedCourseId, refresh));
-      }, 2500);
+      } catch (error) {
+        console.error("Error fetching project module details:", error);
+      }
     } else {
-      navigate(
-        `/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`
-      );
+      navigate(`/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`);
     }
   };
+  
+  
 
   const tableHeadings = [
     "Module",

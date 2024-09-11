@@ -90,7 +90,7 @@ const ProjectSubmissionDetails = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (!fileUploadResponse || !remark) {
       setError(
         !fileUploadResponse
@@ -101,22 +101,22 @@ const ProjectSubmissionDetails = () => {
       );
       return;
     }
-
+  
     try {
       const submitData = {
         remark,
         fileData: fileUploadResponse, // Include the response from S3
       };
       const refresh = "refresh";
-
       const FileName = file?.FileName;
-
-      dispatch(SubmitProjectFile(ProjectID, submitData, FileName));
-
-      setTimeout(() => {
-        dispatch(GetProjectDetails(courseId, refresh));
-      }, 3000);
-
+  
+      // Dispatch SubmitProjectFile and wait for completion
+      await dispatch(SubmitProjectFile(ProjectID, submitData, FileName));
+  
+      // Once the file submission is complete, immediately fetch project details
+      await dispatch(GetProjectDetails(courseId, refresh));
+  
+      // After successful submission and refresh, hide the file popup and reset data
       setShowFilePopup(false);
       setFileUploadResponse(null); // Clear the file data after successful submission
     } catch (error) {
@@ -124,6 +124,7 @@ const ProjectSubmissionDetails = () => {
       console.error(error);
     }
   };
+  
 
   const viewProjectmatchedData = projectDetail?.filter(
     (data) => data.ProjectId == ProjectID
@@ -347,7 +348,7 @@ const ProjectSubmissionDetails = () => {
                     <th>{FormatDateAndTime(data.SubmittedOn)}</th>
                     <th>{data.SubmittedBy}</th>
                     <th>{data.FileName} </th>
-                    <th onClick={() => filedownloadHandler(data?.FilePath)}>
+                    <th onClick={() => filedownloadHandler(data?.FilePath)} style={{cursor:'pointer'}}>
                       <img
                         src="https://ulearn.uniathena.com/Images/icons/download.svg"
                         alt=""

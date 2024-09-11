@@ -70,10 +70,10 @@ const FasttrackQuiz = () => {
   };
 
   const handleNextQuestion = () => {
-    // if (selectedAnswers[currentQuestionIndex] === undefined) {
-    //   alert("Please choose an answer before proceeding.");
-    //   return;
-    // }
+    if (selectedAnswers[currentQuestionIndex] === undefined) {
+      alert("Please choose an answer before proceeding.");
+      return;
+    }
     setAnimateNext(true);
     setTimeout(() => {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
