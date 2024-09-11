@@ -20,7 +20,7 @@ import {
   SUBMITPROJECT_FILE_SUCCESS,
 } from "../constants/courseDetails";
 
-const BaseUrl = import.meta.env.VITE_BASE_URL;
+const BaseUrl = import.meta.env.VITE_BASE_URL; 
 
 export const GetStudentEnrollment = () => async (dispatch, getState) => {
   const {
