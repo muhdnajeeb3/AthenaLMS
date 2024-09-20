@@ -14,6 +14,7 @@ const Banner = ({ CourseDetails }) => {
   const [showmore, setShowmore] = useState(false);
   const [sidebarShow, setSidebarShow] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [sortedCourse, setSortedCourse] = useState([]);
 
   const handleClose = () => setShowPopup(false);
   const handleShow = () => setShowPopup(true);
@@ -57,6 +58,24 @@ const Banner = ({ CourseDetails }) => {
     const url = `/UnitDetailView?UID=${unitId}&LessonId=${lessonId}&ModuleId=${moduleId}&CourseId=${courseId}`;
     navigate(url);
   };
+ 
+  useEffect(() => {
+    if (courseModule?.length > 0) {
+      
+       const sortedCourses = [...courseModule]?.sort((a, b) => {
+        const moduleOrderA = a.Modules[0]?.ModuleOrder ?? Infinity;
+        const moduleOrderB = b.Modules[0]?.ModuleOrder ?? Infinity;
+        return moduleOrderA - moduleOrderB;
+      });
+
+    setSortedCourse(sortedCourses)
+    
+    }
+  }, [courseModule])
+  
+
+console.log(sortedCourse);
+
   return (
     <>
       <Container fluid className="bg-light">
@@ -220,10 +239,11 @@ const Banner = ({ CourseDetails }) => {
               )}
 
               {/* module name and unit */}
-              {courseModule?.map((course, i) => (
+              {sortedCourse?.map((course, i) => (
                 <div key={i}>
-                  {course.Modules.map((module) => (
+                  {course.Modules?.map((module) => (
                     <div key={module.ModuleId}>
+                      {console.log(module.ModuleOrder,'order')}
                       <div className="py-4 course-modules-wrap">
                         <h5 className="modulecardheading">
                           {i + 1}. {module.ModuleName}

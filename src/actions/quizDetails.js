@@ -89,7 +89,7 @@ export const GetStudentScore = (TestId) => async (dispatch, getState) => {
 
   try {
     const { data } = await axios.post(
-      `${BaseUrl}/Course/GetStudentScore`,
+      `${BaseUrl}/Course/GetStudentTestAttempt`,
       {
         Parameter: JSON.stringify({ LeadId: LeadId, TestId: TestId }),
         Type: "GET",
