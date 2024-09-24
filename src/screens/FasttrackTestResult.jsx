@@ -49,7 +49,7 @@ const FasttrackTestResult = () => {
         <div className="result-attempt-wrap mb-5">
           {studentScore && studentScore.length > 0 && (
             <>
-              {studentScore.map((score, index) => (
+              {studentScore?.map((score, index) => (
                 <div key={index}>
                   <div className="flex item-center row-col p-3">
                     <strong className="text-center attempt-title">
@@ -59,7 +59,7 @@ const FasttrackTestResult = () => {
                       <CountUp end={score.Score} duration={2} />%
                     </div>
                   </div>
-                  {score.QtAn.map((question, qIndex) => (
+                  {score?.QtAn?.map((question, qIndex) => (
                     <div className="question-answer-wrap pt-3" key={qIndex}>
                       <div className="flex gap-10 bg-secondary py-3 text-white">
                         <span>{qIndex + 1}.</span>

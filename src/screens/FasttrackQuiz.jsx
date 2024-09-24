@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Breadcrumb, Container, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { GetQuestionDetails } from "../actions/quizDetails";
+import { GetQuestionDetails, SubmitStudentTest } from "../actions/quizDetails";
 
 const FasttrackQuiz = () => {
   const [timeLeft, setTimeLeft] = useState(30 * 60);
@@ -23,21 +23,28 @@ const FasttrackQuiz = () => {
 
   const QuestionDetails = useSelector((state) => state.questionDetail);
   const { questionDetail } = QuestionDetails;
-  
+
+  // console.log(questionDetail);
 
   useEffect(() => {
     if (TestId) {
       dispatch(GetQuestionDetails(TestId));
     }
-  }, [dispatch,TestId]);
+  }, [dispatch, TestId]);
 
   useEffect(() => {
     if (questionDetail && questionDetail.length > 0) {
       const quizQuestions = questionDetail[0].QnA.map((qna) => ({
         question: qna?.QuesText,
-        answers: qna?.QtAn?.map((ans) => ans.Answer),
+        questionId: qna?.QuestId,
+        answers: qna?.QtAn?.map((ans) => ({
+          ansId: ans?.AnsId,
+          answer: ans?.Answer, // Storing the answer text to display
+        })),
         correctAnswer: qna?.QtAn?.find((ans) => ans.OptionNum === 1)?.Answer, // Assuming correct answer is the first option, update this as per your logic
       }));
+      console.log(questionDetail[0].QnA);
+
       setQuestions(quizQuestions);
       setLoading(false);
     }
@@ -62,18 +69,18 @@ const FasttrackQuiz = () => {
     window.scrollTo(0, 0);
   }, [currentQuestionIndex]);
 
-  const handleAnswerChange = (questionIndex, selectedAnswer) => {
+  const handleAnswerChange = (questionIndex, questionId, selectedAnswerId) => {
     setSelectedAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [questionIndex]: selectedAnswer,
+      [questionId]: selectedAnswerId, // Store `questionId` as the key and `ansId` as the value
     }));
   };
 
   const handleNextQuestion = () => {
-    if (selectedAnswers[currentQuestionIndex] === undefined) {
-      alert("Please choose an answer before proceeding.");
-      return;
-    }
+    // if (selectedAnswers[questionId] === undefined) {
+    //   alert("Please choose an answer before proceeding.");
+    //   return;
+    // }
     setAnimateNext(true);
     setTimeout(() => {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -84,7 +91,14 @@ const FasttrackQuiz = () => {
   const navigate = useNavigate();
 
   const handleSubmitQuiz = () => {
-    console.log("Selected Answers:", selectedAnswers);
+    const result = Object.keys(selectedAnswers).map((questionId) => ({       // You can modify this as needed
+      LeadId: 2,            // Replace this with actual LeadId as needed
+      TestId: TestId,
+      QuestId: questionId,  // Use the questionId
+      StudentAns: selectedAnswers[questionId], // The selected answer's Id
+    }));
+    console.log("Selected Answers:", result);
+    dispatch(SubmitStudentTest(result));
     navigate(`/FasttrackTestResult?TestId=${TestId}`);
   };
 
@@ -113,15 +127,15 @@ const FasttrackQuiz = () => {
             <Breadcrumb.Item href="/ModuleDetails">Unit 3</Breadcrumb.Item>
           </Breadcrumb>
         </div>
-          <div className="practicalinfo pb-2">
-            <div className="practicalinfo-title w-100 mb-2">
-              <h5>
-                <b>
-                  Question {currentQuestionIndex + 1} of {questions.length}
-                </b>
-              </h5>
-            </div>
+        <div className="practicalinfo pb-2">
+          <div className="practicalinfo-title w-100 mb-2">
+            <h5>
+              <b>
+                Question {currentQuestionIndex + 1} of {questions.length}
+              </b>
+            </h5>
           </div>
+        </div>
         <div
           key={currentQuestionIndex}
           className={animateNext ? "question-animation" : ""}
@@ -136,13 +150,22 @@ const FasttrackQuiz = () => {
                 {questions[currentQuestionIndex]?.answers?.map(
                   (answer, answerIndex) => (
                     <Form.Check
-                      key={answerIndex}
+                      key={answer.ansId} // Use AnsId as the key
                       type="radio"
                       id={`question-${currentQuestionIndex}-answer-${answerIndex}`}
-                      label={answer}
-                      checked={selectedAnswers[currentQuestionIndex] === answer}
+                      label={answer.answer} // Display the answer text
+                      checked={
+                        selectedAnswers[
+                          questions[currentQuestionIndex].questionId
+                        ] === answer.ansId
+                      } // Compare selected AnsId
                       onChange={() =>
-                        handleAnswerChange(currentQuestionIndex, answer)
+                        handleAnswerChange(
+                          // Pass questionId and ansId
+                          currentQuestionIndex,
+                          questions[currentQuestionIndex].questionId,
+                          answer.ansId
+                        )
                       }
                     />
                   )

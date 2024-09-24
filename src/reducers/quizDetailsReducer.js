@@ -5,6 +5,9 @@ import {
   GETSTUDENT_SCORE_FAIL,
   GETSTUDENT_SCORE_REQUEST,
   GETSTUDENT_SCORE_SUCCESS,
+  STUDENTTEST_SUBMIT_FAIL,
+  STUDENTTEST_SUBMIT_REQUEST,
+  STUDENTTEST_SUBMIT_SUCCESS,
 } from "../constants/quizDetails";
 
 export const GetQuestionDetailsReducer = (state = {}, action) => {
@@ -28,6 +31,20 @@ export const GetStudentScoreReducer = (state = {}, action) => {
     case GETSTUDENT_SCORE_SUCCESS:
       return { loading: false, studentScore: action.payload };
     case GETSTUDENT_SCORE_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const SubmitStudentTestReducer = (state = {}, action) => {
+  switch (action.type) {
+    case STUDENTTEST_SUBMIT_REQUEST:
+      return { loading: true };
+    case STUDENTTEST_SUBMIT_SUCCESS:
+      return { loading: false, studentSubmit: action.payload };
+    case STUDENTTEST_SUBMIT_FAIL:
       return { loading: false, error: action.payload };
 
     default:

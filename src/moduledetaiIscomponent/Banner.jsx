@@ -72,9 +72,7 @@ const Banner = ({ CourseDetails }) => {
     
     }
   }, [courseModule])
-  
 
-console.log(sortedCourse);
 
   return (
     <>
@@ -243,7 +241,6 @@ console.log(sortedCourse);
                 <div key={i}>
                   {course.Modules?.map((module) => (
                     <div key={module.ModuleId}>
-                      {console.log(module.ModuleOrder,'order')}
                       <div className="py-4 course-modules-wrap">
                         <h5 className="modulecardheading">
                           {i + 1}. {module.ModuleName}

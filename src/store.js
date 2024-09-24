@@ -11,7 +11,7 @@ import {
 } from "./reducers/userReducers";
 import { encrIptDecryptReducer } from "./reducers/ecriptDecriptReducers";
 import { GetCourseModuleReducer, GetProjectDetailsReducer, GetProjectModuleDetailsReducer, GetStudentEnrollmentReducer, GetUnitDetailsReducer, SubmitFileReducer } from "./reducers/courseDetailsReducer";
-import { GetQuestionDetailsReducer, GetStudentScoreReducer } from "./reducers/quizDetailsReducer";
+import { GetQuestionDetailsReducer, GetStudentScoreReducer, SubmitStudentTestReducer } from "./reducers/quizDetailsReducer";
 import { DownloadFileReducer, UploadFileReducer } from "./reducers/awsReducer";
 
 const initialState = {
@@ -40,6 +40,7 @@ const reducer = combineReducers({
   uploadFileResponse:UploadFileReducer,
   downloadFileResponse:DownloadFileReducer,
   submitFile:SubmitFileReducer,
+  studentSubmit:SubmitStudentTestReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

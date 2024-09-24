@@ -7,7 +7,7 @@ export const UploadFile = (uploadFileEntity) => async (dispatch) => {
     dispatch({ type: UPLOAD_FILE_REQUEST });
   
     try {
-      const { data } = await axios.post(`/api/S3_UPLOADFILES`,  uploadFileEntity);
+      const { data } = await axios.post(`https://s3bucket.schneidestaging.in/api/S3_UPLOADFILES`,  uploadFileEntity);
 
       dispatch({ type: UPLOAD_FILE_SUCCESS, payload: data });
 

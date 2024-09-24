@@ -3,10 +3,11 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "./NavBar.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../actions/userActions";
 import { LinkContainer } from "react-router-bootstrap";
+import profilepic from '../assets/njbpic.jpg'
 
 function NavBar() {
   // const userSignin = useSelector((state) => state.userSignin);
@@ -97,7 +98,9 @@ function NavBar() {
               <img
                 id="imgUserLogo"
                 className="athena-profile-pic"
-                src="https://community.upwork.com/bpyhf24739/attachments/bpyhf24739/New_to_Upwork/112350/1/Hostess%20characters.jpg"
+                src={profilepic}
+                width={35}
+                height={35}
               />
               <NavDropdown
                 title={FirstName || "Username"}

@@ -69,5 +69,7 @@ export const studentlogin = (Email) => async (dispatch, getState) => {
 
 export const signout = () => (dispatch) => {
   localStorage.removeItem("studentLogin");
+  localStorage.removeItem("userInfo");
+  localStorage.removeItem("token");
   dispatch({ type: STUDENT_LOGOUT });
 };

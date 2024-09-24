@@ -71,8 +71,8 @@ const MemberProfile = () => {
               <div className="w-100  p-2">
                 <div className="editprofile id-name-wrap">
                   <h6>
-                    <b>Joju</b>
-                    <b>Test Schneide</b> <b className="id-dash"> | </b>{" "}
+                    <b>Muhammed</b>{" "}
+                    <b>Najeeb</b> <b className="id-dash"> | </b>{" "}
                     <b className="id-blk"> ID: </b>
                     <b className="id-no">20113680</b>
                   </h6>
@@ -90,7 +90,7 @@ const MemberProfile = () => {
                   style={{ justifyContent: "flex-start" }}
                 >
                   <img src="https://ulearn.uniathena.com/images/icons/mail.svg" />
-                  <b>joju@schneideit.com</b>
+                  <b>najeeb@schneideit.com</b>
                 </p>
               </div>
             </div>
