@@ -1,6 +1,21 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {
+  Alert,
+  Button,
+  Col,
+  Container,
+  Form,
+  Row,
+  Table,
+} from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { GetStudentPayments } from "../actions/PaymentAction";
+import Loader from "../reusablecomponents/Loader";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const EnrolToCourse = () => {
   const [checkboxStates, setCheckboxStates] = useState([]); // Initialize states for each checkbox
@@ -19,44 +34,27 @@ const EnrolToCourse = () => {
 
     setCheckboxStates(newCheckboxStates);
   };
+  const dispatch = useDispatch();
+  const query = useQuery();
+  const courseId = query.get("CourseId");
+  useEffect(() => {
+    dispatch(GetStudentPayments(courseId));
+  }, [courseId, dispatch]);
 
+  const StudentPayments = useSelector((state) => state.studentPayment);
+  const { loading, error, PaymentInfo } = StudentPayments;
+  console.log(PaymentInfo);
   // Sample data representing each row of the table
-  const tableData = [
-    {
-      moduleName: "Instalment 7",
-      
-      actualAmount: 350.0,
-      offerAmount: 0.0,
-      netAmountUSD: 350.0,
-    },
-    {
-      moduleName: "Instalment 8",
-      actualAmount: 350.0,
-      offerAmount: 0.0,
-      netAmountUSD: 350.0,
-    },
-    {
-      moduleName: "Instalment 9",
-      actualAmount: 350.0,
-      offerAmount: 0.0,
-      netAmountUSD: 350.0,
-    },
-    {
-      moduleName: "Degree Certification Fee",
-      actualAmount: 700.0,
-      offerAmount: 0.0,
-      netAmountUSD: 700.0,
-    },
-  ];
-  // Calculate total and net amounts based on checked checkboxes
+  const tableData = PaymentInfo;
+
   const calculateAmounts = () => {
     let totalAmount = 0;
     let netAmount = 0;
 
     checkboxStates.forEach((isChecked, index) => {
       if (isChecked) {
-        totalAmount += tableData[index].actualAmount;
-        netAmount += tableData[index].netAmountUSD;
+        totalAmount += tableData[index].Payable;
+        netAmount += tableData[index].Amount;
       }
     });
 
@@ -179,7 +177,11 @@ const EnrolToCourse = () => {
                 <b>MODULE DETAILS</b>
               </h3>
               <span className="m-0 text-center">
-              Please select appropriate modules for the payment. You can select single or multiple module together, however the access to the module resources will be provided based on the completion of the previous one. The below shown fee are the net module fees after any scholarship or discount offered to you.
+                Please select appropriate modules for the payment. You can
+                select single or multiple module together, however the access to
+                the module resources will be provided based on the completion of
+                the previous one. The below shown fee are the net module fees
+                after any scholarship or discount offered to you.
               </span>
             </div>
             <div className="px-4 createinvoice-table my-5">
@@ -191,21 +193,26 @@ const EnrolToCourse = () => {
                     <th>Actual Amount (USD)</th>
                     <th>Offer Amount (USD)</th>
                     <th>Net Amount (USD)</th>
+                    {tableData?.[0]?.IsModule === false && <th>DueDate</th>}
                     <th>Select</th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  {tableData.map((row, index) => (
+                  {tableData?.map((row, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{row.moduleName}</td>
-                      <td>{row.actualAmount}</td>
-                      <td>{row.offerAmount}</td>
-                      <td>{row.netAmountUSD}</td>
+                      <td>{row.Installment}</td>
+                      <td>{row.Amount}</td>
+                      <td>{row.Discount}</td>
+                      <td>{row.Payable}</td>
+                      {tableData?.[0]?.IsModule === false && (
+                        <td>{row.DuDate}</td>
+                      )}
                       <td>
                         <input
                           type="checkbox"
-                          checked={checkboxStates[index]}
+                          checked={checkboxStates[index] || false}
                           onChange={() => handleCheckboxChange(index)}
                           disabled={!checkboxStates[index - 1] && index !== 0}
                         />
@@ -214,6 +221,16 @@ const EnrolToCourse = () => {
                   ))}
                 </tbody>
               </Table>
+              {loading && (
+                <div className="my-3">
+                  <Loader />
+                </div>
+              )}
+              {error && (
+                <div className="my-3">
+                  <Alert variant="danger">error</Alert>
+                </div>
+              )}
             </div>
             <div className="flex text-center my-2 ">
               <h2 className="w-100 flex content-center gap-10 item-center">
@@ -221,7 +238,7 @@ const EnrolToCourse = () => {
                   Total amount selected :{" "}
                 </span>
                 <span style={{ fontWeight: "700" }}>
-                  USD {totalAmount.toFixed(2)}
+                  USD {totalAmount?.toFixed(2)}
                 </span>
               </h2>
             </div>

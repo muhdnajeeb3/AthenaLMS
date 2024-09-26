@@ -47,8 +47,9 @@ const Banner = ({ CourseDetails }) => {
   const viewAssignmentHandler = () => {
     navigate("/SubmitAssignments");
   };
-  const takelessonHandler = (TestId) => {
-    navigate(`/FasttrackQuiz?TestId=${TestId}`);
+  const takelessonHandler = (TestId,courseId,moduleId,lessonId) => {
+  
+    navigate(`/FasttrackQuiz?TestId=${TestId}&LessonId=${lessonId}&ModuleId=${moduleId}&CourseId=${courseId}`);
   };
   const bannerbtnHandler = (btn) => {
     navigate(`/${btn}?CourseId=${courseId}`);
@@ -288,7 +289,7 @@ const Banner = ({ CourseDetails }) => {
                                 <Button
                                   className="quizz-assign-btn"
                                   variant=""
-                                  onClick={() => takelessonHandler(data.TestId)}
+                                  onClick={() => takelessonHandler(data.TestId,course.CourseId,module.ModuleId,lesson.LessonId)}
                                 >
                                   Take Lesson Quiz
                                 </Button>

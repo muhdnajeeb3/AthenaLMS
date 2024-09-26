@@ -45,44 +45,28 @@ const ProjectSubmissionDetails = () => {
     }
   }, [uploadFileResponse]);
 
-  const handleFileChange = async (event) => {
+  const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     const maxSize = 10 * 1024 * 1024; // 10MB in bytes
-
+  
     if (selectedFile && selectedFile.size > maxSize) {
       setError("File size should not exceed 10MB.");
       setFile(null);
     } else {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const fileString = reader.result.split(",")[1]; // Get base64 string
-        const fileNameWithoutExtension = selectedFile.name.replace(
-          /\.[^/.]+$/,
-          ""
-        );
-        const uploadFileEntity = {
-          BucketName: "westford-uc-bucket",
-          ProjectData: "Airtics",
-          FileExtension: selectedFile.name.split(".").pop(),
-          ProjectFolderName: "Airtics/UAT/",
-          FileName: fileNameWithoutExtension,
-          FileString: fileString,
-        };
-        setFile(uploadFileEntity);
-
-        try {
-          dispatch(UploadFile(uploadFileEntity));
-
-          setError("");
-        } catch (error) {
-          setError("File upload to S3 failed.");
-          console.error(error);
-        }
-      };
-
-      reader.readAsDataURL(selectedFile);
+      // Create FormData and append file and other fields
+      const formData = new FormData();
+      formData.append("file", selectedFile); // File itself
+      formData.append("uploadFileName", selectedFile.name.replace(/\.[^/.]+$/, ""));  // Remove extension
+      formData.append("fileDirectory", "ULearnLMS/Projects/Test/");  // Example directory
+  
+      // Dispatch the upload action with FormData
+      dispatch(UploadFile(formData));
+  
+      setError("");
     }
   };
+  
+  
 
   const handleRemarkChange = (event) => {
     setRemark(event.target.value);

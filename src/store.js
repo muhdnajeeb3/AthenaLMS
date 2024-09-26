@@ -13,6 +13,7 @@ import { encrIptDecryptReducer } from "./reducers/ecriptDecriptReducers";
 import { GetCourseModuleReducer, GetProjectDetailsReducer, GetProjectModuleDetailsReducer, GetStudentEnrollmentReducer, GetUnitDetailsReducer, SubmitFileReducer } from "./reducers/courseDetailsReducer";
 import { GetQuestionDetailsReducer, GetStudentScoreReducer, SubmitStudentTestReducer } from "./reducers/quizDetailsReducer";
 import { DownloadFileReducer, UploadFileReducer } from "./reducers/awsReducer";
+import { StudentPaymentReducer } from "./reducers/PaymentReducer";
 
 const initialState = {
   userSignin: {
@@ -41,6 +42,8 @@ const reducer = combineReducers({
   downloadFileResponse:DownloadFileReducer,
   submitFile:SubmitFileReducer,
   studentSubmit:SubmitStudentTestReducer,
+  studentPayment:StudentPaymentReducer,
+
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

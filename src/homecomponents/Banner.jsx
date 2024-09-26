@@ -50,7 +50,9 @@ const Banner = () => {
   const coursedetailHandler = (courseid) => {
     navigate(`/courseDetails?CourseId=${courseid}`);
   };
-
+  const PaydetailHandler = (courseid) => {
+    navigate(`/EnrolToCourse?CourseId=${courseid}`);
+  };
   // Get the current hour (0-23)
   const currentHour = new Date().getHours();
 
@@ -487,11 +489,11 @@ const Banner = () => {
                 <hr className="my-3" />
                 <div className="assignmentdue mt-4">
                   <h5>Blockchain Fundamentals</h5>
-                  <Link to="/EnrollCourse">
-                    <Button className="draftbtn" variant="">
+                  {/* <Link to="/EnrollCourse"> */}
+                    <Button className="draftbtn" variant="" onClick={()=>PaydetailHandler(data.CourseId)}>
                       Pay Now
                     </Button>
-                  </Link>
+                  {/* </Link> */}
                 </div>
                 <hr className="my-3" />
                 <p className="text-center">

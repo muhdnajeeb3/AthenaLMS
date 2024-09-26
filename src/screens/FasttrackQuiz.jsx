@@ -20,6 +20,9 @@ const FasttrackQuiz = () => {
   const query = useQuery();
 
   const TestId = query.get("TestId");
+  const CourseId = query.get("CourseId");
+  const ModuleId = query.get("ModuleId");
+  const LessonId = query.get("LessonId");
 
   const QuestionDetails = useSelector((state) => state.questionDetail);
   const { questionDetail } = QuestionDetails;
@@ -90,16 +93,19 @@ const FasttrackQuiz = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmitQuiz = () => {
+  const handleSubmitQuiz = async () => {
     const result = Object.keys(selectedAnswers).map((questionId) => ({       // You can modify this as needed
       LeadId: 2,            // Replace this with actual LeadId as needed
       TestId: TestId,
       QuestId: questionId,  // Use the questionId
-      StudentAns: selectedAnswers[questionId], // The selected answer's Id
+      StudentAns: selectedAnswers[questionId],
+      CourseId:CourseId,
+      LessonId:LessonId,
+      ModuleId:ModuleId
     }));
     console.log("Selected Answers:", result);
-    dispatch(SubmitStudentTest(result));
-    navigate(`/FasttrackTestResult?TestId=${TestId}`);
+    await dispatch(SubmitStudentTest(result));
+    await navigate(`/FasttrackTestResult?TestId=${TestId}`);
   };
 
   const minutes = Math.floor(timeLeft / 60);
