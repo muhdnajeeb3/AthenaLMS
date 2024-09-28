@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import { GetStudentEnrollment } from "../actions/courseDetails";
 import Loader from "../reusablecomponents/Loader";
+import { FormatDateAndTime } from "../utils/FormateDate";
 
 const Banner = () => {
   const [currentDivIndex, setCurrentDivIndex] = useState(0);
@@ -78,10 +79,10 @@ const Banner = () => {
       </div>
       <Row className="homebannerrow">
         <div className="col-md-6 py-5 home-box-v1">
-          <h2 className="greeting pb-2">
-            <span id="MainContent_lblUser">
-              {greetingMessage}, {FirstName || "username"}
-            </span>
+        <h2 className="greeting pb-2">
+        <span className="greeting-text">
+              <span>{greetingMessage},</span> {FirstName || "username"}
+              </span>
           </h2>
           <p>
             If a man empties his purse into his head, no man can take it away
@@ -134,12 +135,12 @@ const Banner = () => {
                       </div>
                       <div className="grid-list-desc text-center mt-4">
                         <h5 className="mb-1 text-dark">
-                          <span id="MainContent_RptWebinarNotification_RptOrganizerDetails_1_Label3_0">
+                          <span>
                             Atul Bengeri
                           </span>
                         </h5>
                         <p className="text-muted f-14 mb-0">
-                          <span id="MainContent_RptWebinarNotification_RptOrganizerDetails_1_Label4_0">
+                          <span>
                             Vice President, AcumenToday Pvt Ltd
                           </span>
                         </p>
@@ -154,12 +155,12 @@ const Banner = () => {
                       </div>
                       <div className="grid-list-desc text-center mt-4">
                         <h5 className="mb-1 text-dark">
-                          <span id="MainContent_RptWebinarNotification_RptOrganizerDetails_1_Label3_0">
+                          <span>
                             Atul Bengeri
                           </span>
                         </h5>
                         <p className="text-muted f-14 mb-0">
-                          <span id="MainContent_RptWebinarNotification_RptOrganizerDetails_1_Label4_0">
+                          <span>
                             Vice President, AcumenToday Pvt Ltd
                           </span>
                         </p>
@@ -200,12 +201,12 @@ const Banner = () => {
                       </div>
                       <div className="grid-list-desc text-center mt-4">
                         <h5 className="mb-1 text-dark">
-                          <span id="MainContent_RptWebinarNotification_RptOrganizerDetails_1_Label3_0">
+                          <span>
                             Atul Bengeri
                           </span>
                         </h5>
                         <p className="text-muted f-14 mb-0">
-                          <span id="MainContent_RptWebinarNotification_RptOrganizerDetails_1_Label4_0">
+                          <span >
                             Vice President, AcumenToday Pvt Ltd
                           </span>
                         </p>
@@ -403,7 +404,7 @@ const Banner = () => {
               >
                 <div className="flex moduledate">
                   <div className="datestatuswrap flex">
-                    <span>{data.EnrolledOn}</span>
+                    <span>{FormatDateAndTime(data.EnrolledOn)}</span>
                     <span className="status">Enrolled</span>
                   </div>
                   {data?.status === "Expired" && (

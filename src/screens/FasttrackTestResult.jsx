@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { GetStudentScore } from "../actions/quizDetails";
 import CountUp from "react-countup";
 import Loader from "../reusablecomponents/Loader";
+import { FormatDateAndTime } from "../utils/FormateDate";
 
 const FasttrackTestResult = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const FasttrackTestResult = () => {
 
   // State to track the selected attempt
   const [selectedAttempt, setSelectedAttempt] = useState(null);
+  const [selectedViewResult, setSelectedViewResult] = useState(null);
 
   // Set default attempt (last one) on component load
   useEffect(() => {
@@ -35,6 +37,10 @@ const FasttrackTestResult = () => {
     }
   }, [dispatch, TestId]);
 
+  const viewResultHandler = (index) => {
+setSelectedViewResult(index)
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -46,6 +52,9 @@ const FasttrackTestResult = () => {
       behavior: 'smooth', // Smooth scrolling to top
     });
   };
+
+  console.log(studentScore);
+  
 
   return (
     <Container fluid>
@@ -88,7 +97,7 @@ const FasttrackTestResult = () => {
                         </div>
                         <div className="pb-3 my-3 flex content-sb gap-10 item-center">
                           <strong>{question.selectedAnswer}</strong>
-                          {question?.result === "correct" && (
+                          {selectedViewResult === selectedAttempt && question?.correctAnswer === question?.selectedAnswer && (
                             <>
                               <img
                                 src="https://ulearn.uniathena.com/Images/correct.png"
@@ -98,7 +107,8 @@ const FasttrackTestResult = () => {
                               />
                             </>
                           )}
-                          {question?.result === "wrong" && (
+                          
+                          {selectedViewResult === selectedAttempt && question?.correctAnswer !== question?.selectedAnswer && (
                             <>
                               <img
                                 src="https://ulearn.uniathena.com/Images/wrong.png"
@@ -109,13 +119,13 @@ const FasttrackTestResult = () => {
                             </>
                           )}
                         </div>
-                        {question?.result === "wrong" && (
+                        {selectedViewResult === selectedAttempt && question?.correctAnswer !== question?.selectedAnswer && (
                           <>
                             <div className="py-3 my-2">
                               <strong>Correct Answer:</strong>
                             </div>
                             <div className="py-1 my-2">
-                              {question["correct answer"]}
+                              {question?.correctAnswer}
                             </div>
                           </>
                         )}
@@ -135,9 +145,9 @@ const FasttrackTestResult = () => {
             <thead>
               <tr className="attempt-table-tile">
                 <th>Attempt</th>
-                <th>Test Name</th>
+                <th>Date</th>
                 <th>Score</th>
-                <th>Grade</th>
+                <th>Action</th>
                 <th></th>
               </tr>
             </thead>
@@ -149,11 +159,11 @@ const FasttrackTestResult = () => {
                     onClick={() => handleRowClick(index)} // Set selected attempt on row click
                     style={{ cursor: "pointer" }} // Add pointer cursor for row
                   >
-                    <th>Attempt {index + 1}</th>
-                    <th>{score.TestName}</th>
-                    <th> {score.Score}</th>
-                    <th>{score.Grade}</th>
-                    <th>
+                    <th className="font-weight-normal">Attempt {score.Attempt}</th>
+                    <th>{FormatDateAndTime(score.ExamDate)}</th>
+                    <th> {score.StudMark} of {score.TestMark}</th>
+                    <th onClick={()=>viewResultHandler(index)}>View Result</th>
+                    <th className="d-flex justify-content-center">
                       <Button className="default-btn">
                         Submit For Final Evaluation
                       </Button>

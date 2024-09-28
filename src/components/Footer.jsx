@@ -273,15 +273,15 @@ function Footer() {
               <p>Subscribe to our Newsletter & Webinars</p>
               <input
                 type="text"
-                className="subscribe-box w-70"
+                className="subscribe-box w-100"
                 placeholder="Please enter your email ID"
                 onChange={(e) => console.log(e.target.value)}
               />
               <input
-                className="subscribe-box w-70 mt-3"
+                className="subscribe-box w-100 mt-3"
                 placeholder="Please enter your name"
               />
-              <div className="d-flex gap-2 w-70 my-2 justify-content-end  text-right ter-con">
+              <div className="d-flex gap-2 w-100 my-2 justify-content-end  text-right ter-con">
                 <a href="#" className="text-white">Terms and Conditions</a>
               </div>
               <div className="form-check d-flex gap-2">
@@ -296,7 +296,7 @@ function Footer() {
                 </label>
               </div>
               <Button
-                className="btn-br-small-pink mt-3"
+                className="btn-br-small-pink mt-3 w-100"
                 onClick={newsletterHandler}
               >
                 Subscribe

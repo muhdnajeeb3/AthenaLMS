@@ -7,6 +7,32 @@
   color: #ff026f;
   font-size: 52px;
 }
+.homebannerrow .greeting .greeting-text span {
+  width: 100%; /* Ensure the correct width for the typing animation */
+  animation: typing 2s steps(22) forwards, blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid;
+  font-size: 52px;
+  display: block;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%; /* Set the final width */
+    border-right: none; /* Remove the border at the end of the animation */
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
 .homebannerrow .newmailbox {
   background: #fff;
   box-shadow: 0 2px 25px 2px #d5dbfb;
@@ -256,9 +282,9 @@ hr {
   border: 1px solid #ff006e;
   min-width: 159px;
 }
-/* .box-btn-wrap .goto-course:hover{
-  background: #ff006e;
-} */
+.box-btn-wrap .goto-course:hover{
+  border: 1px solid #ff006e;
+}
 .slick-dots li button:before {
   background-color: black;
   height: 3px;
@@ -871,7 +897,7 @@ hr {
   color: #303030 !important;
 }
 @media (max-width: 1024px) {
-  .homebannerrow .greeting {
+  .homebannerrow .greeting,.homebannerrow .greeting .greeting-text span {
     font-size: 38px;
   }
   .testicardbgbox {
@@ -958,7 +984,7 @@ hr {
   .box-btn-wrap {
     flex-wrap: wrap;
   }
-  .homebannerrow .greeting {
+  .homebannerrow .greeting .homebannerrow .greeting .greeting-text span {
     font-size: 32px;
   }
 
