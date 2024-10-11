@@ -140,12 +140,17 @@ export const SubmitStudentTest = (result) => async (dispatch, getState) => {
   let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
   const token = userInfo && userInfo?.token;
 
+  const updatedResult = result.map(item => ({
+    ...item,
+    LeadId
+  }));
+
 
   try {
     const { data } = await axios.post(
       `${BaseUrl}/Course/GetStudentTestAttempt`,
       {
-        Parameter: JSON.stringify(result),
+        Parameter: JSON.stringify(updatedResult),
         Type: "INSERT",
       },
       {

@@ -9,7 +9,7 @@
   align-items: center;
 }
 .progresswrap .vcpcircle {
-  border: 2px solid #b40071;
+  border: 2px solid #ff006e;
   width: 50px;
   height: 50px;
   display: block;
@@ -292,11 +292,15 @@
   border: none;
   border-radius: 3px;
   color: #fff;
-  width: 130px;
+  width: 170px;
 }
 .modal-header {
   background: var(--defaultgradient) !important;
   color: #fff;
+}
+.request-modal{
+  background: #fff !important;
+  color: #000000;
 }
 .modal-body input{
   min-height: 80px;
@@ -304,6 +308,14 @@
   border: 1px solid #ced4da;
   border-radius: 0.15rem;
 
+}
+.request-body input{
+  min-height: 40px;
+  max-height: 40px;
+
+}
+.request-body input[type=radio]{
+  min-height: auto;
 }
 @media (max-width: 980px) {
   .progresswrap {

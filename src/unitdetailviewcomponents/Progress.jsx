@@ -14,7 +14,14 @@ import AdditionalResources from "./AdditionalResources";
 import pdf from "./mn.pdf";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { GetCourseModule, GetUnitDetails } from "../actions/courseDetails";
+import {
+  CreateNotes,
+  CreateUnitCompletion,
+  GetCourseModule,
+  GetUnitDetails,
+  GetUnitStatus,
+  ViewNotes,
+} from "../actions/courseDetails";
 
 const Progress = () => {
   const [progressShow, setProgressShow] = useState(false);
@@ -23,18 +30,32 @@ const Progress = () => {
   const [levels, setLevels] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [unitversionid, setUnitversionid] = useState(6);
-
   const [activeLesson, setActiveLesson] = useState(null);
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [prevUnitName, setPrevUnitName] = useState(null);
   const [nextUnitName, setNextUnitName] = useState(null);
+  const [notes, setNotes] = useState("");
 
   const lessonHandler = (lessonId) => {
     console.log(lessonId);
-    searchParams.set("LessonId", lessonId);
 
-    setActiveLesson(lessonId === activeLesson ? null : lessonId);
+    // Find the lesson that matches the given lessonId
+    const selectedLesson = matchedModule?.Lessons.find(
+      (lesson) => lesson.LessonId === parseInt(lessonId)
+    );
+
+    if (selectedLesson) {
+      // Update the LessonId and CurId in the searchParams
+      searchParams.set("LessonId", lessonId);
+      searchParams.set("CurId", selectedLesson.CurId); // Update CurId
+      setSearchParams(searchParams);
+
+      // Toggle the active lesson state
+      setActiveLesson(lessonId === activeLesson ? null : lessonId);
+    } else {
+      console.error("Lesson not found");
+    }
   };
 
   const handleClose = () => setShowPopup(false);
@@ -69,6 +90,7 @@ const Progress = () => {
   const moduleId = query.get("ModuleId");
   const lessonId = query.get("LessonId");
   const uid = query.get("UID");
+  const curId = query.get("CurId");
 
   const coursemodule = useSelector((state) => state.courseModule);
   const { loading, error, courseModule } = coursemodule;
@@ -76,12 +98,26 @@ const Progress = () => {
   const unitdetail = useSelector((state) => state.unitDetail);
   const { loading: unitLoading, error: unitError, unitDetail } = unitdetail;
 
+  const UnitStatus = useSelector((state) => state.unitStatus);
+  const { unitStatus } = UnitStatus;
+
+  const CreateNote = useSelector((state) => state.createNotes);
+  const { loading: createNotesoading } = CreateNote;
+
+  const ViewNote = useSelector((state) => state.viewNotes);
+  const { viewNotes } = ViewNote;
+
+  const VIEWNOTESTEXT = viewNotes?.[0]?.Notes;
+
+  const UNITSTATUS = unitStatus?.[0]?.Status;
+
   useEffect(() => {
-    // Check if courseModule data is already available in the state
-    if (!courseModule || courseModule.length === 0) {
-      dispatch(GetCourseModule(courseId));
-    }
+    dispatch(GetCourseModule(courseId));
   }, [courseId, dispatch, courseModule]);
+
+  useEffect(() => {
+    dispatch(GetUnitStatus(uid));
+  }, [uid, dispatch]);
 
   useEffect(() => {
     if (uid) {
@@ -99,22 +135,6 @@ const Progress = () => {
       }
     }
   }, [unitDetail, lessonId]);
-
-  console.log(selectedUnit,'unitdet');
-
-  // const unitdetailcontent =
-  //   (unitDetail && JSON.parse(unitDetail?.map((data) => data.result))) ||
-  //   [];
-
-  // const matchedModule = CourseModuleContent.flatMap((course) =>
-  //   course.Modules.filter((module) => module.ModuleId === parseInt(moduleId))
-  // )[0];
-
-  // useEffect(() => {
-  //   console.log(unitdetailcontent,'unittesteding');
-  //       setSelectedUnit(unitdetailcontent);
-
-  // }, [ unitdetailcontent]);
 
   useEffect(() => {
     if (courseModule && courseModule.length > 0) {
@@ -151,13 +171,6 @@ const Progress = () => {
     ).find((m) => m.ModuleId === parseInt(moduleId));
   }, [CourseModuleContent, moduleId]);
 
-  // const MatchedModule = courseModule?.flatMap((course) =>
-  //   course?.Modules?.filter((module) => module.ModuleId === parseInt(moduleId))
-  // );
-
-  // console.log(MatchedModule);
-  console.log(matchedModule);
-
   const mergedUnits = useMemo(() => {
     return matchedModule
       ? matchedModule.Lessons.flatMap((lesson) => lesson.Units)
@@ -186,30 +199,30 @@ const Progress = () => {
   const unitClickHandler = (uid, UnitVersionId) => {
     searchParams.set("UID", uid);
     setUnitversionid(UnitVersionId);
-    // Assuming UnitId is the property you want to update
     setSearchParams(searchParams);
   };
-
-  // useEffect(() => {
-  //   if (matchedModule && lessonId && uid) {
-  //     const lesson = matchedModule.Lessons.find(
-  //       (lesson) => lesson.LessonId === parseInt(lessonId)
-  //     );
-  //     const unit = lesson?.Units.find((unit) => unit.UnitId === parseInt(uid));
-  //     if (unit) {
-  //       setSelectedUnit(unit);
-  //     }
-  //   }
-  // }, [matchedModule, lessonId, uid]);
 
   const handleNextUnit = () => {
     const currentIndex = mergedUnits.findIndex(
       (unit) => unit?.UnitId === parseInt(uid)
     );
+
     if (currentIndex !== -1 && currentIndex < mergedUnits.length - 1) {
       const nextUnit = mergedUnits[currentIndex + 1];
-      searchParams.set("UID", nextUnit.UnitId);
-      setSearchParams(searchParams);
+
+      // Find the lesson that contains the next unit
+      const nextLesson = matchedModule?.Lessons.find((lesson) =>
+        lesson.Units.some((unit) => unit.UnitId === nextUnit.UnitId)
+      );
+
+      if (nextUnit && nextLesson) {
+        // Update both UID, LessonId, CurId, and set LessonActive
+        searchParams.set("UID", nextUnit.UnitId);
+        searchParams.set("LessonId", nextLesson.LessonId);
+        searchParams.set("CurId", nextLesson.CurId); // Assuming `CurId` is available on lesson
+
+        setSearchParams(searchParams);
+      }
     }
   };
 
@@ -217,16 +230,55 @@ const Progress = () => {
     const currentIndex = mergedUnits.findIndex(
       (unit) => unit?.UnitId === parseInt(uid)
     );
+
     if (currentIndex > 0) {
       const prevUnit = mergedUnits[currentIndex - 1];
-      searchParams.set("UID", prevUnit?.UnitId);
-      setSearchParams(searchParams);
+
+      // Find the lesson that contains the previous unit
+      const prevLesson = matchedModule?.Lessons.find((lesson) =>
+        lesson.Units.some((unit) => unit.UnitId === prevUnit.UnitId)
+      );
+      console.log(prevLesson, "perere");
+
+      if (prevUnit && prevLesson) {
+        // Update both UID, LessonId, CurId, and set LessonActive
+        searchParams.set("UID", prevUnit.UnitId);
+        searchParams.set("LessonId", prevLesson.LessonId);
+        searchParams.set("CurId", prevLesson.CurId); // Assuming `CurId` is available on lesson
+
+        setSearchParams(searchParams);
+      }
     }
   };
 
   const movetomodulepage = () => {
     navigate(`/courseDetails?CourseId=${courseId}`);
   };
+
+  const markasCompletedHandler = async () => {
+    await dispatch(
+      CreateUnitCompletion(uid, courseId, moduleId, lessonId, curId)
+    );
+    await dispatch(GetUnitStatus(uid));
+  };
+
+  const handleNotesChange = (e) => {
+    setNotes(e.target.value);
+  };
+
+  const handleSaveNotes = async () => {
+    if (notes.trim()) {
+      await dispatch(CreateNotes(uid, curId, notes)); // Dispatch action to save notes
+      await handleClose();
+      await dispatch(ViewNotes(uid)); // Dispatch action to save notes
+    } else {
+      console.error("Notes cannot be empty");
+    }
+  };
+
+  useEffect(() => {
+    dispatch(ViewNotes(uid));
+  }, [uid, dispatch]);
 
   return (
     <>
@@ -343,57 +395,32 @@ const Progress = () => {
                             </li>
                           ))}
                           {lesson?.Quz?.map((data, quzindex) => (
-                              <li
-                                key={quzindex}
-                                className="d-flex mt-2 gap-3 "
-                                style={{
-                                  justifyContent: "flex-start",
-                                  flexDirection: "column",
-                                  borderBottom: "none",
-                                }}
+                            <li
+                              key={quzindex}
+                              className="d-flex mt-2 gap-3 "
+                              style={{
+                                justifyContent: "flex-start",
+                                flexDirection: "column",
+                                borderBottom: "none",
+                              }}
+                            >
+                              <Button
+                                className="quizz-assign-btn"
+                                variant=""
+                                onClick={() => takelessonHandler(data.TestId)}
                               >
-                                <Button
-                                  className="quizz-assign-btn"
-                                  variant=""
-                                  onClick={() => takelessonHandler(data.TestId)}
-                                >
-                                  Take Lesson Quiz
-                                </Button>
-                                <Button
-                                  className="quizz-assign-btn"
-                                  variant=""
-                                  onClick={viewAssignmentHandler}
-                                >
-                                  View Assignment
-                                </Button>
-                              </li>
-                            ))}
+                                Take Lesson Quiz
+                              </Button>
+                              <Button
+                                className="quizz-assign-btn"
+                                variant=""
+                                onClick={viewAssignmentHandler}
+                              >
+                                View Assignment
+                              </Button>
+                            </li>
+                          ))}
                         </ul>
-                        {/* <div
-                          style={{
-                            justifyContent: "flex-start",
-                            flexDirection: "column",
-                            display: "flex",
-                            borderBottom: "none",
-                            marginTop: "1rem",
-                          }}
-                          className="quiz-assignbtn-wrap"
-                        >
-                          <Button
-                            className="quizz-assign-btn"
-                            variant=""
-                            onClick={takelessonHandler}
-                          >
-                            Take Lesson Quiz
-                          </Button>
-                          <Button
-                            className="quizz-assign-btn"
-                            variant=""
-                            onClick={viewAssignmentHandler}
-                          >
-                            View Assignment
-                          </Button>
-                        </div> */}
                       </>
                     )}
                   </div>
@@ -551,6 +578,11 @@ const Progress = () => {
                   showTitle={false}
                   responsive={true}
                 />
+                {/* <div
+                    dangerouslySetInnerHTML={{
+                    __html: unitDetail?.[0]?.VideoURL,
+                  }}
+                /> */}
               </div>
               {levels === 2 && <EssentialReadings data={selectedUnit} />}
               {levels === 3 && (
@@ -594,7 +626,7 @@ const Progress = () => {
               </div>
               <div className="addviewnote-btnwrap">
                 <Button variant="" onClick={handleShow}>
-                  Add/View Notes
+                  {VIEWNOTESTEXT ? "View Notes" : "Add Notes"}
                 </Button>
               </div>
               <Modal show={showPopup} onHide={handleClose}>
@@ -602,20 +634,36 @@ const Progress = () => {
                   <Modal.Title>Notes</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <input
-                    type="text"
-                    className="w-100"
-                    placeholder="Add Your Notes"
-                  />
+                  {viewNotes ? (
+                    VIEWNOTESTEXT
+                  ) : (
+                    <textarea
+                      type="text"
+                      className="w-100"
+                      placeholder="Add Your Notes"
+                      value={notes} // Bind the state to textarea
+                      onChange={handleNotesChange} // Update state when input changes
+                    />
+                  )}
                 </Modal.Body>
                 <Modal.Footer className="completed-btnwrap">
-                  <Button variant="primary" onClick={handleClose}>
-                    Save
-                  </Button>
+                  {!VIEWNOTESTEXT && (
+                    <Button variant="primary" onClick={handleSaveNotes}>
+                      {" "}
+                      {createNotesoading ? "Saving..." : "Save"}
+                    </Button>
+                  )}
                 </Modal.Footer>
               </Modal>
               <div className="completed-btnwrap mt-2 my-4">
-                <Button>Completed</Button>
+                <Button
+                  onClick={markasCompletedHandler}
+                  disabled={UNITSTATUS === "Completed"}
+                >
+                  {UNITSTATUS === "Completed"
+                    ? "Completed"
+                    : "Mark as Completed"}
+                </Button>
               </div>
               <hr className="my-2" />
               <div className="prevnext-videobtn mt-3 flex">

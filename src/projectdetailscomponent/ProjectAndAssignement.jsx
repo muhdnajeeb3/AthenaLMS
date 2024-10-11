@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Button, Container, Form, Modal } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,10 +11,12 @@ import {
 import { FormatDate } from "../utils/FormateDate";
 
 const ProjectAndAssignement = () => {
+  const [showModal, setShowModal] = useState(false); // Modal visibility
+  const [extensionType, setExtensionType] = useState("paid"); // Tracks whether Paid Extension or Medical is selected
+  const [selectedCourseId, setSelectedCourseId] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [selectedCourseId, setSelectedCourseId] = useState("");
 
   const EnrolledStudent = useSelector((state) => state.studentEnrollment);
   const { loading, studentenrollment, error } = EnrolledStudent;
@@ -29,12 +31,16 @@ const ProjectAndAssignement = () => {
   console.log(projectDetail, "p");
 
   useEffect(() => {
-    // Check if studentenrollment data is already available in the state
     dispatch(GetStudentEnrollment());
   }, [dispatch, studentenrollment]);
 
+  const handleClose = () => setShowModal(false);
+
+  const handleExtensionTypeChange = (event) => {
+    setExtensionType(event.target.value); // Update the state based on the selected radio button
+  };
+
   useEffect(() => {
-    // Fetch project details when a course is selected
     if (selectedCourseId) {
       dispatch(GetProjectDetails(selectedCourseId));
     }
@@ -58,18 +64,18 @@ const ProjectAndAssignement = () => {
       try {
         // Wait for the first dispatch to complete
         await dispatch(GetProjectModuleDetails(projectId));
-        
+
         // After it's done, trigger the second dispatch
         dispatch(GetProjectDetails(selectedCourseId, refresh));
       } catch (error) {
         console.error("Error fetching project module details:", error);
       }
     } else {
-      navigate(`/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`);
+      navigate(
+        `/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`
+      );
     }
   };
-  
-  
 
   const tableHeadings = [
     "Module",
@@ -127,7 +133,10 @@ const ProjectAndAssignement = () => {
                 <td>{project.DaysLeft || ""}</td>
                 <td>{FormatDate(project.SubmittedDate) || ""}</td>
                 <td>{project.ProjectCurrentStatus}</td>
-                <td>{project.extensionRequest || "N/A"}</td>
+                <td 
+                onClick={project.ProjectCurrentStatus ? () => setShowModal(true) : null}
+                style={{ cursor: project.ProjectCurrentStatus ? "pointer" : "default" }}
+                >{project.ProjectCurrentStatus ? "Request" : "N/A"}</td>
                 <td>{project.Score || ""}</td>
                 <td>{project.Grade || ""}</td>
                 <td
@@ -155,6 +164,120 @@ const ProjectAndAssignement = () => {
             )}
           </tbody>
         </Table>
+        <Modal show={showModal} centered onHide={handleClose} size="lg">
+          <Modal.Header closeButton className="request-modal">
+            <Modal.Title className="h5">Request Form</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="request-body">
+            <div
+              style={{ border: "1px solid grey" }}
+              className="form-control h-100 "
+            >
+              <small className="text-danger">
+                Your current due date is <strong>31-Dec-2023</strong> and your
+                extension request will be accepted after approval .
+              </small>
+            </div>
+            <div className="py-2">
+              <Form>
+                <div className="d-flex gap-3 w-100 flex-wrap">
+                  <Form.Group
+                    className="mb-2 col-md-4 col-12"
+                    controlId="formGroupEmail"
+                  >
+                    <Form.Label>Project Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Project Title"
+                    />
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-2 col-md-4 col-12"
+                    controlId="formGroupPassword"
+                  >
+                    <Form.Label>Due Date</Form.Label>
+                    <Form.Control type="text" placeholder="Due Date" />
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-2 col-md-3 col-12"
+                    controlId="formGroupPassword"
+                  >
+                    <Form.Label className="text-dot">
+                      No. of Days for Extension
+                    </Form.Label>
+                    <Form.Select aria-label="Default select example">
+                      <option>select days</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="3">4</option>
+                      <option value="3">5</option>
+                      <option value="3">6</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="mb-3 mt-2">
+                <Form.Check
+                inline
+                label="Paid Extension"
+                name="extensionType"
+                type="radio"
+                value="paid"
+                checked={extensionType === "paid"}
+                id="paid-extension"
+                onChange={handleExtensionTypeChange}
+              />
+              <Form.Check
+                inline
+                label="Medical"
+                name="extensionType"
+                type="radio"
+                checked={extensionType === "medical"}
+                value="medical"
+                id="medical-extension"
+                onChange={handleExtensionTypeChange}
+              />
+                </div>
+                {extensionType === "paid" && (
+              <div className="mb-3">
+                <Form.Group className="mb-2 col-md-3 col-12">
+                  <Form.Label className="text-dot">Reason</Form.Label>
+                  <Form.Select aria-label="Default select example">
+                    <option>Select Reason</option>
+                    <option value="1">Travel</option>
+                    <option value="2">Late</option>
+                    <option value="3">Other</option>
+                  </Form.Select>
+                </Form.Group>
+              </div>
+            )}
+
+            {extensionType === "medical" && (
+              <>
+                <div className="mb-3">
+                  <Form.Group className="mb-2 col-md-6 col-12">
+                    <Form.Label>Proof of genuineness (Upload supporting documents)</Form.Label>
+                    <Form.Control type="file" />
+                    <Button className="default-btn my-3">Upload</Button>
+                  </Form.Group>
+                  <Form.Group className="mb-2 col-12">
+                    <Form.Label>Detailed Explanation</Form.Label>
+                    <Form.Control type="text" as="textarea" placeholder="Enter Detailed Explanation" />
+                  </Form.Group>
+                </div>
+              </>
+            )}
+              </Form>
+            </div>
+          </Modal.Body>
+          <Modal.Footer className="completed-btnwrap">
+            <Button variant="primary" onClick="{handleSaveNotes}">
+              {" "}
+              {extensionType === "medical" ? "Submit" : "Proceed to Pay"}
+              
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Container>
   );

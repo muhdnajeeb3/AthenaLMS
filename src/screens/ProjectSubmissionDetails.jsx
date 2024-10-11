@@ -32,16 +32,16 @@ const ProjectSubmissionDetails = () => {
   const { projectDetail } = ProjectDetail;
 
   const UploadFileResponse = useSelector((state) => state.uploadFileResponse);
-  const { uploadFileResponse } = UploadFileResponse;
-
+  const { loading,uploadFileResponse } = UploadFileResponse;
+  
   const DownloadFileResponse = useSelector(
     (state) => state.downloadFileResponse
   );
   const { downloadFileResponse } = DownloadFileResponse;
 
   useEffect(() => {
-    if (uploadFileResponse?.data) {
-      setFileUploadResponse(uploadFileResponse?.data);
+    if (uploadFileResponse?.Result) {
+      setFileUploadResponse(uploadFileResponse?.Result);
     }
   }, [uploadFileResponse]);
 
@@ -448,9 +448,9 @@ const ProjectSubmissionDetails = () => {
                         <button
                           className="btn btn-primary dreadmore-btn  mt-3"
                           onClick={handleSubmit}
-                          // disabled={!fileUploadResponse || !remark}
+                          disabled={!uploadFileResponse?.Result || !remark}
                         >
-                          Save
+                          {loading ? 'uploading File..' : 'Save'}
                         </button>
                       </div>
                     </Tab>

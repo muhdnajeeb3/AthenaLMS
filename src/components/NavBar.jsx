@@ -49,7 +49,7 @@ function NavBar() {
       bg="light"
       collapseOnSelect
     >
-      <Container style={{ maxWidth: "1200px" }}>
+      <Container style={{ maxWidth: "1200px" }} className="p-lg-0">
         <LinkContainer to="/EnrolledHome">
           <Navbar.Brand>
             <img

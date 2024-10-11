@@ -896,6 +896,14 @@ hr {
 .draftfiles-wrap .nav-link {
   color: #303030 !important;
 }
+.text-dot{
+  text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    height: 1.2em;
+    white-space: nowrap;
+    text-wrap: nowrap;
+}
 @media (max-width: 1024px) {
   .homebannerrow .greeting,.homebannerrow .greeting .greeting-text span {
     font-size: 38px;

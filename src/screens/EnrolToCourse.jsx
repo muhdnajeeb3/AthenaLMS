@@ -12,13 +12,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { GetStudentPayments } from "../actions/PaymentAction";
 import Loader from "../reusablecomponents/Loader";
+import { GetCourseModule } from "../actions/courseDetails";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
 const EnrolToCourse = () => {
-  const [checkboxStates, setCheckboxStates] = useState([]); // Initialize states for each checkbox
+  const [checkboxStates, setCheckboxStates] = useState([]); 
 
   // Function to handle the change of a checkbox
   const handleCheckboxChange = (index) => {
@@ -45,6 +46,19 @@ const EnrolToCourse = () => {
   const { loading, error, PaymentInfo } = StudentPayments;
   console.log(PaymentInfo);
   // Sample data representing each row of the table
+  useEffect(() => {
+    dispatch(GetCourseModule(courseId));
+  }, [courseId, dispatch]);
+
+  const coursemodule = useSelector((state) => state.courseModule);
+  const {
+    loading: courseLoading,
+    error: courseError,
+    courseModule,
+  } = coursemodule;
+
+  const CourseName = courseModule?.[0]?.CourseName || "Course Name";
+
   const tableData = PaymentInfo;
 
   const calculateAmounts = () => {
@@ -78,118 +92,148 @@ const EnrolToCourse = () => {
             </div>
           </div>
         </div>
-        <div className="course-enrol-detail flex gap-10 pb-4">
-          <div className="col-md-4">
-            <b>Course Name: </b>
+        {tableData?.[0]?.IsModule && (
+          <>
+            <div className="course-enrol-detail flex gap-10 pb-4">
+              <div className="col-md-4">
+                <b>Course Name: </b>
 
-            <span>Master In Data Sciences</span>
-          </div>
-          <div className="col-md-5">
-            <b>Univeristy: </b>
-            <span>Guglielmo Marconi University, Italy</span>
-          </div>
-        </div>
+                <span>{CourseName}</span>
+              </div>
+              <div className="col-md-5">
+                <b>Univeristy: </b>
+                <span>Guglielmo Marconi University, Italy</span>
+              </div>
+            </div>
+          </>
+        )}
       </Container>
-      <Container fluid className="dash-module-wrap py-2">
-        <Row className="dash-module-content py-4">
-          <Col className="">
-            <div className="dashcontent">
-              <div>
-                <img
-                  src="https://ulearn.uniathena.com/Images/icons/duration.svg"
-                  alt=""
-                  width={24}
-                />
+      {!tableData?.[0]?.IsModule ? (
+        <Container
+          fluid
+          style={{ minHeight: "2rem", background: "var(--defaultgradient)" }}
+        ></Container>
+      ) : (
+        <Container fluid className="dash-module-wrap py-2">
+          <Row className="dash-module-content py-4">
+            <Col className="">
+              <div className="dashcontent">
+                <div>
+                  <img
+                    src="https://ulearn.uniathena.com/Images/icons/duration.svg"
+                    alt=""
+                    width={24}
+                  />
+                </div>
+                <div>
+                  <h6 className="font-14">
+                    <b>Duration</b>
+                  </h6>
+                  <p>Flexible (9 to 24 Months)</p>
+                </div>
               </div>
-              <div>
-                <h6 className="font-14">
-                  <b>Duration</b>
-                </h6>
-                <p>Flexible (9 to 24 Months)</p>
+            </Col>
+            <Col className="">
+              <div className="dashcontent">
+                <div>
+                  <img
+                    src="https://ulearn.uniathena.com/Images/icons/course-level.svg"
+                    alt=""
+                    width={32}
+                  />
+                </div>
+                <div>
+                  <h6 className="font-14">
+                    <b>Course Level & Credits</b>
+                  </h6>
+                  <p>
+                    <b>Master Degree</b>
+                    <br />
+                    Credits 60 (ECTS)
+                  </p>
+                  <Link to="/ECTS">
+                    <Button className="ect-btn">What is ECTS?</Button>
+                  </Link>
+                </div>
               </div>
-            </div>
-          </Col>
-          <Col className="">
-            <div className="dashcontent">
-              <div>
-                <img
-                  src="https://ulearn.uniathena.com/Images/icons/course-level.svg"
-                  alt=""
-                  width={32}
-                />
+            </Col>
+            <Col>
+              <div className="dashcontent">
+                <div>
+                  <img
+                    src="https://ulearn.uniathena.com/Images/icons/total-learners.svg"
+                    alt=""
+                    width={31}
+                  />
+                </div>
+                <div>
+                  <h6 className="font-14">
+                    <b>Total Learners</b>
+                  </h6>
+                  <p>6200+</p>
+                </div>
               </div>
-              <div>
-                <h6 className="font-14">
-                  <b>Course Level & Credits</b>
-                </h6>
-                <p>
-                  <b>Master Degree</b>
-                  <br />
-                  Credits 60 (ECTS)
-                </p>
-                <Link to="/ECTS">
-                  <Button className="ect-btn">What is ECTS?</Button>
-                </Link>
+            </Col>
+            <Col>
+              <div className="dashcontent">
+                <div>
+                  <img
+                    src="https://ulearn.uniathena.com/Images/icons/total-learners.svg"
+                    alt=""
+                    width={31}
+                  />
+                </div>
+                <div>
+                  <h6 className="font-14">
+                    <b>Delivery Model</b>
+                  </h6>
+                  <p>Online</p>
+                </div>
               </div>
-            </div>
-          </Col>
-          <Col>
-            <div className="dashcontent">
-              <div>
-                <img
-                  src="https://ulearn.uniathena.com/Images/icons/total-learners.svg"
-                  alt=""
-                  width={31}
-                />
-              </div>
-              <div>
-                <h6 className="font-14">
-                  <b>Total Learners</b>
-                </h6>
-                <p>6200+</p>
-              </div>
-            </div>
-          </Col>
-          <Col>
-            <div className="dashcontent">
-              <div>
-                <img
-                  src="https://ulearn.uniathena.com/Images/icons/total-learners.svg"
-                  alt=""
-                  width={31}
-                />
-              </div>
-              <div>
-                <h6 className="font-14">
-                  <b>Delivery Model</b>
-                </h6>
-                <p>Online</p>
-              </div>
-            </div>
-          </Col>
-        </Row>
-      </Container>
+            </Col>
+          </Row>
+        </Container>
+      )}
       <Container>
         <div>
           <form action="">
             <div className="container body-content pt-5 text-center">
               <h3 className="text-center">
-                <b>MODULE DETAILS</b>
+                {tableData?.[0]?.IsModule === false ? (
+                  <b>FAST TRACK SCHEDULE DETAILS</b>
+                ) : (
+                  <b>MODULE DETAILS</b>
+                )}
               </h3>
-              <span className="m-0 text-center">
-                Please select appropriate modules for the payment. You can
-                select single or multiple module together, however the access to
-                the module resources will be provided based on the completion of
-                the previous one. The below shown fee are the net module fees
-                after any scholarship or discount offered to you.
-              </span>
+              {tableData?.[0]?.IsModule === false ? (
+                <span className="m-0 text-center">
+                  Please select appropriate Fee Schedules for the payment. You
+                  can select single or multiple schedule together, however the
+                  access to the module resources will be provided based on the
+                  completion of the previous one. The below shown fee are the
+                  net scheduled fees.
+                </span>
+              ) : (
+                <span className="m-0 text-center">
+                  Please select appropriate modules for the payment. You can
+                  select single or multiple module together, however the access
+                  to the module resources will be provided based on the
+                  completion of the previous one. The below shown fee are the
+                  net module fees after any scholarship or discount offered to
+                  you.
+                </span>
+              )}
             </div>
             <div className="px-4 createinvoice-table my-5">
               <Table bordered hover responsive="md">
                 <thead className="invoice-reciept-list">
                   <tr className="invoice-thead">
                     <th>Code</th>
-                    <th>Module Name</th>
+                    {tableData?.[0]?.IsModule === false ? (
+                      <th>Module / Fee Description</th>
+                    ) : (
+                      <th>Module Name</th>
+                    )}
                     <th>Actual Amount (USD)</th>
                     <th>Offer Amount (USD)</th>
                     <th>Net Amount (USD)</th>

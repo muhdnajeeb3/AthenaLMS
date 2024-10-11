@@ -10,7 +10,7 @@ import {
   userSigninReducer,
 } from "./reducers/userReducers";
 import { encrIptDecryptReducer } from "./reducers/ecriptDecriptReducers";
-import { GetCourseModuleReducer, GetProjectDetailsReducer, GetProjectModuleDetailsReducer, GetStudentEnrollmentReducer, GetUnitDetailsReducer, SubmitFileReducer } from "./reducers/courseDetailsReducer";
+import { CreateUnitCompletionReducer, GetCourseModuleReducer, GetProjectDetailsReducer, GetProjectModuleDetailsReducer, GetStudentEnrollmentReducer, GetUnitDetailsReducer, SubmitFileReducer,GetUnitStatusReducer,CreateNotesReducer ,ViewNotesReducer} from "./reducers/courseDetailsReducer";
 import { GetQuestionDetailsReducer, GetStudentScoreReducer, SubmitStudentTestReducer } from "./reducers/quizDetailsReducer";
 import { DownloadFileReducer, UploadFileReducer } from "./reducers/awsReducer";
 import { StudentPaymentReducer } from "./reducers/PaymentReducer";
@@ -43,6 +43,10 @@ const reducer = combineReducers({
   submitFile:SubmitFileReducer,
   studentSubmit:SubmitStudentTestReducer,
   studentPayment:StudentPaymentReducer,
+  createUnitCompletion:CreateUnitCompletionReducer,
+  unitStatus:GetUnitStatusReducer,
+  createNotes:CreateNotesReducer,
+  viewNotes:ViewNotesReducer
 
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

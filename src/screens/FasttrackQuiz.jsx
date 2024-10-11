@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { Breadcrumb, Container, Form, Button } from "react-bootstrap";
+import { Breadcrumb, Container, Form, Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GetQuestionDetails, SubmitStudentTest } from "../actions/quizDetails";
+import Skeleton from "react-loading-skeleton";
 
 const FasttrackQuiz = () => {
   const [timeLeft, setTimeLeft] = useState(30 * 60);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [animateNext, setAnimateNext] = useState(false);
+
+  const [allOptions, setAllOptions] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -23,11 +25,12 @@ const FasttrackQuiz = () => {
   const CourseId = query.get("CourseId");
   const ModuleId = query.get("ModuleId");
   const LessonId = query.get("LessonId");
+  const FacultyId = query.get("FacultyId");
 
   const QuestionDetails = useSelector((state) => state.questionDetail);
-  const { questionDetail } = QuestionDetails;
-
-  // console.log(questionDetail);
+  const { loading, questionDetail } = QuestionDetails;
+  const StudentSubmit = useSelector((state) => state.studentSubmit);
+  const { loading: submitloading } = StudentSubmit;
 
   useEffect(() => {
     if (TestId) {
@@ -35,21 +38,40 @@ const FasttrackQuiz = () => {
     }
   }, [dispatch, TestId]);
 
+  const TYPEIN = questionDetail?.[0].QuesType === "IN";
+  const MQ = questionDetail?.[0].QuesType === "MQ";
+
   useEffect(() => {
     if (questionDetail && questionDetail.length > 0) {
-      const quizQuestions = questionDetail[0].QnA.map((qna) => ({
+      const slicedQnA =
+        TYPEIN || MQ ? questionDetail[0].QnA.slice(1) : questionDetail[0].QnA;
+
+      const quizQuestions = slicedQnA.map((qna) => ({
         question: qna?.QuesText,
         questionId: qna?.QuestId,
         answers: qna?.QtAn?.map((ans) => ({
           ansId: ans?.AnsId,
           answer: ans?.Answer, // Storing the answer text to display
         })),
-        correctAnswer: qna?.QtAn?.find((ans) => ans.OptionNum === 1)?.Answer, // Assuming correct answer is the first option, update this as per your logic
+        // correctAnswer: qna?.QtAn?.find((ans) => ans.OptionNum === 1)?.Answer,
+        correctAnswerId: qna?.CorrectAnswer?.[0]?.CorrectAnsId, // Assuming correct answer is the first option, update this as per your logic
       }));
-      console.log(questionDetail[0].QnA);
 
       setQuestions(quizQuestions);
-      setLoading(false);
+    }
+  }, [questionDetail,TYPEIN,MQ]);
+
+  useEffect(() => {
+    if (questionDetail?.[0]?.QnA) {
+      // Combine all answers (QtAn) into a single array
+      const combinedOptions = questionDetail[0].QnA.reduce((acc, question) => {
+        if (question?.QtAn) {
+          return [...acc, ...question.QtAn];
+        }
+        return acc;
+      }, []);
+
+      setAllOptions(combinedOptions);
     }
   }, [questionDetail]);
 
@@ -72,18 +94,28 @@ const FasttrackQuiz = () => {
     window.scrollTo(0, 0);
   }, [currentQuestionIndex]);
 
-  const handleAnswerChange = (questionIndex, questionId, selectedAnswerId) => {
+  const handleAnswerChange = (
+    questionId,
+    selectedAnswerId,
+    correctAnswerId
+  ) => {
     setSelectedAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [questionId]: selectedAnswerId, // Store `questionId` as the key and `ansId` as the value
+      [questionId]: {
+        selectedAnswerId: selectedAnswerId, // Store selected answer ID
+        correctAnswerId: correctAnswerId, // Store correct answer ID
+      },
     }));
   };
 
   const handleNextQuestion = () => {
-    // if (selectedAnswers[questionId] === undefined) {
-    //   alert("Please choose an answer before proceeding.");
-    //   return;
-    // }
+    const currentQuestionId = questions[currentQuestionIndex]?.questionId;
+
+    if (!selectedAnswers[currentQuestionId]) {
+      // If no answer is selected for the current question
+      alert("Please choose an answer before proceeding.");
+      return;
+    }
     setAnimateNext(true);
     setTimeout(() => {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -94,16 +126,24 @@ const FasttrackQuiz = () => {
   const navigate = useNavigate();
 
   const handleSubmitQuiz = async () => {
-    const result = Object.keys(selectedAnswers).map((questionId) => ({       // You can modify this as needed
-      LeadId: 2,            // Replace this with actual LeadId as needed
+    
+    const result = Object.keys(selectedAnswers).map((questionId) => ({
       TestId: TestId,
-      QuestId: questionId,  // Use the questionId
-      StudentAns: selectedAnswers[questionId],
-      CourseId:CourseId,
-      LessonId:LessonId,
-      ModuleId:ModuleId
+      QuestId: questionId,
+      FacultyId: FacultyId,
+      StudentAns: selectedAnswers[questionId].selectedAnswerId, // Get the selected answer
+      CorrectAns: selectedAnswers[questionId].correctAnswerId,
+      CourseId: CourseId,
+      LessonId: LessonId,
+      ModuleId: ModuleId,
     }));
-    console.log("Selected Answers:", result);
+
+    if (result.length != questions.length) {
+      // If no answer is selected for the current question
+      alert("Please choose an answer before proceeding.");
+      return;
+    }
+    
     await dispatch(SubmitStudentTest(result));
     await navigate(`/FasttrackTestResult?TestId=${TestId}`);
   };
@@ -130,63 +170,141 @@ const FasttrackQuiz = () => {
             <Breadcrumb.Item href="/" className="breadcrumb">
               Course Home
             </Breadcrumb.Item>
-            <Breadcrumb.Item href="/ModuleDetails">Unit 3</Breadcrumb.Item>
+            <Breadcrumb.Item href={`/ModuleDetails?CourseId=${CourseId}`}>Unit 3</Breadcrumb.Item>
           </Breadcrumb>
         </div>
-        <div className="practicalinfo pb-2">
-          <div className="practicalinfo-title w-100 mb-2">
-            <h5>
-              <b>
-                Question {currentQuestionIndex + 1} of {questions.length}
-              </b>
-            </h5>
+        {!MQ && (
+          <div className="practicalinfo pb-2">
+            <div className="practicalinfo-title w-100 mb-2">
+              <h5>
+                <b>
+                  Question {currentQuestionIndex + 1} of {questions?.length}
+                </b>
+              </h5>
+            </div>
           </div>
-        </div>
+        )}
+        {TYPEIN && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: questionDetail?.[0]?.QnA[0].QuesText,
+            }}
+          />
+        )}
+        {MQ && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: questionDetail?.[0]?.QnA[0].QuesText,
+            }}
+          />
+        )}
         <div
           key={currentQuestionIndex}
           className={animateNext ? "question-animation" : ""}
         >
           <div>
             <form>
-              <div className="flex gap-10 mb-4">
-                <span>{currentQuestionIndex + 1}.</span>
-                <span>{questions[currentQuestionIndex]?.question}</span>
-              </div>
-              <div className="shadow select-answer p-4">
-                {questions[currentQuestionIndex]?.answers?.map(
-                  (answer, answerIndex) => (
-                    <Form.Check
-                      key={answer.ansId} // Use AnsId as the key
-                      type="radio"
-                      id={`question-${currentQuestionIndex}-answer-${answerIndex}`}
-                      label={answer.answer} // Display the answer text
-                      checked={
-                        selectedAnswers[
-                          questions[currentQuestionIndex].questionId
-                        ] === answer.ansId
-                      } // Compare selected AnsId
-                      onChange={() =>
-                        handleAnswerChange(
-                          // Pass questionId and ansId
-                          currentQuestionIndex,
-                          questions[currentQuestionIndex].questionId,
-                          answer.ansId
-                        )
-                      }
-                    />
-                  )
-                )}
-              </div>
+              {MQ ? (
+                <Table bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Question</th>
+                      <th>Answer</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {questions.map((question, index) => (
+                      <tr key={question.questionId}>
+                        <td>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: question.question,
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <Form.Group>
+                            <Form.Select
+                              value={
+                                selectedAnswers[question.questionId]
+                                  ?.selectedAnswerId || ""
+                              }
+                              onChange={
+                                (e) =>
+                                  handleAnswerChange(
+                                    question.questionId,
+                                    e.target.value,
+                                    question.correctAnswerId
+                                  ) // Pass the correct answer ID as well
+                              }
+                            >
+                              <option value="">Select Answer</option>
+                              {allOptions.map((answer) => (
+                                <option key={answer.AnsId} value={answer.AnsId}>
+                                  {answer.Answer}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </Form.Group>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              ) : (
+                <>
+                  <div className="flex gap-10 mb-4">
+                    <span>{currentQuestionIndex + 1}.</span>
+                    <div>
+                      {loading ? (
+                        "Loading..."
+                      ) : (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: questions?.[currentQuestionIndex]?.question,
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="shadow select-answer p-4">
+                    {loading && <Skeleton count={3} />}
+
+                    {questions?.[currentQuestionIndex]?.answers?.map(
+                      (answer, answerIndex) => (
+                        <Form.Check
+                          key={answer.ansId}
+                          type="radio"
+                          id={`question-${currentQuestionIndex}-answer-${answerIndex}`}
+                          label={answer.answer}
+                          checked={
+                            selectedAnswers[
+                              questions[currentQuestionIndex].questionId
+                            ]?.selectedAnswerId === answer.ansId
+                          }
+                          onChange={() =>
+                            handleAnswerChange(
+                              questions[currentQuestionIndex].questionId,
+                              answer.ansId,
+                              questions[currentQuestionIndex].correctAnswerId // Correct answer ID from state
+                            )
+                          }
+                        />
+                      )
+                    )}
+                  </div>
+                </>
+              )}
             </form>
           </div>
         </div>
         <div className="flex content-center py-3 item-center gap-10">
-          {currentQuestionIndex === questions.length - 1 ? (
+          {currentQuestionIndex === questions?.length - 1 || MQ ? (
             <Button
               onClick={handleSubmitQuiz}
-              style={{ borderRadius: "26px", width: "100px" }}
+              style={{ borderRadius: "26px", width: "125px" }}
             >
-              Submit
+              {submitloading ? "Submitting.." : "Submit"}
             </Button>
           ) : (
             <>

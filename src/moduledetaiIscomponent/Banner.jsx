@@ -47,48 +47,52 @@ const Banner = ({ CourseDetails }) => {
   const viewAssignmentHandler = () => {
     navigate("/SubmitAssignments");
   };
-  const takelessonHandler = (TestId,courseId,moduleId,lessonId) => {
-  
-    navigate(`/FasttrackQuiz?TestId=${TestId}&LessonId=${lessonId}&ModuleId=${moduleId}&CourseId=${courseId}`);
+  const takelessonHandler = (
+    TestId,
+    courseId,
+    moduleId,
+    lessonId,
+    facultyId
+  ) => {
+    navigate(
+      `/FasttrackQuiz?TestId=${TestId}&LessonId=${lessonId}&ModuleId=${moduleId}&CourseId=${courseId}&FacultyId=${facultyId}`
+    );
   };
   const bannerbtnHandler = (btn) => {
     navigate(`/${btn}?CourseId=${courseId}`);
   };
 
-  const openLessonHandler = (unitId, lessonId, moduleId, courseId) => {
-    const url = `/UnitDetailView?UID=${unitId}&LessonId=${lessonId}&ModuleId=${moduleId}&CourseId=${courseId}`;
+  const openLessonHandler = (unitId, lessonId, moduleId, courseId,curId) => {
+    const url = `/UnitDetailView?UID=${unitId}&LessonId=${lessonId}&ModuleId=${moduleId}&CourseId=${courseId}&CurId=${curId}`;
     navigate(url);
   };
- 
+
   useEffect(() => {
     if (courseModule?.length > 0) {
-      
-       const sortedCourses = [...courseModule]?.sort((a, b) => {
+      const sortedCourses = [...courseModule]?.sort((a, b) => {
         const moduleOrderA = a.Modules[0]?.ModuleOrder ?? Infinity;
         const moduleOrderB = b.Modules[0]?.ModuleOrder ?? Infinity;
         return moduleOrderA - moduleOrderB;
-      });
+      });
 
-    setSortedCourse(sortedCourses)
-    
+      setSortedCourse(sortedCourses);
     }
-  }, [courseModule])
-
+  }, [courseModule]);
 
   return (
     <>
       <Container fluid className="bg-light">
         <div className="moduledetailwrap">
-          <div className="text-dark pt-4 pb-3 mdtoprow w-100">
+          <div className="text-dark pt-4 pb-3 mdtoprow w-100 d-flex flex-md-nowrap">
             <div>
               <h2 className="project-heading text-dark pb-1">
-                {loading && <Skeleton />}
+                {loading && <Skeleton count={1} />}
 
                 <b>{CourseName}</b>
               </h2>
-              <p>
+              {/* <p>
                 <b>Postgraduate Certificate In Machine Learning</b>
-              </p>
+              </p> */}
             </div>
             <div>
               <Button
@@ -233,7 +237,7 @@ const Banner = ({ CourseDetails }) => {
               </div>
               {loading && (
                 <div className="p-4">
-                  <Skeleton count={10} />
+                  <Skeleton count={13} />
                 </div>
               )}
 
@@ -268,7 +272,8 @@ const Banner = ({ CourseDetails }) => {
                                       unit.UnitId,
                                       lesson.LessonId,
                                       module.ModuleId,
-                                      courseId
+                                      courseId,
+                                      lesson.CurId
                                     )
                                   }
                                 >
@@ -289,7 +294,15 @@ const Banner = ({ CourseDetails }) => {
                                 <Button
                                   className="quizz-assign-btn"
                                   variant=""
-                                  onClick={() => takelessonHandler(data.TestId,course.CourseId,module.ModuleId,lesson.LessonId)}
+                                  onClick={() =>
+                                    takelessonHandler(
+                                      data.TestId,
+                                      course.CourseId,
+                                      module.ModuleId,
+                                      lesson.LessonId,
+                                      course.FacultyId
+                                    )
+                                  }
                                 >
                                   Take Lesson Quiz
                                 </Button>

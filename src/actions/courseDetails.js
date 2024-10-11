@@ -1,5 +1,11 @@
 import axios from "axios";
 import {
+  CREATE_NOTES_FAIL,
+  CREATE_NOTES_REQUEST,
+  CREATE_NOTES_SUCCESS,
+  CREATEUNIT_COMPLETION_FAIL,
+  CREATEUNIT_COMPLETION_REQUEST,
+  CREATEUNIT_COMPLETION_SUCCESS,
   GETCOURSE_MODULE_FAIL,
   GETCOURSE_MODULE_REQUEST,
   GETCOURSE_MODULE_SUCCESS,
@@ -18,6 +24,12 @@ import {
   SUBMITPROJECT_FILE_FAIL,
   SUBMITPROJECT_FILE_REQUEST,
   SUBMITPROJECT_FILE_SUCCESS,
+  UNIT_STATUS_FAIL,
+  UNIT_STATUS_REQUEST,
+  UNIT_STATUS_SUCCESS,
+  VIEW_NOTES_FAIL,
+  VIEW_NOTES_REQUEST,
+  VIEW_NOTES_SUCCESS,
 } from "../constants/courseDetails";
 
 const BaseUrl = import.meta.env.VITE_BASE_URL; 
@@ -223,11 +235,6 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
       (data) => data.ProjectId == projectId
     );
 
-    // console.log(viewProjectmatchedData,'view');
-    // "Parameter": "{\"LeadId\":123,\"CourseId\":456,\"ProjectId\":789,\"StartDate\":\"2024-09-01\",\"DueDate\":\"2024-12-31\",\"ModuleId\":101,
-    // \"CurrStatus\":\"Started\",\"CurSlNo\":1,\"CreatedBy\":\"1\",\"CreatedOn\":\"2024-09-05T10:00:00\",\"UpdatedBy\":\"1\",\
-    // "UpdatedOn\":\"2024-09-05T10:00:00\",\"PersonalTutorId\":1001}",
-
     const {CourseId,DueDate,ModuleId,TutorDetails,ProjectId,ProjectStartDate} = viewProjectmatchedData[0];
 
     const TutorDetailsData = JSON.parse(TutorDetails);
@@ -238,10 +245,14 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
     
   
     try {
-      const { data } = await axios.post(`${BaseUrl}/Project/GetProjectModuleDetails`, {
-        Parameter: JSON.stringify({ LeadId: LeadId, CourseId: CourseId,ProjectId: ProjectId,CreatedBy:LeadId,CurrStatus:null,ModuleId:ModuleId ,StartDate:ProjectStartDate,DueDate:DueDate,PersonalTutorId:PersonalTutorId}),
-        Type: "INSERT",
-      },
+      const { data } = await axios.post(`${BaseUrl}/Project/GetProjectModuleDetails`,
+        {
+          Parameter: JSON.stringify({
+            LeadId, CourseId, ProjectId, CreatedBy: LeadId, CurrStatus: null, 
+            ModuleId, StartDate: ProjectStartDate, DueDate, PersonalTutorId
+          }),
+          Type: "INSERT",
+        },
       {
         headers: {
           Authorization: `Bearer ${token}`, 
@@ -304,6 +315,167 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
     } catch (error) {
       dispatch({
         type: SUBMITPROJECT_FILE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+  // CREATE UNIT COMPLETION
+  export const CreateUnitCompletion = (UnitId,CourseId,ModuleId,LessonId,CurId) => async (dispatch, getState) => {
+
+    const {
+      studentLogin: { studentInfo },
+      userSignin: { userInfo }
+    } = getState();
+    
+    dispatch({ type: CREATEUNIT_COMPLETION_REQUEST });
+
+    let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+    const token = userInfo && userInfo?.token;
+
+  
+    try {
+      const { data } = await axios.post(`${BaseUrl}/Course/CreateUnitCompletion`, {
+        Parameter: JSON.stringify({ LeadId, UnitId, CourseId, ModuleId, LessonId, CurId,CreatedBy:LeadId}),
+        Type: "INSERT",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
+    });
+      
+      const parsedData = JSON.parse(data.map((data) => data.result));
+      
+      dispatch({ type: CREATEUNIT_COMPLETION_SUCCESS, payload: parsedData });
+    } catch (error) {
+      dispatch({
+        type: CREATEUNIT_COMPLETION_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+  // CREATE UNIT COMPLETION
+  export const GetUnitStatus = (UnitId) => async (dispatch, getState) => {
+
+    const {
+      studentLogin: { studentInfo },
+      userSignin: { userInfo }
+    } = getState();
+    
+    dispatch({ type: UNIT_STATUS_REQUEST });
+
+    let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+    const token = userInfo && userInfo?.token;
+
+  
+    try {
+      const { data } = await axios.post(`${BaseUrl}/Course/CreateUnitCompletion`, {
+        Parameter: JSON.stringify({ LeadId, UnitId}),
+        Type: "GETBYID",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
+    });
+      
+      const parsedData = JSON.parse(data.map((data) => data.result));
+      
+      dispatch({ type: UNIT_STATUS_SUCCESS, payload: parsedData });
+    } catch (error) {
+      dispatch({
+        type: UNIT_STATUS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+   // CREATE notes
+   export const CreateNotes = (UnitId,CurId,Notes) => async (dispatch, getState) => {
+
+    const {
+      studentLogin: { studentInfo },
+      userSignin: { userInfo }
+    } = getState();
+    
+    dispatch({ type: CREATE_NOTES_REQUEST });
+
+    let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+    const token = userInfo && userInfo?.token;
+
+  
+    try {
+      const { data } = await axios.post(`${BaseUrl}/Course/CreateNotes`, {
+        Parameter: JSON.stringify({ LeadId, UnitId, CurId,CreatedBy:LeadId,Notes:Notes}),
+        Type: "INSERT",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
+    });
+      
+      const parsedData = JSON.parse(data.map((data) => data.result));
+      
+      dispatch({ type: CREATE_NOTES_SUCCESS, payload: parsedData });
+    } catch (error) {
+      dispatch({
+        type: CREATE_NOTES_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+  // VIEW NOTES
+
+  export const ViewNotes = (UnitId) => async (dispatch, getState) => {
+
+    const {
+      studentLogin: { studentInfo },
+      userSignin: { userInfo }
+    } = getState();
+    
+    dispatch({ type: VIEW_NOTES_REQUEST });
+
+    let LeadId = (studentInfo && studentInfo[0].LeadId) || null;
+    const token = userInfo && userInfo?.token;
+
+  
+    try {
+      const { data } = await axios.post(`${BaseUrl}/Course/CreateNotes`, {
+        Parameter: JSON.stringify({ LeadId, UnitId,}),
+        Type: "GETBYID",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+        }
+    });
+      
+      const parsedData = JSON.parse(data.map((data) => data.result));
+      
+      dispatch({ type: VIEW_NOTES_SUCCESS, payload: parsedData });
+    } catch (error) {
+      dispatch({
+        type: VIEW_NOTES_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
