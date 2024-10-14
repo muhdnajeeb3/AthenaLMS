@@ -92,7 +92,6 @@ export const GetCourseModule = (courseId) => async (dispatch, getState) => {
     console.log("CourseId matches, skipping fetch.");
     return;
   }
-  
 
   dispatch({ type: GETCOURSE_MODULE_REQUEST });
 
@@ -240,10 +239,7 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
     const TutorDetailsData = JSON.parse(TutorDetails);
 
     const { PersonalTutorId } = TutorDetailsData;
-    
-    
-    
-  
+
     try {
       const { data } = await axios.post(`${BaseUrl}/Project/GetProjectModuleDetails`,
         {
@@ -273,6 +269,8 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
       });
     }
   };
+
+  // submit project
 
   export const SubmitProjectFile = (projectId,submitData,FileName) => async (dispatch, getState) => {
 
@@ -483,3 +481,5 @@ export const GetUnitDetails = (unitId, unitversionid) => async (dispatch, getSta
       });
     }
   };
+
+ 

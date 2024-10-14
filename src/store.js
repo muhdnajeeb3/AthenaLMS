@@ -14,6 +14,7 @@ import { CreateUnitCompletionReducer, GetCourseModuleReducer, GetProjectDetailsR
 import { GetQuestionDetailsReducer, GetStudentScoreReducer, SubmitStudentTestReducer } from "./reducers/quizDetailsReducer";
 import { DownloadFileReducer, UploadFileReducer } from "./reducers/awsReducer";
 import { StudentPaymentReducer } from "./reducers/PaymentReducer";
+import { ProjectExtensionReducer } from "./reducers/projectDetails";
 
 const initialState = {
   userSignin: {
@@ -46,7 +47,8 @@ const reducer = combineReducers({
   createUnitCompletion:CreateUnitCompletionReducer,
   unitStatus:GetUnitStatusReducer,
   createNotes:CreateNotesReducer,
-  viewNotes:ViewNotesReducer
+  viewNotes:ViewNotesReducer,
+  projectExtension:ProjectExtensionReducer
 
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

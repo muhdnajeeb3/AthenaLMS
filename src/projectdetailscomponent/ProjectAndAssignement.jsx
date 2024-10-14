@@ -8,18 +8,30 @@ import {
   GetProjectModuleDetails,
   GetStudentEnrollment,
 } from "../actions/courseDetails";
-import { FormatDate } from "../utils/FormateDate";
+import { FormatDate, FormatDateAndTime } from "../utils/FormateDate";
+import { ProjectExtension } from "../actions/projectDetails";
+import { UploadFile } from "../actions/aws";
 
 const ProjectAndAssignement = () => {
-  const [showModal, setShowModal] = useState(false); // Modal visibility
+  const [showModal, setShowModal] = useState(false);
   const [extensionType, setExtensionType] = useState("paid"); // Tracks whether Paid Extension or Medical is selected
   const [selectedCourseId, setSelectedCourseId] = useState("");
+  const [selectedProject, setSelectedProject] = useState({});
+  const [extensionDays, setExtensionDays] = useState("");
+  // const [reasonType, setReasonType] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [filePath, setFilePath] = useState("");
+  const [description, setDescription] = useState("");
+  const [file, setFile] = useState(null);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const EnrolledStudent = useSelector((state) => state.studentEnrollment);
   const { loading, studentenrollment, error } = EnrolledStudent;
+
+  const UploadFileResponse = useSelector((state) => state.uploadFileResponse);
+  const { loading: uploadloading, uploadFileResponse } = UploadFileResponse;
 
   const ProjectDetail = useSelector((state) => state.projectDetail);
   const {
@@ -31,13 +43,19 @@ const ProjectAndAssignement = () => {
   console.log(projectDetail, "p");
 
   useEffect(() => {
+    if (uploadFileResponse?.Result) {
+      setFilePath(uploadFileResponse?.Result);
+    }
+  }, [uploadFileResponse]);
+
+  useEffect(() => {
     dispatch(GetStudentEnrollment());
   }, [dispatch, studentenrollment]);
 
   const handleClose = () => setShowModal(false);
 
   const handleExtensionTypeChange = (event) => {
-    setExtensionType(event.target.value); // Update the state based on the selected radio button
+    setExtensionType(event.target.value); 
   };
 
   useEffect(() => {
@@ -58,6 +76,37 @@ const ProjectAndAssignement = () => {
     setSelectedCourseId(courseId);
   };
 
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+
+    if (selectedFile && selectedFile.size > maxSize) {
+      // setError("File size should not exceed 10MB.");
+      setFile(null);
+    } else {
+      // Create FormData and append file and other fields
+      const fileWithoutExtension = selectedFile.name.replace(/\.[^/.]+$/, "");
+      setFileName(fileWithoutExtension);
+
+      const formData = new FormData();
+      formData.append("file", selectedFile); 
+      formData.append("uploadFileName", fileWithoutExtension);
+      formData.append("fileDirectory", "ULearnLMS/Projects/Test/"); 
+
+      // Dispatch the upload action with FormData
+      dispatch(UploadFile(formData));
+    }
+  };
+
+  const handleRequestClick = (project) => {
+    setSelectedProject({
+      title: project.ModuleName,
+      dueDate: project.DueDate,
+      projectId: project.ProjectId,
+    });
+    setShowModal(true); // Open the modal
+  };
+
   const viewHandler = async (action, projectId) => {
     const refresh = "refresh";
     if (action === "Start") {
@@ -75,6 +124,31 @@ const ProjectAndAssignement = () => {
         `/ViewProject?projectId=${projectId}&courseId=${selectedCourseId}`
       );
     }
+  };
+
+  const handleFormSubmit = async () => {
+    const ProjTitle = selectedProject.title;
+    const DueDate = selectedProject.dueDate;
+    const CourseId = selectedCourseId;
+    const ModuleId = selectedProject.projectId;
+    const reasonType = extensionType;
+
+    // Call the ProjectExtension action with the collected data
+    dispatch(
+      ProjectExtension(
+        ProjTitle,
+        DueDate,
+        reasonType,
+        fileName,
+        filePath,
+        description,
+        extensionDays,
+        CourseId,
+        ModuleId
+      )
+    );
+
+    setShowModal(false); // Close modal after submission
   };
 
   const tableHeadings = [
@@ -133,10 +207,20 @@ const ProjectAndAssignement = () => {
                 <td>{project.DaysLeft || ""}</td>
                 <td>{FormatDate(project.SubmittedDate) || ""}</td>
                 <td>{project.ProjectCurrentStatus}</td>
-                <td 
-                onClick={project.ProjectCurrentStatus ? () => setShowModal(true) : null}
-                style={{ cursor: project.ProjectCurrentStatus ? "pointer" : "default" }}
-                >{project.ProjectCurrentStatus ? "Request" : "N/A"}</td>
+                <td
+                  onClick={
+                    project.ProjectCurrentStatus
+                      ? () => handleRequestClick(project) // Pass the whole project object
+                      : null
+                  }
+                  style={{
+                    cursor: project.ProjectCurrentStatus
+                      ? "pointer"
+                      : "default",
+                  }}
+                >
+                  {project.ProjectCurrentStatus ? "Request" : "N/A"}
+                </td>
                 <td>{project.Score || ""}</td>
                 <td>{project.Grade || ""}</td>
                 <td
@@ -174,7 +258,8 @@ const ProjectAndAssignement = () => {
               className="form-control h-100 "
             >
               <small className="text-danger">
-                Your current due date is <strong>31-Dec-2023</strong> and your
+                Your current due date is{" "}
+                <strong>{FormatDate(selectedProject?.dueDate)}</strong> and your
                 extension request will be accepted after approval .
               </small>
             </div>
@@ -189,6 +274,8 @@ const ProjectAndAssignement = () => {
                     <Form.Control
                       type="text"
                       placeholder="Enter Project Title"
+                      value={selectedProject.title}
+                      readOnly
                     />
                   </Form.Group>
                   <Form.Group
@@ -196,7 +283,12 @@ const ProjectAndAssignement = () => {
                     controlId="formGroupPassword"
                   >
                     <Form.Label>Due Date</Form.Label>
-                    <Form.Control type="text" placeholder="Due Date" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Due Date"
+                      value={FormatDateAndTime(selectedProject?.dueDate)} // Display selected due date
+                      readOnly
+                    />
                   </Form.Group>
                   <Form.Group
                     className="mb-2 col-md-3 col-12"
@@ -205,7 +297,7 @@ const ProjectAndAssignement = () => {
                     <Form.Label className="text-dot">
                       No. of Days for Extension
                     </Form.Label>
-                    <Form.Select aria-label="Default select example">
+                    {/* <Form.Select aria-label="Default select example">
                       <option>select days</option>
                       <option value="1">1</option>
                       <option value="2">2</option>
@@ -213,68 +305,96 @@ const ProjectAndAssignement = () => {
                       <option value="3">4</option>
                       <option value="3">5</option>
                       <option value="3">6</option>
-                    </Form.Select>
+                    </Form.Select> */}
+                    <Form.Control
+                      type="number"
+                      placeholder="No. of Days for Extension"
+                      value={extensionDays}
+                      onChange={(e) => setExtensionDays(e.target.value)}
+                    />
                   </Form.Group>
                 </div>
                 <div className="mb-3 mt-2">
-                <Form.Check
-                inline
-                label="Paid Extension"
-                name="extensionType"
-                type="radio"
-                value="paid"
-                checked={extensionType === "paid"}
-                id="paid-extension"
-                onChange={handleExtensionTypeChange}
-              />
-              <Form.Check
-                inline
-                label="Medical"
-                name="extensionType"
-                type="radio"
-                checked={extensionType === "medical"}
-                value="medical"
-                id="medical-extension"
-                onChange={handleExtensionTypeChange}
-              />
+                  <Form.Check
+                    inline
+                    label="Paid Extension"
+                    name="extensionType"
+                    type="radio"
+                    value="paid"
+                    checked={extensionType === "paid"}
+                    id="paid-extension"
+                    onChange={handleExtensionTypeChange}
+                  />
+                  <Form.Check
+                    inline
+                    label="Medical"
+                    name="extensionType"
+                    type="radio"
+                    checked={extensionType === "medical"}
+                    value="medical"
+                    id="medical-extension"
+                    onChange={handleExtensionTypeChange}
+                  />
                 </div>
                 {extensionType === "paid" && (
-              <div className="mb-3">
-                <Form.Group className="mb-2 col-md-3 col-12">
-                  <Form.Label className="text-dot">Reason</Form.Label>
-                  <Form.Select aria-label="Default select example">
-                    <option>Select Reason</option>
-                    <option value="1">Travel</option>
-                    <option value="2">Late</option>
-                    <option value="3">Other</option>
-                  </Form.Select>
-                </Form.Group>
-              </div>
-            )}
+                  <div className="mb-3">
+                    <Form.Group className="mb-2 col-md-3 col-12">
+                      <Form.Label className="text-dot">Reason</Form.Label>
+                      <Form.Select
+                        aria-label="Default select example"
+                        //  value={reasonType} onChange={(e) => setReasonType(e.target.value)}
+                      >
+                        <option>Select Reason</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Late">Late</option>
+                        <option value="Other">Other</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </div>
+                )}
 
-            {extensionType === "medical" && (
-              <>
-                <div className="mb-3">
-                  <Form.Group className="mb-2 col-md-6 col-12">
-                    <Form.Label>Proof of genuineness (Upload supporting documents)</Form.Label>
-                    <Form.Control type="file" />
-                    <Button className="default-btn my-3">Upload</Button>
-                  </Form.Group>
-                  <Form.Group className="mb-2 col-12">
-                    <Form.Label>Detailed Explanation</Form.Label>
-                    <Form.Control type="text" as="textarea" placeholder="Enter Detailed Explanation" />
-                  </Form.Group>
-                </div>
-              </>
-            )}
+                {extensionType === "medical" && (
+                  <>
+                    <div className="mb-3">
+                      <Form.Group className="mb-4 col-md-6 col-12">
+                        <Form.Label>
+                          Proof of genuineness (Upload supporting documents)
+                        </Form.Label>
+                        <Form.Control
+                          type="file"
+                          onChange={handleFileChange}
+                          accept=".jpg,.jpeg,.png,.pdf,.docx" // Adjust allowed file types as needed
+                        />
+                      </Form.Group>
+                      
+                      <Form.Group className="mb-2 col-12">
+                        <Form.Label>Detailed Explanation</Form.Label>
+                        <Form.Control
+                          type="text"
+                          as="textarea"
+                          placeholder="Enter Detailed Explanation"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                        />
+                      </Form.Group>
+                    </div>
+                  </>
+                )}
               </Form>
             </div>
           </Modal.Body>
           <Modal.Footer className="completed-btnwrap">
-            <Button variant="primary" onClick="{handleSaveNotes}">
-              {" "}
-              {extensionType === "medical" ? "Submit" : "Proceed to Pay"}
-              
+            <Button
+              className="default-btn my-3"
+              variant="primary"
+              onClick={handleFormSubmit}
+              disabled={uploadloading}
+            >
+              {uploadloading
+                ? "File Uploading..."
+                : extensionType === "medical"
+                ? "Submit"
+                : "Proceed to Pay"}
             </Button>
           </Modal.Footer>
         </Modal>

@@ -123,17 +123,8 @@ export const GetStudentScore = (TestId) => async (dispatch, getState) => {
 export const SubmitStudentTest = (result) => async (dispatch, getState) => {
   const {
     studentLogin: { studentInfo },
-    userSignin: { userInfo },
-    // studentScore: { studentScore },
+    userSignin: { userInfo }
   } = getState();  
-
-  // if (
-  //   studentScore &&
-  //   studentScore.length > 0 &&
-  //   studentScore?.[0].TestId === Number(TestId)
-  // ) {
-  //   return;
-  // }
 
   dispatch({ type: STUDENTTEST_SUBMIT_REQUEST });
 
