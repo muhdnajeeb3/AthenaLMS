@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GetQuestionDetails, SubmitStudentTest } from "../actions/quizDetails";
 import Skeleton from "react-loading-skeleton";
+import DynamicBreadcrumb from "../reusablecomponents/DynamicBreadCrumb";
 
 const FasttrackQuiz = () => {
   const [timeLeft, setTimeLeft] = useState(30 * 60);
@@ -36,30 +37,33 @@ const FasttrackQuiz = () => {
     if (TestId) {
       dispatch(GetQuestionDetails(TestId));
     }
-  }, [dispatch, TestId]);
+  }, [dispatch, TestId, questions]);
 
-  const TYPEIN = questionDetail?.[0].QuesType === "IN";
-  const MQ = questionDetail?.[0].QuesType === "MQ";
 
   useEffect(() => {
     if (questionDetail && questionDetail.length > 0) {
-      const slicedQnA =
-        TYPEIN || MQ ? questionDetail[0].QnA.slice(1) : questionDetail[0].QnA;
-
-      const quizQuestions = slicedQnA.map((qna) => ({
+      const quizQuestions = questionDetail[0].QnA.map((qna) => ({
         question: qna?.QuesText,
         questionId: qna?.QuestId,
+        questionType: qna?.QuesType,
         answers: qna?.QtAn?.map((ans) => ({
           ansId: ans?.AnsId,
-          answer: ans?.Answer, // Storing the answer text to display
+          answer: ans?.Answer, // Answer text for the current question
         })),
-        // correctAnswer: qna?.QtAn?.find((ans) => ans.OptionNum === 1)?.Answer,
-        correctAnswerId: qna?.CorrectAnswer?.[0]?.CorrectAnsId, // Assuming correct answer is the first option, update this as per your logic
+        correctAnswerId: qna?.CorrectAnswer?.[0]?.CorrectAnsId,
+        subQuestions:
+          qna?.SubQuestions?.map((subQ) => ({
+            subQuestion: subQ.QuesText,
+            subQuestionId: subQ.QuestId,
+            subAnswers: subQ.QtAn?.map((ans) => ({
+              ansId: ans?.AnsId,
+              answer: ans?.Answer,
+            })),
+          })) || [], // Sub-questions if present
       }));
-
       setQuestions(quizQuestions);
     }
-  }, [questionDetail,TYPEIN,MQ]);
+  }, [questionDetail]);
 
   useEffect(() => {
     if (questionDetail?.[0]?.QnA) {
@@ -111,11 +115,11 @@ const FasttrackQuiz = () => {
   const handleNextQuestion = () => {
     const currentQuestionId = questions[currentQuestionIndex]?.questionId;
 
-    if (!selectedAnswers[currentQuestionId]) {
-      // If no answer is selected for the current question
-      alert("Please choose an answer before proceeding.");
-      return;
-    }
+    // if (!selectedAnswers[currentQuestionId]) {
+    //   // If no answer is selected for the current question
+    //   alert("Please choose an answer before proceeding.");
+    //   return;
+    // }
     setAnimateNext(true);
     setTimeout(() => {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -126,7 +130,6 @@ const FasttrackQuiz = () => {
   const navigate = useNavigate();
 
   const handleSubmitQuiz = async () => {
-    
     const result = Object.keys(selectedAnswers).map((questionId) => ({
       TestId: TestId,
       QuestId: questionId,
@@ -138,12 +141,12 @@ const FasttrackQuiz = () => {
       ModuleId: ModuleId,
     }));
 
-    if (result.length != questions.length) {
-      // If no answer is selected for the current question
-      alert("Please choose an answer before proceeding.");
-      return;
-    }
-    
+    // if (result.length != questions.length) {
+    //   // If no answer is selected for the current question
+    //   alert("Please choose an answer before proceeding.");
+    //   return;
+    // }
+
     await dispatch(SubmitStudentTest(result));
     await navigate(`/FasttrackTestResult?TestId=${TestId}`);
   };
@@ -166,35 +169,28 @@ const FasttrackQuiz = () => {
           </div>
         </div>
         <div className="py-2">
-          <Breadcrumb>
-            <Breadcrumb.Item href="/" className="breadcrumb">
-              Course Home
-            </Breadcrumb.Item>
-            <Breadcrumb.Item href={`/ModuleDetails?CourseId=${CourseId}`}>Unit 3</Breadcrumb.Item>
-          </Breadcrumb>
+          <DynamicBreadcrumb />
         </div>
-        {!MQ && (
-          <div className="practicalinfo pb-2">
-            <div className="practicalinfo-title w-100 mb-2">
-              <h5>
-                <b>
-                  Question {currentQuestionIndex + 1} of {questions?.length}
-                </b>
-              </h5>
-            </div>
+        <div className="practicalinfo pb-2">
+          <div className="practicalinfo-title w-100 mb-2">
+            <h5>
+              <b>
+                Question {currentQuestionIndex + 1} of {questions?.length}
+              </b>
+            </h5>
           </div>
-        )}
-        {TYPEIN && (
+        </div>
+        {questions[currentQuestionIndex]?.questionType === "IN" && (
           <div
             dangerouslySetInnerHTML={{
-              __html: questionDetail?.[0]?.QnA[0].QuesText,
+              __html: questions[currentQuestionIndex]?.question,
             }}
           />
         )}
-        {MQ && (
+        {questions[currentQuestionIndex]?.questionType === "MQ" && (
           <div
             dangerouslySetInnerHTML={{
-              __html: questionDetail?.[0]?.QnA[0].QuesText,
+              __html: questions[currentQuestionIndex]?.questionType,
             }}
           />
         )}
@@ -204,7 +200,7 @@ const FasttrackQuiz = () => {
         >
           <div>
             <form>
-              {MQ ? (
+              {questions[currentQuestionIndex]?.questionType === "MQ" ? (
                 <Table bordered hover>
                   <thead>
                     <tr>
@@ -213,44 +209,113 @@ const FasttrackQuiz = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {questions.map((question, index) => (
-                      <tr key={question.questionId}>
-                        <td>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: question.question,
-                            }}
-                          />
-                        </td>
-                        <td>
-                          <Form.Group>
-                            <Form.Select
-                              value={
-                                selectedAnswers[question.questionId]
-                                  ?.selectedAnswerId || ""
-                              }
-                              onChange={
-                                (e) =>
-                                  handleAnswerChange(
-                                    question.questionId,
-                                    e.target.value,
-                                    question.correctAnswerId
-                                  ) // Pass the correct answer ID as well
-                              }
-                            >
-                              <option value="">Select Answer</option>
-                              {allOptions.map((answer) => (
-                                <option key={answer.AnsId} value={answer.AnsId}>
-                                  {answer.Answer}
-                                </option>
-                              ))}
-                            </Form.Select>
-                          </Form.Group>
-                        </td>
-                      </tr>
-                    ))}
+                    {questions?.[currentQuestionIndex]?.subQuestions?.map(
+                      (subQuestion, subIndex) => {
+                        // Merge allOptions from all subQuestions
+                        const mergedOptions = questions?.[
+                          currentQuestionIndex
+                        ]?.subQuestions.reduce((acc, currSubQ) => {
+                          const options = currSubQ?.subAnswers || []; // Use `subAnswers`
+                          return [...acc, ...options];
+                        }, []);
+
+                        return (
+                          <tr key={subQuestion.subQuestionId}>
+                            <td>
+                              <b>
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: subQuestion.subQuestion,
+                                  }}
+                                />
+                              </b>
+                            </td>
+                            <td>
+                              <Form.Group>
+                                <Form.Select
+                                  value={
+                                    selectedAnswers[subQuestion.subQuestionId]
+                                      ?.selectedAnswerId || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleAnswerChange(
+                                      subQuestion.subQuestionId,
+                                      e.target.value,
+                                      subQuestion.correctAnswerId
+                                    )
+                                  }
+                                >
+                                  <option value="">Select Answer</option>
+                                  {mergedOptions.length > 0 ? (
+                                    mergedOptions.map((answer) => (
+                                      <option
+                                        key={answer.AnsId}
+                                        value={answer.AnsId}
+                                      >
+                                        {answer.answer}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option value="">
+                                      No options available
+                                    </option>
+                                  )}
+                                </Form.Select>
+                              </Form.Group>
+                            </td>
+                          </tr>
+                        );
+                      }
+                    )}
                   </tbody>
                 </Table>
+              ) : questions[currentQuestionIndex]?.questionType === "IN" ? (
+                <>
+                  {questions[currentQuestionIndex]?.subQuestions?.map(
+                    (subQuestion, subIndex) => (
+                      <div
+                        key={subQuestion.subQuestionId}
+                        className="sub-question mb-3"
+                      >
+                        {/* Sub-question Text */}
+                        <div className="flex gap-10 mb-4">
+                          <span>
+                            {currentQuestionIndex + 1} .{subIndex + 1}
+                          </span>{" "}
+                          {/* Sub-question numbering */}
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: subQuestion.subQuestion,
+                            }}
+                          />
+                        </div>
+
+                        {/* Sub-question Options */}
+                        <div className="shadow select-answer p-4">
+                          {subQuestion.subAnswers.map((answer) => (
+                            <Form.Check
+                              key={answer.ansId}
+                              type="radio"
+                              id={`subquestion-${currentQuestionIndex}-${subIndex}-answer-${answer.ansId}`} // Unique ID for each radio button
+                              label={answer.answer}
+                              checked={
+                                selectedAnswers[subQuestion.subQuestionId]
+                                  ?.selectedAnswerId === answer.ansId
+                              }
+                              onChange={() =>
+                                handleAnswerChange(
+                                  subQuestion.subQuestionId,
+                                  answer.ansId,
+                                  subQuestion.correctAnswerId // Pass the correct answer ID for sub-questions
+                                )
+                              }
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </>
               ) : (
                 <>
                   <div className="flex gap-10 mb-4">
@@ -299,7 +364,7 @@ const FasttrackQuiz = () => {
           </div>
         </div>
         <div className="flex content-center py-3 item-center gap-10">
-          {currentQuestionIndex === questions?.length - 1 || MQ ? (
+          {currentQuestionIndex === questions?.length - 1 ? (
             <Button
               onClick={handleSubmitQuiz}
               style={{ borderRadius: "26px", width: "125px" }}
